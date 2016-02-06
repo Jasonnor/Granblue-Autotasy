@@ -1,5 +1,4 @@
 (function() {
-	debugger;
 	//loadOptions(init);
 	analyzingURL();
 })();
@@ -38,9 +37,8 @@ function analyzingURL() {
 function coopraid() {
 	console.log('==Coopraid Stage==');
 	$('.btn-join').trigger('tap');
-	console.log($('.btn-join'));
 	setTimeout(function(){
-		//analyzingURL();
+		analyzingURL();
 	}, 1000);
 }
 
@@ -51,10 +49,7 @@ function offer() {
 	$('.btn-usual-ok').trigger('tap');
 	$('.btn-refresh-list').trigger('tap');
 	setTimeout(function(){
-		if(location.href == 'http://gbf.game.mbga.jp/#coopraid' || location.href == 'http://gbf.game.mbga.jp/#coopraid/offer')
-			coopraid();
-		else
-			chrome.tabs.reload();
+		analyzingURL();
 	}, 1000);
 }
 
