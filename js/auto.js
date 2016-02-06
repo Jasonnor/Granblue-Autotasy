@@ -1,6 +1,17 @@
-
-var s = document.createElement('script');
-var u = 'http://hioggia.github.io/eatWhat/2/casino_bingo.js';
-var t = "function mp(){var s=document.createElement('script');s.onerror=function(){location.reload()};s.src='"+u+"';document.body.appendChild(s)};function sb(){if(window.$ && !$('#ready').is(':visible')){setTimeout(mp,3000);console.info('请稍后。')}else{setTimeout(function(){sb()},1000)}}sb()";
-s.innerHTML = t;
-document.body.appendChild(s);
+var script = document.createElement('script');
+var url = 'https://raw.githubusercontent.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js';
+var inner = "function createScript() {" + 
+			"	var script = document.createElement('script');" + 
+			"	script.onerror = function(){location.reload()};" + 
+			"	script.src = '" + url + "';" + 
+			"	document.body.appendChild(script)" + 
+			"}" + 
+			"function init(){" + 
+			"	if(window.$ && !$('#ready').is(':visible'))" + 
+			"		setTimeout(createScript, 3000);" + 
+			"	else" + 
+			"		setTimeout(function(){init()}, 1000);" + 
+			"}" + 
+			"init();";
+script.innerHTML = inner;
+document.body.appendChild(script);

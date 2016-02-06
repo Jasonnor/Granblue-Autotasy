@@ -58,8 +58,6 @@ function offer() {
 
 function room() {
 	console.log('==Room Stage==');
-	//TODO: 選角色按鈕(判斷是否選過) > 未選過 > 選任一角色 > OK > 等待跳轉
-								//	 >  選過  > 準備OK > 等待跳轉
 }
 
 /*
