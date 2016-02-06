@@ -1,5 +1,5 @@
 var script = document.createElement('script');
-var url = 'https://raw.githubusercontent.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js';
+var url = 'https://rawgit.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js';
 var inner = "function createScript() {" + 
 			"	var script = document.createElement('script');" + 
 			"	script.onerror = function(){location.reload()};" + 
@@ -7,8 +7,10 @@ var inner = "function createScript() {" +
 			"	document.body.appendChild(script)" + 
 			"}" + 
 			"function init(){" + 
-			"	if(window.$ && !$('#ready').is(':visible'))" + 
+			"	if(window.$ && !$('#ready').is(':visible')) {" + 
 			"		setTimeout(createScript, 3000);" + 
+			"		console.log('Creating script ...');" + 
+			"	}" + 
 			"	else" + 
 			"		setTimeout(function(){init()}, 1000);" + 
 			"}" + 

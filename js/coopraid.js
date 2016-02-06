@@ -1,5 +1,7 @@
 (function() {
-	loadOptions(init);
+	debugger;
+	//loadOptions(init);
+	analyzingURL();
 })();
 
 function init(start) {
