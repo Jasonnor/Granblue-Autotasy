@@ -1,5 +1,5 @@
 var script = document.createElement('script');
-var url = 'http://jasonnor.github.io/js/src/coopraid.js';
+var url = 'https://cdn.rawgit.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js';
 var inner = "function createScript() {" + 
 			"	var script = document.createElement('script');" + 
 			"	script.onerror = function(){location.reload()};" + 
