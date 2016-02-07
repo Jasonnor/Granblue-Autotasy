@@ -1,5 +1,4 @@
 (function() {
-	debugger;
 	//loadOptions(init);
 	analyzingURL();
 })();
@@ -23,74 +22,99 @@ function randomTime(time) {
 }
 
 function analyzingURL() {
-	console.log('==analyzingURL==');
+	console.log('==Analyzing URL==');
 	var hash = location.hash;
 	console.log('Get Hash : ' + hash);
-	
-	if(/coopraid/i.test(hash))
-		coopraid();
-	else if(/coopraid\/offer/i.test(hash))
+	if(/coopraid\/offer/i.test(hash))
 		offer();
 	else if(/coopraid\/room/i.test(hash))
 		room();
+	else if(/supporter/i.test(hash))
+		supporter();
+	else if(/raid_multi/i.test(hash))
+		raid_multi();
+	else if(/result_multi/i.test(hash) || /quest$/i.test(hash)) {
+		setTimeout(function(){
+			console.log('==Result Multi Stage==');
+			location.href = "http://gbf.game.mbga.jp/#coopraid";
+			setTimeout(function(){
+				analyzingURL();
+			}, 1000);
+		}, 1000);
+	}
+	else if(/coopraid/i.test(hash))
+		coopraid();
 }
 
 function coopraid() {
 	console.log('==Coopraid Stage==');
-	$('.btn-join').trigger('tap');
-	console.log($('.btn-join'));
+	if($('.btn-join').length)
+		$('.btn-join').trigger('tap');
+	else if($('.prt-result-head head-win').length) {
+		setTimeout(function(){
+			location.reload();
+		}, 1000);
+	}
 	setTimeout(function(){
-		//analyzingURL();
+		analyzingURL();
 	}, 1000);
 }
 
 function offer() {
 	console.log('==Offer Stage==');
-	$('.prt-invite-type-1').trigger('tap');
-	//$('.btn-usual-join').trigger('tap');
-	$('.btn-usual-ok').trigger('tap');
-	$('.btn-refresh-list').trigger('tap');
+	if($('.prt-invite-type-1').length)
+		$('.prt-invite-type-1').trigger('tap');
+	if($('.btn-usual-join').length)
+		$('.btn-usual-join').trigger('tap');
+	if($('.btn-usual-ok').length)
+		$('.btn-usual-ok').trigger('tap');
+	if($('.btn-refresh-list').length)
+		$('.btn-refresh-list').trigger('tap');
+	if($('.btn-usual-cancel').length)
+		$('.btn-usual-cancel').trigger('tap');
 	setTimeout(function(){
-		if(location.href == 'http://gbf.game.mbga.jp/#coopraid' || location.href == 'http://gbf.game.mbga.jp/#coopraid/offer')
-			coopraid();
-		else
-			chrome.tabs.reload();
+		analyzingURL();
 	}, 1000);
 }
 
 function room() {
 	console.log('==Room Stage==');
+	if($('.btn-make-ready-large.not-ready').length) {
+		$('.btn-make-ready-large.not-ready').trigger('tap');
+	}
+	else if($('.btn-execute-ready.se-ok').length) {
+		$('.btn-execute-ready.se-ok').trigger('tap');
+		//btn-retraction-ready
+	}
+	setTimeout(function(){
+		analyzingURL();
+	}, 1000);
 }
 
-/*
-offer()
-tap all
-tap join
-success:
-  -goto room_not_selected()
-faild:
-  -tap ok - tap refresh_btn - goto offer()
+function supporter() {
+	console.log('==Supporter Stage==');
+	if($('.prt-supporter-detail').length) {
+		$('.prt-supporter-detail').trigger('tap');
+	}
+	setTimeout(function(){
+		if($('.btn-usual-ok').length) {
+			$('.btn-usual-ok').trigger('tap');
+		}
+		setTimeout(function(){
+			analyzingURL();
+		}, 1000);
+	}, 1000);
+}
 
-room_not_selected()
-tap select
-goto selectMonster()
-
-selectMonster()
-tap any_monster
-tap ok
-goto room_selected()
-
-room_selected()
-tap ready
-goto battle()
-
-battle()
-tap attack
-success:
-  -goto battle()
-faild:
-  -goto result()
-
-result(): result || result_null || island
-goto coopative()
-*/
+function raid_multi() {
+	console.log('==Raid Multi Stage==');
+	if($('.btn-attack-start.display-on').length) {
+		$('.btn-attack-start.display-on').trigger('tap');
+	}
+	else if($('.btn-result').length) {
+		$('.btn-result').trigger('tap');
+	}
+	setTimeout(function(){
+		analyzingURL();
+	}, 1000);
+}
