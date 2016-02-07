@@ -62,7 +62,7 @@ function coopraid() {
 
 function offer() {
 	console.log('==Offer Stage==');
-	if($('.prt-invite-type-1').length && $('.prt-invite-type-1') !== undefined)
+	if($('.prt-invite-type-1') && $('.prt-invite-type-1').length)
 		$('.prt-invite-type-1').trigger('tap');
 	if($('.btn-usual-join').length)
 		$('.btn-usual-join').trigger('tap');
