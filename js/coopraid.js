@@ -38,35 +38,37 @@ function coopraid() {
 			location.reload();
 		}, 1000);
 	}
-	setTimeout(function(){
-		analyzingURL();
-	}, 1000);
+	setTimeout(analyzingURL, 1000);
 }
 
 function offer() {
 	console.log('==Offer Stage==');
-	setTimeout(function(){
-		if($('.prt-invite-type-1'))
-			$('.prt-invite-type-1').trigger('tap');
+	if($('.prt-wanted-list>div').length) {
 		setTimeout(function(){
-			if($('.btn-usual-join'))
-				$('.btn-usual-join').trigger('tap');
+			if($('.prt-invite-type-1'))
+				$('.prt-invite-type-1').trigger('tap');
 			setTimeout(function(){
-				if($('.btn-usual-ok'))
-					$('.btn-usual-ok').trigger('tap');
+				if($('.btn-usual-join'))
+					$('.btn-usual-join').trigger('tap');
 				setTimeout(function(){
-					if($('.btn-refresh-list'))
-						$('.btn-refresh-list').trigger('tap');
+					if($('.btn-usual-ok'))
+						$('.btn-usual-ok').trigger('tap');
 					setTimeout(function(){
-						if($('.btn-usual-cancel'))
-							$('.btn-usual-cancel').trigger('tap');
-						setTimeout(analyzingURL, 100);
-						return;
+						if($('.btn-refresh-list'))
+							$('.btn-refresh-list').trigger('tap');
+						setTimeout(function(){
+							if($('.btn-usual-cancel'))
+								$('.btn-usual-cancel').trigger('tap');
+							setTimeout(analyzingURL, 100);
+							return;
+						}, 100);
 					}, 100);
 				}, 100);
 			}, 100);
-		}, 100);
-	}, 600);
+		}, 600);
+		return;
+	}
+	setTimeout(analyzingURL, 100);
 }
 
 function room() {
