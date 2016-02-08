@@ -73,10 +73,10 @@ function offer() {
 			$('.btn-refresh-list').trigger('tap');
 		if($('.btn-usual-cancel'))
 			$('.btn-usual-cancel').trigger('tap');
+		setTimeout(function(){
+			analyzingURL();
+		}, 300);
 	}, 700);
-	setTimeout(function(){
-		analyzingURL();
-	}, 300);
 }
 
 function room() {
