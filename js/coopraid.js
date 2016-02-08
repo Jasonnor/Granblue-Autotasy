@@ -62,8 +62,8 @@ function coopraid() {
 
 function offer() {
 	console.log('==Offer Stage==');
-	if($('.prt-invite-type-1') && $('.prt-invite-type-1').length)
-		$('.prt-invite-type-1')[0].trigger('tap');
+	if($('.prt-invite-type-1'))
+		$('.prt-invite-type-1').trigger('tap');
 	if($('.btn-usual-join'))
 		$('.btn-usual-join').trigger('tap');
 	if($('.btn-usual-ok'))
