@@ -22,9 +22,7 @@ function analyzingURL() {
 		setTimeout(function(){
 			console.log('==Result Multi Stage==');
 			location.href = "http://gbf.game.mbga.jp/#coopraid";
-			setTimeout(function(){
-				analyzingURL();
-			}, 1000);
+			setTimeout(analyzingURL, 1000);
 		}, 1000);
 	}
 	else if(/coopraid/i.test(hash))
@@ -63,6 +61,7 @@ function offer() {
 						if($('.btn-usual-cancel'))
 							$('.btn-usual-cancel').trigger('tap');
 						setTimeout(analyzingURL, 100);
+						return;
 					}, 100);
 				}, 100);
 			}, 100);
@@ -79,9 +78,7 @@ function room() {
 		$('.btn-execute-ready.se-ok').trigger('tap');
 		//btn-retraction-ready
 	}
-	setTimeout(function(){
-		analyzingURL();
-	}, 1000);
+	setTimeout(analyzingURL, 1000);
 }
 
 function supporter() {
@@ -93,9 +90,7 @@ function supporter() {
 		if($('.btn-usual-ok').length) {
 			$('.btn-usual-ok').trigger('tap');
 		}
-		setTimeout(function(){
-			analyzingURL();
-		}, 1000);
+		setTimeout(analyzingURL, 1000);
 	}, 1000);
 }
 
@@ -107,7 +102,5 @@ function raid_multi() {
 	else if($('.btn-result').length) {
 		$('.btn-result').trigger('tap');
 	}
-	setTimeout(function(){
-		analyzingURL();
-	}, 1000);
+	setTimeout(analyzingURL, 1000);
 }
