@@ -50,18 +50,24 @@ function offer() {
 	setTimeout(function(){
 		if($('.prt-invite-type-1'))
 			$('.prt-invite-type-1').trigger('tap');
-		if($('.btn-usual-join'))
-			$('.btn-usual-join').trigger('tap');
-		if($('.btn-usual-ok'))
-			$('.btn-usual-ok').trigger('tap');
-		if($('.btn-refresh-list'))
-			$('.btn-refresh-list').trigger('tap');
-		if($('.btn-usual-cancel'))
-			$('.btn-usual-cancel').trigger('tap');
 		setTimeout(function(){
-			analyzingURL();
-		}, 300);
-	}, 700);
+			if($('.btn-usual-join'))
+				$('.btn-usual-join').trigger('tap');
+			setTimeout(function(){
+				if($('.btn-usual-ok'))
+					$('.btn-usual-ok').trigger('tap');
+				setTimeout(function(){
+					if($('.btn-refresh-list'))
+						$('.btn-refresh-list').trigger('tap');
+					setTimeout(function(){
+						if($('.btn-usual-cancel'))
+							$('.btn-usual-cancel').trigger('tap');
+						setTimeout(analyzingURL, 100);
+					}, 100);
+				}, 100);
+			}, 100);
+		}, 100);
+	}, 600);
 }
 
 function room() {
