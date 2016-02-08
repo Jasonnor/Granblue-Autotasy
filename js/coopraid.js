@@ -63,14 +63,14 @@ function coopraid() {
 function offer() {
 	console.log('==Offer Stage==');
 	if($('.prt-invite-type-1') && $('.prt-invite-type-1').length)
-		$('.prt-invite-type-1').trigger('tap');
-	if($('.btn-usual-join').length)
+		$('.prt-invite-type-1')[0].trigger('tap');
+	if($('.btn-usual-join'))
 		$('.btn-usual-join').trigger('tap');
-	if($('.btn-usual-ok').length)
+	if($('.btn-usual-ok'))
 		$('.btn-usual-ok').trigger('tap');
-	if($('.btn-refresh-list').length)
+	if($('.btn-refresh-list'))
 		$('.btn-refresh-list').trigger('tap');
-	if($('.btn-usual-cancel').length)
+	if($('.btn-usual-cancel'))
 		$('.btn-usual-cancel').trigger('tap');
 	setTimeout(function(){
 		analyzingURL();
