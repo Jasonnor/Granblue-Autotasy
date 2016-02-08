@@ -1,17 +1,17 @@
 function loadOptions() {
   // Set default options
   chrome.storage.sync.get({
-    start: false
+    toggle: true
   }, function(items) {
-    document.getElementById('start').checked = items.start;
-    console.log('Load start options : ' + items.start);
+    document.getElementById('start').checked = items.toggle;
+    console.log('Load start options : ' + items.toggle);
   });
 }
 
 function saveOptions() {
   var start = document.getElementById('start').checked;
   chrome.storage.sync.set({
-    start: start
+    toggle: start
   }, function() {
     // Update status to let user know options were saved.
     console.log('Set start options as ' + start);

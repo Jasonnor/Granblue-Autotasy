@@ -1,21 +1,6 @@
 (function() {
-	//loadOptions(init);
 	analyzingURL();
 })();
-
-function init(start) {
-	if (start === true)
-		analyzingURL();
-}
-
-function loadOptions(callback) {
-	chrome.storage.sync.get({
-		start: false
-	}, function(items) {
-		console.log('Load start options : ' + items.start);
-		callback(items.start);
-	});
-}
 
 function randomTime(time) {
 	return time * (Math.ramdom() + 0.8);
