@@ -22,13 +22,13 @@ function analyzingURL() {
 		setTimeout(function(){
 			console.log('==Result Multi Stage==');
 			location.href = "http://gbf.game.mbga.jp/#coopraid";
-			setTimeout(function(){
-				analyzingURL();
-			}, 1000);
+			setTimeout(analyzingURL, 1000);
 		}, 1000);
 	}
 	else if(/coopraid/i.test(hash))
 		coopraid();
+	/*else if(/raid/i.test(hash))
+		wind();*/
 }
 
 function coopraid() {
@@ -40,28 +40,37 @@ function coopraid() {
 			location.reload();
 		}, 1000);
 	}
-	setTimeout(function(){
-		analyzingURL();
-	}, 1000);
+	setTimeout(analyzingURL, 1000);
 }
 
 function offer() {
 	console.log('==Offer Stage==');
-	setTimeout(function(){
-		if($('.prt-invite-type-1'))
-			$('.prt-invite-type-1').trigger('tap');
-		if($('.btn-usual-join'))
-			$('.btn-usual-join').trigger('tap');
-		if($('.btn-usual-ok'))
-			$('.btn-usual-ok').trigger('tap');
-		if($('.btn-refresh-list'))
-			$('.btn-refresh-list').trigger('tap');
-		if($('.btn-usual-cancel'))
-			$('.btn-usual-cancel').trigger('tap');
+	if($('.prt-wanted-list>div').length) {
 		setTimeout(function(){
-			analyzingURL();
-		}, 300);
-	}, 700);
+			if($('.prt-invite-type-1'))
+				$('.prt-invite-type-1').trigger('tap');
+			setTimeout(function(){
+				if($('.btn-usual-join'))
+					$('.btn-usual-join').trigger('tap');
+				setTimeout(function(){
+					if($('.btn-usual-ok'))
+						$('.btn-usual-ok').trigger('tap');
+					setTimeout(function(){
+						if($('.btn-refresh-list'))
+							$('.btn-refresh-list').trigger('tap');
+						setTimeout(function(){
+							if($('.btn-usual-cancel'))
+								$('.btn-usual-cancel').trigger('tap');
+							setTimeout(analyzingURL, 100);
+							return;
+						}, 100);
+					}, 100);
+				}, 100);
+			}, 100);
+		}, 600);
+		return;
+	}
+	setTimeout(analyzingURL, 100);
 }
 
 function room() {
@@ -73,9 +82,7 @@ function room() {
 		$('.btn-execute-ready.se-ok').trigger('tap');
 		//btn-retraction-ready
 	}
-	setTimeout(function(){
-		analyzingURL();
-	}, 1000);
+	setTimeout(analyzingURL, 1000);
 }
 
 function supporter() {
@@ -87,9 +94,7 @@ function supporter() {
 		if($('.btn-usual-ok').length) {
 			$('.btn-usual-ok').trigger('tap');
 		}
-		setTimeout(function(){
-			analyzingURL();
-		}, 1000);
+		setTimeout(analyzingURL, 1000);
 	}, 1000);
 }
 
@@ -101,7 +106,16 @@ function raid_multi() {
 	else if($('.btn-result').length) {
 		$('.btn-result').trigger('tap');
 	}
-	setTimeout(function(){
-		analyzingURL();
-	}, 1000);
+	setTimeout(analyzingURL, 1000);
+}
+
+function wind() {
+	console.log('==Wind Stage==');
+	if($('.btn-attack-start.display-on').length) {
+		$('.btn-attack-start.display-on').trigger('tap');
+	}
+	else if($('.btn-result').length) {
+		$('.btn-result').trigger('tap');
+	}
+	setTimeout(analyzingURL, 1000);
 }
