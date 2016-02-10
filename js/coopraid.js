@@ -44,30 +44,39 @@ function coopraid() {
 function offer() {
 	console.log('==Offer Stage==');
 	if($('.prt-wanted-list>div').length) {
-		setTimeout(function(){
-			if($('.prt-invite-type-1'))
-				$('.prt-invite-type-1').trigger('tap');
-			setTimeout(function(){
-				if($('.btn-usual-join'))
-					$('.btn-usual-join').trigger('tap');
-				setTimeout(function(){
-					if($('.btn-usual-ok'))
-						$('.btn-usual-ok').trigger('tap');
-					setTimeout(function(){
-						if($('.btn-refresh-list'))
-							$('.btn-refresh-list').trigger('tap');
-						setTimeout(function(){
-							if($('.btn-usual-cancel'))
-								$('.btn-usual-cancel').trigger('tap');
-							setTimeout(analyzingURL, 100);
-							return;
-						}, 100);
-					}, 100);
-				}, 100);
-			}, 100);
-		}, 600);
+		setTimeout(offerJoin, 700);
 		return;
 	}
+	setTimeout(analyzingURL, 100);
+}
+
+function offerFind() {
+	if($('.prt-invite-type-1'))
+		$('.prt-invite-type-1').trigger('tap');
+	setTimeout(offerJoin, 100);
+}
+
+function offerJoin() {
+	if($('.btn-usual-join'))
+		$('.btn-usual-join').trigger('tap');
+	setTimeout(offerOK, 100);
+}
+
+function offerOK() {
+	if($('.btn-usual-ok'))
+		$('.btn-usual-ok').trigger('tap');
+	setTimeout(offerRefresh, 100);
+}
+
+function offerRefresh() {
+	if($('.btn-refresh-list'))
+		$('.btn-refresh-list').trigger('tap');
+	setTimeout(offerCancel, 100);
+}
+
+function offerCancel() {
+	if($('.btn-usual-cancel'))
+		$('.btn-usual-cancel').trigger('tap');
 	setTimeout(analyzingURL, 100);
 }
 
