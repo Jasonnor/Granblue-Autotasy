@@ -44,7 +44,7 @@ function coopraid() {
 function offer() {
 	console.log('==Offer Stage==');
 	if($('.prt-wanted-list>div').length) {
-		setTimeout(offerFind, 700);
+		setTimeout(offerFind, 800);
 		return;
 	}
 	setTimeout(analyzingURL, 100);
@@ -67,7 +67,7 @@ function offerJoin() {
 function offerOK() {
 	if($('.btn-usual-ok'))
 		$('.btn-usual-ok').trigger('tap');
-	setTimeout(offerRefresh, 100);
+	setTimeout(offerRefresh, 500);
 }
 
 function offerRefresh() {
