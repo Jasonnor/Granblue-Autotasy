@@ -44,7 +44,7 @@ function coopraid() {
 function offer() {
 	console.log('==Offer Stage==');
 	if($('.prt-wanted-list>div').length) {
-		setTimeout(offerFind, 1000);
+		setTimeout(offerFind, 800);
 		return;
 	}
 	setTimeout(analyzingURL, 100);
