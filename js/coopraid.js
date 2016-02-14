@@ -2,6 +2,12 @@
 	analyzingURL();
 })();
 
+Game.reportError = function(msg, url, line, column, err, callback){
+	console.log(msg, url, line, column, err, callback);
+	//if(url == 'http://gbf.game-a3.mbga.jp/assets/1455266321/js_light/view/coopraid/offer/index.js')
+		location.reload();
+};
+
 function randomTime(time) {
 	return time * (Math.ramdom() + 0.8);
 }
