@@ -34,7 +34,7 @@ function analyzingURL() {
 	}
 	else if(/coopraid/i.test(hash))
 		coopraid();
-	else if(/casino/exchange/i.test(hash))
+	else if(/casino\/exchange/i.test(hash))
 		exchange();
 }
 
