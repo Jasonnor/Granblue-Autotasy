@@ -8,6 +8,7 @@ Game.reportError = function(msg, url, line, column, err, callback){
 		location.reload();
 };
 
+//TODO: replace all time to randomTime(time)
 function randomTime(time) {
 	return time * (Math.ramdom() + 0.8);
 }
@@ -33,6 +34,8 @@ function analyzingURL() {
 	}
 	else if(/coopraid/i.test(hash))
 		coopraid();
+	else if(/casino/exchange/i.test(hash))
+		exchange();
 }
 
 function coopraid() {
@@ -122,4 +125,24 @@ function raid_multi() {
 		$('.btn-result').trigger('tap');
 	}
 	setTimeout(analyzingURL, 1000);
+}
+
+function exchange() {
+	console.log('==Exchange Stage==');
+	if($('.btn-exchange')) {
+		$('.btn-exchange').trigger('tap');
+	}
+	setTimeout(function(){
+		if($('.num-set')) {
+			// It doesn't work, try to fix it.
+			$('.num-set').val($('.num-set>option:last-child').val())
+		}
+		setTimeout(function(){
+			if($('.btn-usual-text.exchange')) {
+				$('.btn-usual-text.exchange').trigger('tap');
+			}
+			setTimeout(analyzingURL, 100);
+			return;
+		}, 300);
+	}, 500);
 }
