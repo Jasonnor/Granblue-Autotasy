@@ -14,6 +14,7 @@ function randomTime(time) {
 }
 
 function analyzingURL() {
+	//加入判斷是否開啟，讀取一個hidden input，右鍵選單控制
 	console.log('==Analyzing URL==');
 	var hash = location.hash;
 	console.log('Get Hash : ' + hash);
@@ -110,6 +111,8 @@ function supporter() {
 	else if($('.prt-summon-image[data-image=2030026000]').length)
 		$('.prt-summon-image[data-image=2030026000]').trigger('tap');
 	// ExpKing
+	else if($('.prt-summon-image[data-image=2040025000]').length)
+		$('.prt-summon-image[data-image=2040025000]').trigger('tap');
 	// Max Grande
 	else if($('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').length)
 		$('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').trigger('tap');
@@ -168,14 +171,27 @@ function raidMultiExplore() {
 			}, 500);
 		}, 500);
 	}
+	else if($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length) {
+		$('.summon-on').trigger('tap');
+		setTimeout(function(){
+			$('.btn-summon-available[summon-code=2040025000]').trigger('tap');
+			setTimeout(function(){
+				if($('.btn-usual-ok.btn-summon-use').length) {
+					$('.btn-usual-ok.btn-summon-use').trigger('tap');
+				}
+			}, 500);
+		}, 500);
+	}
 	else if($('.lis-character3>.prt-percent>span:first').html() == '100' && $('.btn-ability-available>div[ability-id=555]').length) {
 		$('.btn-ability-available>div[ability-id=555]').trigger('tap');
 	}
+	// Bug: if gran die, will nerver go here
 	else if($('.btn-attack-start.display-on').length && 
 		$('#mkt_ability_use_bar>.prt-ability-list').length && 
 		$('.btn-ability-unavailable>div[ability-id=6001]').length && 
 		$('.btn-ability-unavailable>div[ability-id=6002]').length && 
-		!$('.btn-summon-available[summon-code=2030026000]').length) {
+		!$('.btn-summon-available[summon-code=2030026000]').length && 
+		!$('.btn-summon-available[summon-code=2040025000]').length) {
 			$('.btn-attack-start.display-on').trigger('tap');
 			setTimeout(function(){
 				location.reload();
