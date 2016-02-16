@@ -159,11 +159,9 @@ function raidMultiExplore() {
 	}
 	if($('.btn-ability-available>div[ability-id=6001]').length) {
 		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
-		setTimeout(analyzingURL, 1000);
 	}
 	else if($('.btn-ability-available>div[ability-id=6002]').length) {
 		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
-		setTimeout(analyzingURL, 1000);
 	}
 	else if($('.summon-on').length) {
 		$('.summon-on').trigger('tap');
@@ -175,18 +173,18 @@ function raidMultiExplore() {
 				if($('.btn-usual-ok.btn-summon-use').length) {
 					$('.btn-usual-ok.btn-summon-use').trigger('tap');
 				}
-				setTimeout(analyzingURL, 1000);
+				setTimeout(analyzingURL, 1500);
+				return;
 			}, 500);
 		}, 500);
 	}
 	else if($('.lis-character3>.prt-percent>span:first').html() == "100" && $('.btn-ability-available>div[ability-id=555]').length) {
 		$('.btn-ability-available>div[ability-id=555]').trigger('tap');
-		setTimeout(analyzingURL, 1000);
 	}
-	else if($('.btn-attack-start.display-on').length && $('#mkt_ability_use_bar>.prt-ability-list').length) {
+	else if($('.btn-attack-start.display-on').length && $('.btn-ability-unavailable>div[ability-id=6001]').length && $('.btn-ability-unavailable>div[ability-id=555]').length && $('.summon-off').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
-		setTimeout(analyzingURL, 1000);
 	}
+	setTimeout(analyzingURL, 1500);
 }
 
 function exchange() {
