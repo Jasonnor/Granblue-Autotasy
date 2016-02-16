@@ -140,20 +140,17 @@ function raidMulti() {
 		return;
 	}
 	console.log('==Raid Multi Stage==');
+	if($('.btn-result').length) {
+		$('.btn-result').trigger('tap');
+	}
 	if($('.btn-attack-start.display-on').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
-	}
-	else if($('.btn-result').length) {
-		$('.btn-result').trigger('tap');
 	}
 	setTimeout(analyzingURL, 1000);
 }
 
 function raidMultiExplore() {
 	console.log('==Raid Multi Explore Stage==');
-	if($('.btn-result').length) {
-		$('.btn-result').trigger('tap');
-	}
 	if($('.btn-ability-available>div[ability-id=6001]').length) {
 		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
 	}
@@ -180,6 +177,10 @@ function raidMultiExplore() {
 		$('.btn-ability-unavailable>div[ability-id=6002]').length && 
 		!$('.btn-summon-available[summon-code=2030026000]').length) {
 			$('.btn-attack-start.display-on').trigger('tap');
+			setTimeout(function(){
+				location.reload();
+			}, 2000);
+			return;
 	}
 	setTimeout(analyzingURL, 1500);
 }
