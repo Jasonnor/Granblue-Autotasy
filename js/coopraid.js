@@ -128,8 +128,8 @@ function supporter() {
 		if($('.btn-usual-ok').length) {
 			$('.btn-usual-ok').trigger('tap');
 		}
-		setTimeout(analyzingURL, 1000);
-	}, 1000);
+		setTimeout(analyzingURL, 800);
+	}, 200);
 }
 
 function raidMulti() {
@@ -154,6 +154,7 @@ function raidMulti() {
 
 function raidMultiExplore() {
 	console.log('==Raid Multi Explore Stage==');
+	// Bug: If can not use skill, will stop here
 	if($('.btn-ability-available>div[ability-id=6001]').length) {
 		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
 	}
