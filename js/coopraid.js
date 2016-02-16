@@ -32,6 +32,8 @@ function analyzingURL() {
 		coopraid();
 	else if(/casino\/exchange/i.test(hash))
 		exchange();
+	else
+		setTimeout(analyzingURL, 5000);
 }
 
 function coopraid() {
