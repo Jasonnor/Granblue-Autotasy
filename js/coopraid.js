@@ -133,6 +133,9 @@ function supporter() {
 }
 
 function raidMulti() {
+	if($('.btn-result').is(':visible')) {
+		$('.btn-result').trigger('tap');
+	}
 	if(!$('.value.num-info-slash').is(':visible')) {
 		setTimeout(analyzingURL, 1000);
 		return;
@@ -143,9 +146,6 @@ function raidMulti() {
 		return;
 	}
 	console.log('==Raid Multi Stage==');
-	if($('.btn-result').is(':visible')) {
-		$('.btn-result').trigger('tap');
-	}
 	if($('.btn-attack-start.display-on').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
 	}
