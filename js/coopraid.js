@@ -24,18 +24,23 @@ function analyzingURL() {
 	else if(/supporter/i.test(hash))
 		supporter();
 	else if(/raid_multi/i.test(hash))
-		raid_multi();
-	else if(/result_multi/i.test(hash) || /quest$/i.test(hash)) {
-		setTimeout(function(){
-			console.log('==Result Multi Stage==');
-			location.href = "http://gbf.game.mbga.jp/#coopraid";
-			setTimeout(analyzingURL, 1000);
-		}, 1000);
-	}
+		raidMulti();
+	// /quest$/i.test(hash)
+	else if(/result_multi/i.test(hash))
+		resultMulti();
 	else if(/coopraid/i.test(hash))
 		coopraid();
 	else if(/casino\/exchange/i.test(hash))
 		exchange();
+}
+
+function resultMulti() {
+	console.log('==Result Multi Stage==');
+	if($('.btn-usual-ok').length)
+		$('.btn-usual-ok').trigger('tap');
+	else if($('.btn-control').length)
+		$('.btn-control').trigger('tap');
+	setTimeout(analyzingURL, 1000);
 }
 
 function coopraid() {
@@ -105,9 +110,24 @@ function room() {
 
 function supporter() {
 	console.log('==Supporter Stage==');
-	if($('.prt-supporter-detail').length) {
+	// Max Rabbit
+	if($('.prt-summon-image[data-image=2030026000]+div>.bless-rank1-style').length)
+		$('.prt-summon-image[data-image=2030026000]+div>.bless-rank1-style').trigger('tap');
+	// Rabbit
+	else if($('.prt-summon-image[data-image=2030026000]').length)
+		$('.prt-summon-image[data-image=2030026000]').trigger('tap');
+	// ExpKing
+	// Max Grande
+	else if($('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').length)
+		$('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').trigger('tap');
+	// Grande
+	else if($('.prt-summon-image[data-image=2040065000]').length)
+		$('.prt-summon-image[data-image=2040065000]').trigger('tap');
+	/*// Max Mushroom
+	else if($('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').length)
+		$('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').trigger('tap');*/
+	else if($('.prt-supporter-detail').length)
 		$('.prt-supporter-detail').trigger('tap');
-	}
 	setTimeout(function(){
 		if($('.btn-usual-ok').length) {
 			$('.btn-usual-ok').trigger('tap');
@@ -116,13 +136,13 @@ function supporter() {
 	}, 1000);
 }
 
-function raid_multi() {
-	console.log('==Raid Multi Stage==');
+function raidMulti() {
 	// To determine whether a single person
 	if($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
-		raid_multiExplore();
+		raidMultiExplore();
 		return;
 	}
+	console.log('==Raid Multi Stage==');
 	if($('.btn-attack-start.display-on').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
 	}
@@ -132,7 +152,11 @@ function raid_multi() {
 	setTimeout(analyzingURL, 1000);
 }
 
-function raid_multiExplore() {
+function raidMultiExplore() {
+	console.log('==Raid Multi Explore Stage==');
+	if($('.btn-result').length) {
+		$('.btn-result').trigger('tap');
+	}
 	if($('.btn-ability-available>div[ability-id=6001]').length) {
 		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
 		setTimeout(analyzingURL, 1000);
@@ -159,12 +183,8 @@ function raid_multiExplore() {
 		$('.btn-ability-available>div[ability-id=555]').trigger('tap');
 		setTimeout(analyzingURL, 1000);
 	}
-	else if($('.btn-attack-start.display-on').length) {
+	else if($('.btn-attack-start.display-on').length && $('#mkt_ability_use_bar>.prt-ability-list').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
-		setTimeout(analyzingURL, 1000);
-	}
-	else if($('.btn-result').length) {
-		$('.btn-result').trigger('tap');
 		setTimeout(analyzingURL, 1000);
 	}
 }
