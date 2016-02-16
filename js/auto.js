@@ -3,7 +3,7 @@ chrome.storage.sync.get({
 }, function(item) {
 	if(item.toggle) {
 		var script = document.createElement('script');
-		var url = 'https://cdn.rawgit.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js';
+		var url = 'https://rawgit.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js';
 		var inner = "function createScript() {" + 
 					"	var script = document.createElement('script');" + 
 					"	script.onerror = function(){location.reload()};" + 

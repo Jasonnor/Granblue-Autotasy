@@ -60,33 +60,33 @@ function offer() {
 }
 
 function offerFind() {
-	if($('.prt-invite-type-1'))
+	if($('.prt-invite-type-1').length)
 		$('.prt-invite-type-1').trigger('tap');
-	else if($('.prt-invite-type-6'))
+	else if($('.prt-invite-type-6').length)
 		$('.prt-invite-type-6').trigger('tap');
 	setTimeout(offerJoin, 100);
 }
 
 function offerJoin() {
-	if($('.btn-usual-join'))
+	if($('.btn-usual-join').length)
 		$('.btn-usual-join').trigger('tap');
 	setTimeout(offerOK, 100);
 }
 
 function offerOK() {
-	if($('.btn-usual-ok'))
+	if($('.btn-usual-ok').length)
 		$('.btn-usual-ok').trigger('tap');
 	setTimeout(offerRefresh, 100);
 }
 
 function offerRefresh() {
-	if($('.btn-refresh-list'))
+	if($('.btn-refresh-list').length)
 		$('.btn-refresh-list').trigger('tap');
 	setTimeout(offerCancel, 100);
 }
 
 function offerCancel() {
-	if($('.btn-usual-cancel'))
+	if($('.btn-usual-cancel').length)
 		$('.btn-usual-cancel').trigger('tap');
 	setTimeout(analyzingURL, 100);
 }
@@ -118,6 +118,11 @@ function supporter() {
 
 function raid_multi() {
 	console.log('==Raid Multi Stage==');
+	// To determine whether a single person
+	if($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
+		raid_multiExplore();
+		return;
+	}
 	if($('.btn-attack-start.display-on').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
 	}
@@ -127,18 +132,55 @@ function raid_multi() {
 	setTimeout(analyzingURL, 1000);
 }
 
+function raid_multiExplore() {
+	if($('.btn-ability-available>div[ability-id=6001]').length) {
+		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
+		setTimeout(analyzingURL, 1000);
+	}
+	else if($('.btn-ability-available>div[ability-id=6002]').length) {
+		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
+		setTimeout(analyzingURL, 1000);
+	}
+	else if($('.summon-on').length) {
+		$('.summon-on').trigger('tap');
+		setTimeout(function(){
+			if($('.btn-summon-available').length) {
+				$('.btn-summon-available').trigger('tap');
+			}
+			setTimeout(function(){
+				if($('.btn-usual-ok.btn-summon-use').length) {
+					$('.btn-usual-ok.btn-summon-use').trigger('tap');
+				}
+				setTimeout(analyzingURL, 1000);
+			}, 500);
+		}, 500);
+	}
+	else if($('.lis-character3>.prt-percent>span:first').html() == "100" && $('.btn-ability-available>div[ability-id=555]').length) {
+		$('.btn-ability-available>div[ability-id=555]').trigger('tap');
+		setTimeout(analyzingURL, 1000);
+	}
+	else if($('.btn-attack-start.display-on').length) {
+		$('.btn-attack-start.display-on').trigger('tap');
+		setTimeout(analyzingURL, 1000);
+	}
+	else if($('.btn-result').length) {
+		$('.btn-result').trigger('tap');
+		setTimeout(analyzingURL, 1000);
+	}
+}
+
 function exchange() {
 	console.log('==Exchange Stage==');
-	if($('.btn-exchange')) {
+	if($('.btn-exchange').length) {
 		$('.btn-exchange').trigger('tap');
 	}
 	setTimeout(function(){
-		if($('.num-set')) {
+		if($('.num-set').length) {
 			// It doesn't work, try to fix it.
 			$('.num-set').val($('.num-set>option:last-child').val())
 		}
 		setTimeout(function(){
-			if($('.btn-usual-text.exchange')) {
+			if($('.btn-usual-text.exchange').length) {
 				$('.btn-usual-text.exchange').trigger('tap');
 			}
 			setTimeout(analyzingURL, 100);
