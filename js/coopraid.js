@@ -130,13 +130,13 @@ function supporter() {
 }
 
 function raidMulti() {
-	// To determine whether a single person
-	if($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
-		raidMultiExplore();
-		return;
-	}
 	if(!$('.value.num-info-slash').is(':visible')) {
 		setTimeout(analyzingURL, 1000);
+		return;
+	}
+	// To determine whether a single person
+	else if($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
+		raidMultiExplore();
 		return;
 	}
 	console.log('==Raid Multi Stage==');
@@ -160,18 +160,14 @@ function raidMultiExplore() {
 	else if($('.btn-ability-available>div[ability-id=6002]').length) {
 		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
 	}
-	else if($('.summon-on').length) {
+	else if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
 		setTimeout(function(){
-			if($('.btn-summon-available').length) {
-				$('.btn-summon-available').trigger('tap');
-			}
+			$('.btn-summon-available[summon-code=2030026000]').trigger('tap');
 			setTimeout(function(){
 				if($('.btn-usual-ok.btn-summon-use').length) {
 					$('.btn-usual-ok.btn-summon-use').trigger('tap');
 				}
-				setTimeout(analyzingURL, 1500);
-				return;
 			}, 500);
 		}, 500);
 	}
@@ -182,7 +178,7 @@ function raidMultiExplore() {
 		$('#mkt_ability_use_bar>.prt-ability-list').length && 
 		$('.btn-ability-unavailable>div[ability-id=6001]').length && 
 		$('.btn-ability-unavailable>div[ability-id=6002]').length && 
-		$('.summon-off').length) {
+		!$('.btn-summon-available[summon-code=2030026000]').length) {
 			$('.btn-attack-start.display-on').trigger('tap');
 	}
 	setTimeout(analyzingURL, 1500);
@@ -212,7 +208,6 @@ function exchange() {
 				$('.btn-usual-text.exchange').trigger('tap');
 			}
 			setTimeout(analyzingURL, 100);
-			return;
 		}, 300);
 	}, 500);
 }
