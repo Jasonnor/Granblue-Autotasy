@@ -135,6 +135,10 @@ function raidMulti() {
 		raidMultiExplore();
 		return;
 	}
+	if(!$('.value.num-info-slash').is(':visible')) {
+		setTimeout(analyzingURL, 1000);
+		return;
+	}
 	console.log('==Raid Multi Stage==');
 	if($('.btn-attack-start.display-on').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
