@@ -143,7 +143,7 @@ function raidMulti() {
 		return;
 	}
 	console.log('==Raid Multi Stage==');
-	if($('.btn-result').length) {
+	if($('.btn-result').is(':visible')) {
 		$('.btn-result').trigger('tap');
 	}
 	if($('.btn-attack-start.display-on').length) {
@@ -154,14 +154,7 @@ function raidMulti() {
 
 function raidMultiExplore() {
 	console.log('==Raid Multi Explore Stage==');
-	// Bug: If can not use skill, will stop here
-	if($('.btn-ability-available>div[ability-id=6001]').length) {
-		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
-	}
-	else if($('.btn-ability-available>div[ability-id=6002]').length) {
-		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
-	}
-	else if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
+	if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
 		setTimeout(function(){
 			$('.btn-summon-available[summon-code=2030026000]').trigger('tap');
@@ -182,6 +175,13 @@ function raidMultiExplore() {
 				}
 			}, 500);
 		}, 500);
+	}
+	// Bug: If can not use skill, will stop here
+	else if($('.btn-ability-available>div[ability-id=6001]').length) {
+		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
+	}
+	else if($('.btn-ability-available>div[ability-id=6002]').length) {
+		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
 	}
 	else if($('.lis-character3>.prt-percent>span:first').html() == '100' && $('.btn-ability-available>div[ability-id=555]').length) {
 		$('.btn-ability-available>div[ability-id=555]').trigger('tap');
