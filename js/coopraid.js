@@ -1,4 +1,4 @@
-(function() {
+﻿(function() {
 	analyzingURL();
 })();
 
@@ -7,14 +7,13 @@ Game.reportError = function(msg, url, line, column, err, callback){
 	location.reload();
 };
 
-//TODO: replace all time to randomTime(time)
+// TODO: replace all time to randomTime(time)
 function randomTime(time) {
 	return time * (Math.ramdom() + 0.8);
 }
 
-//TODO: Read hidden input to enable script, using right menu to control
-//TODO: Add a stop button
-//TODO: Rubylottery 100 times
+// TODO: Read hidden input to enable script, using right menu to control
+// TODO: Rubylottery 100 times
 function analyzingURL() {
 	console.log('==Analyzing URL==');
 	var hash = location.hash;
@@ -27,7 +26,6 @@ function analyzingURL() {
 		supporter();
 	else if(/raid_multi/i.test(hash))
 		raidMulti();
-	// /quest$/i.test(hash)
 	else if(/result_multi/i.test(hash))
 		resultMulti();
 	else if(/coopraid/i.test(hash))
@@ -46,31 +44,31 @@ function assist() {
 		$('#tab-multi').trigger('tap');
 		setTimeout(function(){
 			// You can see pic of summon at src/assist
-			if($('.img-raid-thumbnail[alt=2030002000_hell]').length)
+			if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2030002000_hell])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2030002000_hell]').trigger('tap');
-			else if($('.img-raid-thumbnail[alt=2040002000_ex]').length)
+			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040002000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040002000_ex]').trigger('tap');
-			else if($('.img-raid-thumbnail[alt=2040005000_ex]').length)
+			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040005000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040005000_ex]').trigger('tap');
-			else if($('.img-raid-thumbnail[alt=2040007000_ex]').length)
+			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040007000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040007000_ex]').trigger('tap');
-			else if($('.img-raid-thumbnail[alt=2040012000_ex]').length)
+			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040012000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040012000_ex]').trigger('tap');
-			else if($('.img-raid-thumbnail[alt=2040023000_ex]').length)
+			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040023000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040023000_ex]').trigger('tap');
-			else if($('.img-raid-thumbnail[alt=2040029000_ex]').length)
+			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040029000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040029000_ex]').trigger('tap');
-			else if($('.img-raid-thumbnail[alt=2040042000_ex]').length)
+			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040042000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040042000_ex]').trigger('tap');
-			else if($('.img-raid-thumbnail[alt=2040059000_ex]').length)
+			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040059000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040059000_ex]').trigger('tap');
-			else if($('.img-raid-thumbnail[alt=2040063000_ex]').length)
+			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040063000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040063000_ex]').trigger('tap');
-			else if($('.img-raid-thumbnail[alt=2030002000]').length)
+			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2030002000])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2030002000]').trigger('tap');
-			else if($('.img-raid-thumbnail[alt=2040008000]').length)
+			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040008000])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040008000]').trigger('tap');
-			else if($('.img-raid-thumbnail[alt=2040086000]').length)
+			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040086000])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040086000]').trigger('tap');
 			else
 				return;
@@ -104,6 +102,7 @@ function offer() {
 	setTimeout(analyzingURL, 100);
 }
 
+// TODO: Add roomname detect（順、待機、放置、隔離、ツーラー...）
 function offerFind() {
 	if($('.prt-invite-type-1').length)
 		$('.prt-invite-type-1').trigger('tap');
@@ -136,6 +135,7 @@ function offerCancel() {
 	setTimeout(analyzingURL, 100);
 }
 
+// TODO: if others send stamp, send it.
 function room() {
 	console.log('==Room Stage==');
 	if($('.btn-make-ready-large.not-ready').length) {
@@ -155,6 +155,8 @@ function supporter() {
 		$('.prt-summon-image[data-image=2030026000]+div>.bless-rank1-style').trigger('tap');
 	else if($('.prt-summon-image[data-image=2030026000]').length)
 		$('.prt-summon-image[data-image=2030026000]').trigger('tap');
+	else if($('.prt-summon-image[data-image=2040025000]+div>.bless-rank1-style').length)
+		$('.prt-summon-image[data-image=2040025000]+div>.bless-rank1-style').trigger('tap');
 	else if($('.prt-summon-image[data-image=2040025000]').length)
 		$('.prt-summon-image[data-image=2040025000]').trigger('tap');
 	else if($('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').length)
@@ -170,6 +172,8 @@ function supporter() {
 	}, 200);
 }
 
+// TODO: Add a stop script button
+// TODO: Add refresh button
 function raidMulti() {
 	if($('.btn-result').is(':visible')) {
 		$('.btn-result').trigger('tap');
