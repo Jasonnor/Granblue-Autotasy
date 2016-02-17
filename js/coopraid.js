@@ -4,8 +4,7 @@
 
 Game.reportError = function(msg, url, line, column, err, callback){
 	console.log(msg, url, line, column, err, callback);
-	//if(url == 'http://gbf.game-a3.mbga.jp/assets/1455266321/js_light/view/coopraid/offer/index.js')
-		location.reload();
+	location.reload();
 };
 
 //TODO: replace all time to randomTime(time)
@@ -13,8 +12,10 @@ function randomTime(time) {
 	return time * (Math.ramdom() + 0.8);
 }
 
+//TODO: Read hidden input to enable script, using right menu to control
+//TODO: Add a stop button
+//TODO: Rubylottery 100 times
 function analyzingURL() {
-	//加入判斷是否開啟，讀取一個hidden input，右鍵選單控制
 	console.log('==Analyzing URL==');
 	var hash = location.hash;
 	console.log('Get Hash : ' + hash);
@@ -31,10 +32,55 @@ function analyzingURL() {
 		resultMulti();
 	else if(/coopraid/i.test(hash))
 		coopraid();
+	else if(/quest\/assist/i.test(hash))
+		assist();
 	else if(/casino\/exchange/i.test(hash))
 		exchange();
 	else
 		setTimeout(analyzingURL, 5000);
+}
+
+function assist() {
+	console.log('==Assist Stage==');
+	if($('#tab-multi').length) {
+		$('#tab-multi').trigger('tap');
+		setTimeout(function(){
+			// You can see pic of summon at src/assist
+			if($('.img-raid-thumbnail[alt=2030002000_hell]').length)
+				$('.img-raid-thumbnail[alt=2030002000_hell]').trigger('tap');
+			else if($('.img-raid-thumbnail[alt=2040002000_ex]').length)
+				$('.img-raid-thumbnail[alt=2040002000_ex]').trigger('tap');
+			else if($('.img-raid-thumbnail[alt=2040005000_ex]').length)
+				$('.img-raid-thumbnail[alt=2040005000_ex]').trigger('tap');
+			else if($('.img-raid-thumbnail[alt=2040007000_ex]').length)
+				$('.img-raid-thumbnail[alt=2040007000_ex]').trigger('tap');
+			else if($('.img-raid-thumbnail[alt=2040012000_ex]').length)
+				$('.img-raid-thumbnail[alt=2040012000_ex]').trigger('tap');
+			else if($('.img-raid-thumbnail[alt=2040023000_ex]').length)
+				$('.img-raid-thumbnail[alt=2040023000_ex]').trigger('tap');
+			else if($('.img-raid-thumbnail[alt=2040029000_ex]').length)
+				$('.img-raid-thumbnail[alt=2040029000_ex]').trigger('tap');
+			else if($('.img-raid-thumbnail[alt=2040042000_ex]').length)
+				$('.img-raid-thumbnail[alt=2040042000_ex]').trigger('tap');
+			else if($('.img-raid-thumbnail[alt=2040059000_ex]').length)
+				$('.img-raid-thumbnail[alt=2040059000_ex]').trigger('tap');
+			else if($('.img-raid-thumbnail[alt=2040063000_ex]').length)
+				$('.img-raid-thumbnail[alt=2040063000_ex]').trigger('tap');
+			else if($('.img-raid-thumbnail[alt=2030002000]').length)
+				$('.img-raid-thumbnail[alt=2030002000]').trigger('tap');
+			else if($('.img-raid-thumbnail[alt=2040008000]').length)
+				$('.img-raid-thumbnail[alt=2040008000]').trigger('tap');
+			else if($('.img-raid-thumbnail[alt=2040086000]').length)
+				$('.img-raid-thumbnail[alt=2040086000]').trigger('tap');
+			else
+				return;
+			setTimeout(function(){
+				if($('.btn-use-full[data-item-num=565]').length)
+					$('.btn-use-full[data-item-num=565]').trigger('tap');
+			}, 3000);
+		}, 1000);
+	}
+	setTimeout(analyzingURL, 3000);
 }
 
 function coopraid() {
@@ -104,31 +150,23 @@ function room() {
 
 function supporter() {
 	console.log('==Supporter Stage==');
-	// Max Rabbit
+	// You can see pic of supporter at src/supporter
 	if($('.prt-summon-image[data-image=2030026000]+div>.bless-rank1-style').length)
 		$('.prt-summon-image[data-image=2030026000]+div>.bless-rank1-style').trigger('tap');
-	// Rabbit
 	else if($('.prt-summon-image[data-image=2030026000]').length)
 		$('.prt-summon-image[data-image=2030026000]').trigger('tap');
-	// ExpKing
 	else if($('.prt-summon-image[data-image=2040025000]').length)
 		$('.prt-summon-image[data-image=2040025000]').trigger('tap');
-	// Max Grande
 	else if($('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').length)
 		$('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').trigger('tap');
-	// Grande
 	else if($('.prt-summon-image[data-image=2040065000]').length)
 		$('.prt-summon-image[data-image=2040065000]').trigger('tap');
-	/*// Max Mushroom
-	else if($('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').length)
-		$('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').trigger('tap');*/
 	else if($('.prt-supporter-detail').length)
 		$('.prt-supporter-detail').trigger('tap');
 	setTimeout(function(){
-		if($('.btn-usual-ok').length) {
+		if($('.btn-usual-ok').length)
 			$('.btn-usual-ok').trigger('tap');
-		}
-		setTimeout(analyzingURL, 800);
+		setTimeout(analyzingURL, 300);
 	}, 200);
 }
 
