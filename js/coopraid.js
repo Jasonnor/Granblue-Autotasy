@@ -73,8 +73,8 @@ function assist() {
 			else
 				return;
 			setTimeout(function(){
-				if($('.btn-use-full[data-item-num=565]').length)
-					$('.btn-use-full[data-item-num=565]').trigger('tap');
+				if($('.prt-item-disp:last>.prt-use-button>.btn-use-full').length)
+					$('.prt-item-disp:last>.prt-use-button>.btn-use-full').trigger('tap');
 			}, 3000);
 		}, 1000);
 	}
