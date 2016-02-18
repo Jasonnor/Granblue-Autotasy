@@ -44,6 +44,13 @@ function analyzingURL() {
 		setTimeout(analyzingURL, 5000);
 }
 
+function stageRolling() {
+	console.log('==Stage Rolling Stage==');
+	if($('.btn-command-forward').length)
+		$('.btn-command-forward').trigger('tap');
+	setTimeout(analyzingURL, 1000);
+}
+
 function raid() {
 	console.log('==Raid Stage==');
 	if($('.btn-result').is(':visible')) {
@@ -77,13 +84,6 @@ function raid() {
 		$('.btn-attack-start.display-on').trigger('tap');
 	}
 	setTimeout(analyzingURL, 1500);
-}
-
-function stageRolling() {
-	console.log('==Stage Rolling Stage==');
-	if($('.btn-command-forward').length)
-		$('.btn-command-forward').trigger('tap');
-	setTimeout(analyzingURL, 1000);
 }
 
 function coopraid() {
@@ -217,6 +217,9 @@ function raidMultiExplore() {
 				if($('.btn-usual-ok.btn-summon-use').length) {
 					$('.btn-usual-ok.btn-summon-use').trigger('tap');
 				}
+				if($('.btn-usual-cancel').length) {
+					$('.btn-usual-cancel').trigger('tap');
+				}
 			}, 500);
 		}, 500);
 	}
@@ -227,6 +230,9 @@ function raidMultiExplore() {
 			setTimeout(function(){
 				if($('.btn-usual-ok.btn-summon-use').length) {
 					$('.btn-usual-ok.btn-summon-use').trigger('tap');
+				}
+				if($('.btn-usual-cancel').length) {
+					$('.btn-usual-cancel').trigger('tap');
 				}
 			}, 500);
 		}, 500);
@@ -241,14 +247,12 @@ function raidMultiExplore() {
 	else if($('.lis-character3>.prt-percent>span:first').html() == '100' && $('.btn-ability-available>div[ability-id=555]').length) {
 		$('.btn-ability-available>div[ability-id=555]').trigger('tap');
 	}
-	else if($('.btn-attack-start.display-on').length && 
-		!$('.btn-summon-available[summon-code=2030026000]').length && 
-		!$('.btn-summon-available[summon-code=2040025000]').length) {
-			$('.btn-attack-start.display-on').trigger('tap');
-			setTimeout(function(){
-				location.reload();
-			}, 2000);
-			return;
+	else if($('.btn-attack-start.display-on').length) {
+		$('.btn-attack-start.display-on').trigger('tap');
+		setTimeout(function(){
+			location.reload();
+		}, 2000);
+		return;
 	}
 	setTimeout(analyzingURL, 1500);
 }
