@@ -61,6 +61,9 @@ function raid() {
 				if($('.btn-usual-ok.btn-summon-use').length) {
 					$('.btn-usual-ok.btn-summon-use').trigger('tap');
 				}
+				if($('.btn-usual-cancel').length) {
+					$('.btn-usual-cancel').trigger('tap');
+				}
 			}, 500);
 		}, 500);
 	}
