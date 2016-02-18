@@ -102,12 +102,13 @@ function offer() {
 	setTimeout(analyzingURL, 100);
 }
 
-// TODO: Add roomname detect（順、待機、放置、隔離、ツーラー...）
 function offerFind() {
-	if($('.prt-invite-type-1').length)
-		$('.prt-invite-type-1').trigger('tap');
-	else if($('.prt-invite-type-6').length)
-		$('.prt-invite-type-6').trigger('tap');
+	var room = $('.txt-room-comment:not(:contains(順)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-1)');
+	var room2 = $('.txt-room-comment:not(:contains(順)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-6)');
+	if(room.length)
+		room.trigger('tap');
+	else if(room2.length)
+		room2.trigger('tap');
 	setTimeout(offerJoin, 100);
 }
 
