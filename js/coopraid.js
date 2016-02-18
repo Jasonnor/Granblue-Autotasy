@@ -2,12 +2,10 @@
 	analyzingURL();
 })();
 
-/*
 Game.reportError = function(msg, url, line, column, err, callback){
 	console.log(msg, url, line, column, err, callback);
 	location.reload();
 };
-*/
 
 // TODO: replace all time to randomTime(time)
 function randomTime(time) {
@@ -35,7 +33,7 @@ function analyzingURL() {
 	else if(/quest\/assist/i.test(hash))
 		assist();
 	else if(/quest\/stage/i.test(hash))
-		stage();
+		stageRolling();
 	else if(/raid/i.test(hash))
 		raid();
 	else if(/result/i.test(hash))
@@ -78,8 +76,8 @@ function raid() {
 	setTimeout(analyzingURL, 1500);
 }
 
-function stage() {
-	console.log('==Stage Stage==');
+function stageRolling() {
+	console.log('==Stage Rolling Stage==');
 	if($('.btn-command-forward').length)
 		$('.btn-command-forward').trigger('tap');
 	setTimeout(analyzingURL, 1000);
