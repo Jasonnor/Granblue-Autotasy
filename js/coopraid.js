@@ -2,10 +2,12 @@
 	analyzingURL();
 })();
 
+/*
 Game.reportError = function(msg, url, line, column, err, callback){
 	console.log(msg, url, line, column, err, callback);
-	//location.reload();
+	location.reload();
 };
+*/
 
 // TODO: replace all time to randomTime(time)
 function randomTime(time) {
