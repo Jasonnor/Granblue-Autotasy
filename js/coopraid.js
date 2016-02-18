@@ -64,6 +64,12 @@ function raid() {
 			}, 500);
 		}, 500);
 	}
+	else if($('.btn-ability-available>div[ability-id=6001]').length) {
+		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
+	}
+	else if($('.btn-ability-available>div[ability-id=6002]').length) {
+		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
+	}
 	else if($('.btn-attack-start.display-on').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
 	}
