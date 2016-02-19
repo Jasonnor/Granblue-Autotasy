@@ -52,7 +52,6 @@ function stageRolling() {
 }
 
 function raid() {
-	//TODO: Sometimes stop here for unknown reason
 	console.log('==Raid Stage==');
 	if($('.btn-result').is(':visible')) {
 		$('.btn-result').trigger('tap');
@@ -61,6 +60,7 @@ function raid() {
 		setTimeout(analyzingURL, 1000);
 		return;
 	}
+	/*
 	if($('.summon-on').length) {
 		$('.summon-on').trigger('tap');
 		setTimeout(function(){
@@ -74,7 +74,37 @@ function raid() {
 				}
 			}, 500);
 		}, 500);
+	}*/
+	if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
+		$('.summon-on').trigger('tap');
+		setTimeout(function(){
+			$('.btn-summon-available[summon-code=2030026000]').trigger('tap');
+			setTimeout(function(){
+				if($('.btn-usual-ok.btn-summon-use').length) {
+					$('.btn-usual-ok.btn-summon-use').trigger('tap');
+				}
+				if($('.btn-usual-cancel').length) {
+					$('.btn-usual-cancel').trigger('tap');
+				}
+			}, 500);
+		}, 500);
 	}
+	else if($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length) {
+		$('.summon-on').trigger('tap');
+		setTimeout(function(){
+			$('.btn-summon-available[summon-code=2040025000]').trigger('tap');
+			setTimeout(function(){
+				if($('.btn-usual-ok.btn-summon-use').length) {
+					$('.btn-usual-ok.btn-summon-use').trigger('tap');
+				}
+				if($('.btn-usual-cancel').length) {
+					$('.btn-usual-cancel').trigger('tap');
+				}
+			}, 500);
+		}, 500);
+	}
+	//TODO: Sometimes stop here for unknown reason
+	//Update: it wont go unavailable after used, so still go in
 	else if($('.btn-ability-available>div[ability-id=6001]').length) {
 		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
 	}
@@ -157,26 +187,52 @@ function room() {
 
 function supporter() {
 	console.log('==Supporter Stage==');
+	var isMainStoryline = /supporter\/\d{3}/i.test(location.hash);
 	// You can see pic of supporter at src/supporter
-	if($('.prt-summon-image[data-image=2030026000]+div>.bless-rank1-style').length)
+	var isEventForEarth = /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash);
+	// Event for water enemy
+	if(isEventForEarth) {
+		// 80% + 25%hp
+		if($('.prt-summon-image[data-image=2040059000]+div>.bless-rank2-style').length)
+			$('.prt-summon-image[data-image=2040059000]+div>.bless-rank2-style').trigger('tap');
+		// 80%
+		else if($('.prt-summon-image[data-image=2040059000]+div>.bless-rank1-style').length)
+			$('.prt-summon-image[data-image=2040059000]+div>.bless-rank1-style').trigger('tap');
+		// 60%
+		else if($('.prt-summon-image[data-image=2040014000]+div>.bless-rank2-style').length)
+			$('.prt-summon-image[data-image=2040014000]+div>.bless-rank2-style').trigger('tap');
+		// 50%
+		else if($('.prt-summon-image[data-image=2040014000]+div>.bless-rank1-style').length)
+			$('.prt-summon-image[data-image=2040014000]+div>.bless-rank1-style').trigger('tap');
+		else if($('.prt-summon-image[data-image=2040097000]+div>.bless-rank1-style').length)
+			$('.prt-summon-image[data-image=2040097000]+div>.bless-rank1-style').trigger('tap');
+		else if($('.prt-summon-image[data-image=2040059000]').length)
+			$('.prt-summon-image[data-image=2040059000]').trigger('tap');
+		// 100%Anima
+		else if($('.prt-summon-image[data-image=2040027000]+div>.bless-rank1-style').length)
+			$('.prt-summon-image[data-image=2040027000]+div>.bless-rank1-style').trigger('tap');
+	}
+	// Rabbit Exp & Treasure
+	else if($('.prt-summon-image[data-image=2030026000]+div>.bless-rank1-style').length)
 		$('.prt-summon-image[data-image=2030026000]+div>.bless-rank1-style').trigger('tap');
 	else if($('.prt-summon-image[data-image=2030026000]').length)
 		$('.prt-summon-image[data-image=2030026000]').trigger('tap');
-	
-	/* Temp mushroom */
-	else if($('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').length)
+	// Mushroom RM
+	else if(isMainStoryline && $('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').length)
 		$('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').trigger('tap');
-	else if($('.prt-summon-image[data-image=2030051000]').length)
+	else if(isMainStoryline && $('.prt-summon-image[data-image=2030051000]').length)
 		$('.prt-summon-image[data-image=2030051000]').trigger('tap');
-	
+	// Exp King
 	else if($('.prt-summon-image[data-image=2040025000]+div>.bless-rank1-style').length)
 		$('.prt-summon-image[data-image=2040025000]+div>.bless-rank1-style').trigger('tap');
 	else if($('.prt-summon-image[data-image=2040025000]').length)
 		$('.prt-summon-image[data-image=2040025000]').trigger('tap');
+	// Grande
 	else if($('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').length)
 		$('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').trigger('tap');
 	else if($('.prt-summon-image[data-image=2040065000]').length)
 		$('.prt-summon-image[data-image=2040065000]').trigger('tap');
+	// Others
 	else if($('.prt-supporter-detail').length)
 		$('.prt-supporter-detail').trigger('tap');
 	setTimeout(function(){
@@ -203,6 +259,10 @@ function raidMulti() {
 	}
 	// TODO: determine whether is a coopraid
 	console.log('==Raid Multi Stage==');
+	if(!masterYoda(true)) {
+		setTimeout(analyzingURL, 1000);
+		return;
+	}
 	if($('.btn-attack-start.display-on').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
 	}
@@ -211,79 +271,9 @@ function raidMulti() {
 
 function raidMultiExplore() {
 	console.log('==Raid Multi Explore Stage==');
-	// Master Yoda
-	if($('.lis-character3:has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
-		var hp = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
-		if(hp <= 50) {
-			$('.btn-temporary').trigger('tap');
-			setTimeout(function(){
-				if($('.img-temporary[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/item/temporary/m/1.jpg"]').length) {
-					$('.img-temporary[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/item/temporary/m/1.jpg"]').trigger('tap');
-					setTimeout(function(){
-						if($('.lis-character3:first').length) {
-							$('.lis-character3:first').trigger('tap');
-						}
-					}, 1500);
-				}
-				else if($('.img-temporary[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/item/temporary/m/2.jpg"]').length) {
-					$('.img-temporary[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/item/temporary/m/2.jpg"]').trigger('tap');
-					setTimeout(function(){
-						if($('.btn-usual-use').length) {
-							$('.btn-usual-use').trigger('tap');
-						}
-					}, 1500);
-				}
-				if($('.btn-usual-cancel').length) {
-					$('.btn-usual-cancel').trigger('tap');
-				}
-			}, 1500);
-		}
-		var char1 = $('.lis-character0>.prt-percent>span:first').html();
-		var char2 = $('.lis-character1>.prt-percent>span:first').html();
-		var char3 = $('.lis-character2>.prt-percent>span:first').html();
-		var char4 = $('.lis-character3>.prt-percent>span:first').html();
-		if(char1 >= 100) {
-			char2 += 10;
-			char3 += 10;
-			char4 += 10;
-		}
-		if(char2 >= 100) {
-			char3 += 10;
-			char4 += 10;
-		}
-		if(char3 >= 100) {
-			char4 += 10;
-		}
-		var threeStatus = 0;
-		if($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14143]').length)
-			threeStatus = 3;
-		else if($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14142]').length)
-			threeStatus = 2;
-		else if($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14141]').length)
-			threeStatus = 1;
-		var maxKatha = (char4 >= 100) ? true : false;
-		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length;
-		
-		if(threeStatus == 0 && canUseStatus) {
-			$('.btn-ability-available>div[ability-id=555]').trigger('tap');
-		}
-		if(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length) {
-			$('.btn-ability-available>div[ability-id=3173]').trigger('tap');
-		}
-		if(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) {
-			$('.btn-lock.lock1').trigger('tap')
-		}
-		if(threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length) {
-			$('.btn-lock.lock0').trigger('tap')
-		}
-		// Ensure no delay for the operation
-		if((threeStatus == 0 && canUseStatus) || 
-			(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length) || 
-			(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) || 
-			(threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length)) {
-				setTimeout(analyzingURL, 1000);
-				return;
-		}
+	if(!masterYoda(true)) {
+		setTimeout(analyzingURL, 1000);
+		return;
 	}
 	// Summon
 	if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
@@ -329,6 +319,92 @@ function raidMultiExplore() {
 		return;
 	}
 	setTimeout(analyzingURL, 1500);
+}
+
+function masterYoda(healing) {
+	if($('.lis-character3:has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
+		var hp = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
+		if(hp <= 50 && healing) {
+			$('.btn-temporary').trigger('tap');
+			setTimeout(function(){
+				if($('.lis-item.item-small.btn-temporary-small:not(.disable)>img').length) {
+					$('.lis-item.item-small.btn-temporary-small>img').trigger('tap');
+					setTimeout(function(){
+						if($('.lis-character3:first').length) {
+							$('.lis-character3:first').trigger('tap');
+						}
+						if($('.btn-usual-cancel').length) {
+							$('.btn-usual-cancel').trigger('tap');
+						}
+						masterYoda(true);
+					}, 2000);
+				}
+				//TODO: 要先發出表情符號才有大補
+				else if($('.lis-item.item-large.btn-temporary-large:not(.disable)>img').length) {
+					$('.lis-item.item-large.btn-temporary-large>img').trigger('tap');
+					setTimeout(function(){
+						if($('.btn-usual-use').length) {
+							$('.btn-usual-use').trigger('tap');
+						}
+						if($('.btn-usual-cancel').length) {
+							$('.btn-usual-cancel').trigger('tap');
+						}
+						masterYoda(true);
+					}, 2000);
+				}
+				else {
+					masterYoda(false);
+				}
+			}, 2000);
+			return false;
+		}
+		var char1 = $('.lis-character0>.prt-percent>span:first').html();
+		var char2 = $('.lis-character1>.prt-percent>span:first').html();
+		var char3 = $('.lis-character2>.prt-percent>span:first').html();
+		var char4 = $('.lis-character3>.prt-percent>span:first').html();
+		if(char1 >= 100) {
+			char2 += 10;
+			char3 += 10;
+			char4 += 10;
+		}
+		if(char2 >= 100) {
+			char3 += 10;
+			char4 += 10;
+		}
+		if(char3 >= 100) {
+			char4 += 10;
+		}
+		var threeStatus = 0;
+		if($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14143]').length)
+			threeStatus = 3;
+		else if($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14142]').length)
+			threeStatus = 2;
+		else if($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14141]').length)
+			threeStatus = 1;
+		var maxKatha = (char4 >= 100) ? true : false;
+		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length;
+		
+		if(threeStatus == 0 && canUseStatus) {
+			$('.btn-ability-available>div[ability-id=555]').trigger('tap');
+		}
+		if(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length) {
+			$('.btn-ability-available>div[ability-id=3173]').trigger('tap');
+		}
+		if(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) {
+			$('.btn-lock.lock1').trigger('tap')
+		}
+		if(threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length) {
+			$('.btn-lock.lock0').trigger('tap')
+		}
+		// Ensure no delay for the operation
+		if((threeStatus == 0 && canUseStatus) || 
+			(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length) || 
+			(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) || 
+			(threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length)) {
+				return false;
+		}
+	}
+	return true;
 }
 
 function resultMulti() {
