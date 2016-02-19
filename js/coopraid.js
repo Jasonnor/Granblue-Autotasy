@@ -282,6 +282,7 @@ function raidMultiExplore() {
 			(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) || 
 			(threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length)) {
 				setTimeout(analyzingURL, 1000);
+				return;
 		}
 	}
 	// Summon
