@@ -52,6 +52,7 @@ function stageRolling() {
 }
 
 function raid() {
+	//TODO: Sometimes stop here for unknown reason
 	console.log('==Raid Stage==');
 	if($('.btn-result').is(':visible')) {
 		$('.btn-result').trigger('tap');
@@ -200,6 +201,7 @@ function raidMulti() {
 		raidMultiExplore();
 		return;
 	}
+	// TODO: determine whether is a coopraid
 	console.log('==Raid Multi Stage==');
 	if($('.btn-attack-start.display-on').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
@@ -209,6 +211,80 @@ function raidMulti() {
 
 function raidMultiExplore() {
 	console.log('==Raid Multi Explore Stage==');
+	// Master Yoda
+	if($('.lis-character3:has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
+		var hp = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
+		if(hp <= 50) {
+			$('.btn-temporary').trigger('tap');
+			setTimeout(function(){
+				if($('.img-temporary[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/item/temporary/m/1.jpg"]').length) {
+					$('.img-temporary[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/item/temporary/m/1.jpg"]').trigger('tap');
+					setTimeout(function(){
+						if($('.lis-character3:first').length) {
+							$('.lis-character3:first').trigger('tap');
+						}
+					}, 500);
+				}
+				else if($('.img-temporary[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/item/temporary/m/2.jpg"]').length) {
+					$('.img-temporary[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/item/temporary/m/2.jpg"]').trigger('tap');
+					setTimeout(function(){
+						if($('.btn-usual-use').length) {
+							$('.btn-usual-use').trigger('tap');
+						}
+					}, 500);
+				}
+				if($('.btn-usual-cancel').length) {
+					$('.btn-usual-cancel').trigger('tap');
+				}
+			}, 500);
+		}
+		var char1 = $('.lis-character0>.prt-percent>span:first').html();
+		var char2 = $('.lis-character1>.prt-percent>span:first').html();
+		var char3 = $('.lis-character2>.prt-percent>span:first').html();
+		var char4 = $('.lis-character3>.prt-percent>span:first').html();
+		if(char1 >= 100) {
+			char2 += 10;
+			char3 += 10;
+			char4 += 10;
+		}
+		if(char2 >= 100) {
+			char3 += 10;
+			char4 += 10;
+		}
+		if(char3 >= 100) {
+			char4 += 10;
+		}
+		var threeStatus = 0;
+		if($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14143]').length)
+			threeStatus = 3;
+		else if($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14142]').length)
+			threeStatus = 2;
+		else if($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14141]').length)
+			threeStatus = 1;
+		var maxKatha = (char4 >= 100) ? true : false;
+		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length;
+		
+		if(threeStatus == 0 && canUseStatus) {
+			$('.btn-ability-available>div[ability-id=555]').trigger('tap');
+		}
+		if(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length) {
+			$('.btn-ability-available>div[ability-id=3173]').trigger('tap');
+		}
+		if(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) {
+			$('.btn-lock.lock1').trigger('tap')
+		}
+		if(threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length) {
+			$('.btn-lock.lock0').trigger('tap')
+		}
+		// Ensure no delay for the operation
+		if((threeStatus == 0 && canUseStatus) || 
+			(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length) || 
+			(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) || 
+			(threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length)) {
+				setTimeout(analyzingURL, 1000);
+		}
+	}
+	// Summon
 	if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
 		setTimeout(function(){
@@ -243,9 +319,6 @@ function raidMultiExplore() {
 	}
 	else if($('.btn-ability-available>div[ability-id=6002]').length) {
 		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
-	}
-	else if($('.lis-character3>.prt-percent>span:first').html() == '100' && $('.btn-ability-available>div[ability-id=555]').length) {
-		$('.btn-ability-available>div[ability-id=555]').trigger('tap');
 	}
 	else if($('.btn-attack-start.display-on').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
