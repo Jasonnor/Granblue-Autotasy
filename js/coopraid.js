@@ -223,7 +223,7 @@ function raidMultiExplore() {
 						if($('.lis-character3:first').length) {
 							$('.lis-character3:first').trigger('tap');
 						}
-					}, 500);
+					}, 1500);
 				}
 				else if($('.img-temporary[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/item/temporary/m/2.jpg"]').length) {
 					$('.img-temporary[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/item/temporary/m/2.jpg"]').trigger('tap');
@@ -231,12 +231,12 @@ function raidMultiExplore() {
 						if($('.btn-usual-use').length) {
 							$('.btn-usual-use').trigger('tap');
 						}
-					}, 500);
+					}, 1500);
 				}
 				if($('.btn-usual-cancel').length) {
 					$('.btn-usual-cancel').trigger('tap');
 				}
-			}, 500);
+			}, 1500);
 		}
 		var char1 = $('.lis-character0>.prt-percent>span:first').html();
 		var char2 = $('.lis-character1>.prt-percent>span:first').html();
