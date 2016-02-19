@@ -60,21 +60,6 @@ function raid() {
 		setTimeout(analyzingURL, 1000);
 		return;
 	}
-	/*
-	if($('.summon-on').length) {
-		$('.summon-on').trigger('tap');
-		setTimeout(function(){
-			$('.btn-summon-available').trigger('tap');
-			setTimeout(function(){
-				if($('.btn-usual-ok.btn-summon-use').length) {
-					$('.btn-usual-ok.btn-summon-use').trigger('tap');
-				}
-				if($('.btn-usual-cancel').length) {
-					$('.btn-usual-cancel').trigger('tap');
-				}
-			}, 500);
-		}, 500);
-	}*/
 	if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
 		setTimeout(function(){
@@ -103,12 +88,10 @@ function raid() {
 			}, 500);
 		}, 500);
 	}
-	//TODO: Sometimes stop here for unknown reason
-	//Update: it wont go unavailable after used, so still go in
-	else if($('.btn-ability-available>div[ability-id=6001]').length) {
+	else if($('.btn-ability-available>div[ability-id=6001]').length > 1) {
 		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
 	}
-	else if($('.btn-ability-available>div[ability-id=6002]').length) {
+	else if($('.btn-ability-available>div[ability-id=6002]').length > 1) {
 		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
 	}
 	else if($('.btn-attack-start.display-on').length) {
@@ -180,7 +163,6 @@ function room() {
 	}
 	else if($('.btn-execute-ready.se-ok').length) {
 		$('.btn-execute-ready.se-ok').trigger('tap');
-		//btn-retraction-ready
 	}
 	setTimeout(analyzingURL, 1000);
 }
@@ -312,10 +294,10 @@ function raidMultiExplore() {
 		}, 500);
 	}
 	// Bug: If can not use skill, will stop here
-	else if($('.btn-ability-available>div[ability-id=6001]').length) {
+	else if($('.btn-ability-available>div[ability-id=6001]').length > 1) {
 		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
 	}
-	else if($('.btn-ability-available>div[ability-id=6002]').length) {
+	else if($('.btn-ability-available>div[ability-id=6002]').length > 1) {
 		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
 	}
 	else if($('.btn-attack-start.display-on').length) {
@@ -389,12 +371,12 @@ function masterYoda(healing) {
 		else if($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14141]').length)
 			threeStatus = 1;
 		var maxKatha = (char4 >= 100) ? true : false;
-		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length;
+		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
 		
 		if(threeStatus == 0 && canUseStatus) {
 			$('.btn-ability-available>div[ability-id=555]').trigger('tap');
 		}
-		if(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length) {
+		if(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1) {
 			$('.btn-ability-available>div[ability-id=3173]').trigger('tap');
 		}
 		if(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) {
@@ -405,7 +387,7 @@ function masterYoda(healing) {
 		}
 		// Ensure no delay for the operation
 		if((threeStatus == 0 && canUseStatus) || 
-			(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length) || 
+			(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1) || 
 			(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) || 
 			(threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length)) {
 				return false;
