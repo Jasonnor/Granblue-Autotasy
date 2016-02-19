@@ -259,10 +259,42 @@ function raidMulti() {
 }
 
 function raidMultiExplore() {
-	console.log('==Raid Multi Explore Stage==');
-	if(!masterYoda(true)) {
-		setTimeout(analyzingURL, 1000);
-		return;
+	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
+	if(enemyTotal > 1300000) {
+		console.log('==Raid Multi Single-Hard Stage==');
+		var enemyHp = $('.hp-show:first>span').html().split('<br>')[1].replace('%', '');
+		// If enemy's HP is lower than 60%, send assist
+		if(enemyHp < 60 && !$('.btn-assist.disable').length) {
+			$('.btn-assist').trigger('tap');
+			setTimeout(function(){
+				if($('.btn-usual-text:contains(救援依頼)').length)
+					$('.btn-usual-text:contains(救援依頼)').trigger('tap');
+				setTimeout(function(){
+					if($('.btn-usual-ok').length)
+						$('.btn-usual-ok').trigger('tap');
+					$('.btn-usual-cancel').trigger('tap');
+					setTimeout(analyzingURL, 500);
+				}, 1000);
+			}, 1000);
+			return;
+		}
+		else if(!masterYoda(true)) {
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// Use all skill expect yoda's
+		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+	}
+	else {
+		console.log('==Raid Multi Single-Easy Stage==');
+		if(!masterYoda(true)) {
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
 	}
 	// Summon
 	if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
@@ -328,7 +360,7 @@ function masterYoda(healing) {
 						masterYoda(true);
 					}, 2000);
 				}
-				//TODO: 要先發出表情符號才有大補
+				//TODO: Send stamp to get large-posion
 				else if($('.lis-item.item-large.btn-temporary-large:not(.disable)>img').length) {
 					$('.lis-item.item-large.btn-temporary-large>img').trigger('tap');
 					setTimeout(function(){
