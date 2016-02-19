@@ -236,6 +236,8 @@ function supporter() {
 	else if($('.prt-supporter-detail').length)
 		$('.prt-supporter-detail').trigger('tap');
 	setTimeout(function(){
+		if(isEventForEarth)
+			$('li>a>.ico-attribute-3').click();
 		if($('.btn-usual-ok').length)
 			$('.btn-usual-ok').trigger('tap');
 		setTimeout(analyzingURL, 300);
@@ -257,11 +259,16 @@ function raidMulti() {
 		raidMultiExplore();
 		return;
 	}
-	// TODO: determine whether is a coopraid
-	console.log('==Raid Multi Stage==');
-	if(!masterYoda(true)) {
-		setTimeout(analyzingURL, 1000);
-		return;
+	var isCoopraid = $('.value.num-info-slash + [class="max value"] + [class="max value num-info4"]').length;
+	if(isCoopraid) {
+		console.log('==Raid Coopraid Stage==');
+	}
+	else {
+		console.log('==Raid Multi Stage==');
+		if(!masterYoda(true)) {
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
 	}
 	if($('.btn-attack-start.display-on').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
@@ -322,7 +329,7 @@ function raidMultiExplore() {
 }
 
 function masterYoda(healing) {
-	if($('.lis-character3:has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
+	if($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
 		var hp = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
 		if(hp <= 50 && healing) {
 			$('.btn-temporary').trigger('tap');
