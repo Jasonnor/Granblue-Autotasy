@@ -291,15 +291,22 @@ function supporter() {
 	else if($('.prt-supporter-detail').length)
 		$('.prt-supporter-detail').trigger('tap');
 	setTimeout(function(){
-		if(isEventForEarth)
+		if(isEventForEarth) {
 			$('li>a>.ico-attribute-3').click();
-		else
+			setTimeout(function(){
+				if($('.btn-usual-ok').length && $('li>a.flex-active>.ico-attribute-3').length)
+					$('.btn-usual-ok').trigger('tap');
+				setTimeout(analyzingURL, 1000);
+			}, 1000);
+		}
+		else {
 			$('li>a>.ico-attribute-1:first').click();
-		setTimeout(function(){
-			if($('.btn-usual-ok').length)
-				$('.btn-usual-ok').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-		}, 1500);
+			setTimeout(function(){
+				if($('.btn-usual-ok').length && $('li>a.flex-active>.ico-attribute-1').length)
+					$('.btn-usual-ok').trigger('tap');
+				setTimeout(analyzingURL, 1000);
+			}, 1000);
+		}
 	}, 200);
 }
 
