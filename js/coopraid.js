@@ -314,7 +314,7 @@ function raidMulti() {
 		return;
 	}
 	// Send stamp to get large-solution
-	if($('.btn-chat:not(.comment)>.ico-attention').length) {
+	if($('.btn-chat:not(.comment)>.ico-attention').is(':visible')) {
 		$('.btn-chat:not(.comment)>.ico-attention').trigger('tap');
 		setTimeout(function(){
 			if($('.lis-stamp[chatid=19]').length)
