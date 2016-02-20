@@ -410,6 +410,7 @@ function raidMultiSingle() {
 			return;
 		}
 		// Use all skill expect yoda's and blackmeat's charging, order : yellow(3) > green(2) > blue(4) > red(1)
+		// Bug: If can not use skill, will stop here
 		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
 			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
@@ -438,6 +439,7 @@ function raidMultiSingle() {
 			return;
 		}
 	}
+	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length;
 	// Summon
 	if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
@@ -467,11 +469,10 @@ function raidMultiSingle() {
 			}, 500);
 		}, 500);
 	}
-	// Bug: If can not use skill, will stop here
-	else if($('.btn-ability-available>div[ability-id=6001]').length > 1) {
+	else if($('.btn-ability-available>div[ability-id=6001]').length > 1 && canUseSkill) {
 		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
 	}
-	else if($('.btn-ability-available>div[ability-id=6002]').length > 1) {
+	else if($('.btn-ability-available>div[ability-id=6002]').length > 1 && canUseSkill) {
 		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
 	}
 	else if($('.btn-attack-start.display-on').length) {
@@ -558,14 +559,15 @@ function masterYoda() {
 			threeStatus = 1;
 		var maxKatha = (char4 >= 100) ? true : false;
 		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
+		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length;
 		
-		if(threeStatus == 0 && canUseStatus) {
+		if(threeStatus == 0 && canUseStatus && canUseSkill) {
 			$('.btn-ability-available>div[ability-id=555]').trigger('tap');
 		}
-		if(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1) {
+		if(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1 && canUseSkill) {
 			$('.btn-ability-available>div[ability-id=3173]').trigger('tap');
 		}
-		if(threeStatus == 0 && $('.btn-ability-available>div[ability-id=2172]').length > 1) {
+		if(threeStatus == 0 && $('.btn-ability-available>div[ability-id=2172]').length > 1 && canUseSkill) {
 			$('.btn-ability-available>div[ability-id=2172]').trigger('tap');
 		}
 		if(!maxKatha && $('.btn-lock.lock1').length) {
@@ -578,8 +580,8 @@ function masterYoda() {
 			$('.btn-lock.lock0').trigger('tap');
 		}
 		// Ensure no delay for the operation
-		if((threeStatus == 0 && canUseStatus) || 
-			(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1) || 
+		if((threeStatus == 0 && canUseStatus && canUseSkill) || 
+			(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1 && canUseSkill) || 
 			(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) || 
 			(threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length)) {
 				return false;
@@ -689,6 +691,7 @@ function raid() {
 		raidMultiSingle();
 		return;
 	}
+	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length;
 	if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
 		setTimeout(function(){
@@ -717,10 +720,10 @@ function raid() {
 			}, 500);
 		}, 500);
 	}
-	else if($('.btn-ability-available>div[ability-id=6001]').length > 1) {
+	else if($('.btn-ability-available>div[ability-id=6001]').length > 1 && canUseSkill) {
 		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
 	}
-	else if($('.btn-ability-available>div[ability-id=6002]').length > 1) {
+	else if($('.btn-ability-available>div[ability-id=6002]').length > 1 && canUseSkill) {
 		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
 	}
 	else if($('.btn-attack-start.display-on').length) {
