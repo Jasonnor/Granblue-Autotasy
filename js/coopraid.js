@@ -476,7 +476,6 @@ var largeSolution = -1;
 
 function masterYoda() {
 	if($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
-		console.log('smallSolution : ' + smallSolution);
 		if(smallSolution == -1 || smallSolution == undefined || largeSolution == -1 || largeSolution == undefined) {
 			$('.btn-temporary').trigger('tap');
 			setTimeout(function(){
@@ -487,7 +486,6 @@ function masterYoda() {
 			}, 1000);
 			return false;
 		}
-		console.log('smallSolution : ' + smallSolution);
 		var hp = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
 		if(hp <= 50 && (smallSolution > 0 || largeSolution > 0)) {
 			$('.btn-temporary').trigger('tap');
@@ -518,6 +516,38 @@ function masterYoda() {
 				}
 				else if($('.lis-item.item-small.btn-temporary-small.disable>img').length && 
 					$('.lis-item.item-large.btn-temporary-large.disable>img').length) {
+					if($('.btn-usual-cancel').length)
+						$('.btn-usual-cancel').trigger('tap');
+				}
+			}, 1000);
+			return false;
+		}
+		var cureIndex = 0;
+		var hp1 = 100 * parseFloat($('.lis-character0>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character0>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
+		if(hp1 <= 70) cureIndex++;
+		if(hp1 <= 40) cureIndex++;
+		var hp2 = 100 * parseFloat($('.lis-character1>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character1>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
+		if(hp2 <= 70) cureIndex++;
+		if(hp2 <= 40) cureIndex++;
+		var hp3 = 100 * parseFloat($('.lis-character2>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character2>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
+		if(hp3 <= 70) cureIndex++;
+		if(hp3 <= 40) cureIndex++;
+		if(cureIndex > 2 && largeSolution > 0) {
+			$('.btn-temporary').trigger('tap');
+			setTimeout(function(){
+				largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
+				if($('.lis-item.item-large.btn-temporary-large:not(.disable)>img').length) {
+					$('.lis-item.item-large.btn-temporary-large>img').trigger('tap');
+					setTimeout(function(){
+						if($('.btn-usual-use').length) {
+							$('.btn-usual-use').trigger('tap');
+						}
+						if($('.btn-usual-cancel').length) {
+							$('.btn-usual-cancel').trigger('tap');
+						}
+					}, 2000);
+				}
+				else if($('.lis-item.item-large.btn-temporary-large.disable>img').length) {
 					if($('.btn-usual-cancel').length)
 						$('.btn-usual-cancel').trigger('tap');
 				}
