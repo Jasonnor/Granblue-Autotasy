@@ -476,6 +476,7 @@ var largeSolution = -1;
 
 function masterYoda() {
 	if($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
+		console.log('smallSolution : ' + smallSolution);
 		if(smallSolution == -1 || largeSolution == -1) {
 			$('.btn-temporary').trigger('tap');
 			setTimeout(function(){
@@ -484,6 +485,7 @@ function masterYoda() {
 			}, 1000);
 			return false;
 		}
+		console.log('smallSolution : ' + smallSolution);
 		var hp = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
 		if(hp <= 50 && (smallSolution > 0 || largeSolution > 0)) {
 			$('.btn-temporary').trigger('tap');
