@@ -646,9 +646,9 @@ function cureEveryone() {
 					else if(hp2 <= 40 && $('.lis-character1:first').length)
 						$('.lis-character1:first').trigger('tap');
 					else if(hp3 <= 40 && $('.lis-character2:first').length)
-						$('.lis-character1:first').trigger('tap');
+						$('.lis-character2:first').trigger('tap');
 					else if(hp4 <= 40 && $('.lis-character3:first').length)
-						$('.lis-character1:first').trigger('tap');
+						$('.lis-character3:first').trigger('tap');
 					if($('.btn-usual-cancel').length)
 						$('.btn-usual-cancel').trigger('tap');
 				}, 2000);
