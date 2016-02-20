@@ -654,16 +654,16 @@ function cureEveryone() {
 	var cureIndex = 0;
 	var hp1 = 100 * parseFloat($('.lis-character0>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character0>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
 	if(hp1 <= 70 && hp1 != 0) cureIndex++;
-	if(hp1 <= 40 && hp1 != 0) cureIndex++;
+	if(hp1 <= 50 && hp1 != 0) cureIndex++;
 	var hp2 = 100 * parseFloat($('.lis-character1>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character1>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
 	if(hp2 <= 70 && hp2 != 0) cureIndex++;
-	if(hp2 <= 40 && hp2 != 0) cureIndex++;
+	if(hp2 <= 50 && hp2 != 0) cureIndex++;
 	var hp3 = 100 * parseFloat($('.lis-character2>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character2>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
 	if(hp3 <= 70 && hp3 != 0) cureIndex++;
-	if(hp3 <= 40 && hp3 != 0) cureIndex++;
+	if(hp3 <= 50 && hp3 != 0) cureIndex++;
 	var hp4 = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
 	if(hp4 <= 70 && hp4 != 0) cureIndex++;
-	if(hp4 <= 40 && hp4 != 0) cureIndex++;
+	if(hp4 <= 50 && hp4 != 0) cureIndex++;
 	if(cureIndex > 3 && largeSolution > 0) {
 		$('.btn-temporary').trigger('tap');
 		setTimeout(function(){
@@ -688,7 +688,7 @@ function cureEveryone() {
 		}, 1000);
 		return false;
 	}
-	if(smallSolution > 0 && ((hp1 <= 40 && hp1 != 0) || (hp2 <= 40 && hp2 != 0) || (hp3 <= 40 && hp3 != 0) || (hp4 <= 40 && hp4 != 0))) {
+	if(smallSolution > 0 && ((hp1 <= 50 && hp1 != 0) || (hp2 <= 50 && hp2 != 0) || (hp3 <= 50 && hp3 != 0) || (hp4 <= 50 && hp4 != 0))) {
 		$('.btn-temporary').trigger('tap');
 		setTimeout(function(){
 			smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
@@ -697,13 +697,13 @@ function cureEveryone() {
 			if($('.lis-item.item-small.btn-temporary-small:not(.disable)>img').length) {
 				$('.lis-item.item-small.btn-temporary-small>img').trigger('tap');
 				setTimeout(function(){
-					if(hp1 <= 40 && hp1 != 0 && $('.lis-character0:first').length)
+					if(hp1 <= 50 && hp1 != 0 && $('.lis-character0:first').length)
 						$('.lis-character0:first').trigger('tap');
-					else if(hp2 <= 40 && hp2 != 0 && $('.lis-character1:first').length)
+					else if(hp2 <= 50 && hp2 != 0 && $('.lis-character1:first').length)
 						$('.lis-character1:first').trigger('tap');
-					else if(hp3 <= 40 && hp3 != 0 && $('.lis-character2:first').length)
+					else if(hp3 <= 50 && hp3 != 0 && $('.lis-character2:first').length)
 						$('.lis-character2:first').trigger('tap');
-					else if(hp4 <= 40 && hp4 != 0 && $('.lis-character3:first').length)
+					else if(hp4 <= 50 && hp4 != 0 && $('.lis-character3:first').length)
 						$('.lis-character3:first').trigger('tap');
 					if($('.btn-usual-cancel').length)
 						$('.btn-usual-cancel').trigger('tap');
