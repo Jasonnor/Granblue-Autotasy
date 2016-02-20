@@ -332,7 +332,7 @@ function raidMulti() {
 	if(isCoopraid) {
 		console.log('==Raid Coopraid Stage==');
 		//TODO: Add hard mode
-		if(enemyTotal > 2000000) {
+		if(enemyTotal > 3000000) {
 			raidMultiSingle();
 			return;
 		}
