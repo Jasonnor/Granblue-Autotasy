@@ -313,7 +313,7 @@ function supporter() {
 		else if(isEventForFire) {
 			$('li>a>.ico-attribute-1:eq(1)').click();
 			setTimeout(function(){
-				if($('.btn-usual-ok').length && $('li>a.flex-active>.ico-attribute-1').length)
+				if($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(4)>a.flex-active>.ico-attribute-1').length)
 					$('.btn-usual-ok').trigger('tap');
 				setTimeout(analyzingURL, 300);
 			}, 800);
