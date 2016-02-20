@@ -477,11 +477,13 @@ var largeSolution = -1;
 function masterYoda() {
 	if($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
 		console.log('smallSolution : ' + smallSolution);
-		if(smallSolution == -1 || largeSolution == -1) {
+		if(smallSolution == -1 || smallSolution == undefined || largeSolution == -1 || largeSolution == undefined) {
 			$('.btn-temporary').trigger('tap');
 			setTimeout(function(){
 				smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
 				largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
+				if($('.btn-usual-cancel').length)
+					$('.btn-usual-cancel').trigger('tap');
 			}, 1000);
 			return false;
 		}
