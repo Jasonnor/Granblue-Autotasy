@@ -313,8 +313,20 @@ function raidMulti() {
 		setTimeout(analyzingURL, 1000);
 		return;
 	}
+	// Send stamp to get large-solution
+	if($('.btn-chat:not(.comment)>.ico-attention').length) {
+		$('.btn-chat:not(.comment)>.ico-attention').trigger('tap');
+		setTimeout(function(){
+			if($('.lis-stamp[chatid=19]').length)
+				$('.lis-stamp[chatid=19]').trigger('tap');
+			if($('.btn-usual-close').length)
+				$('.btn-usual-close').trigger('tap');
+			setTimeout(analyzingURL, 500);
+		}, 1000);
+		return;
+	}
 	// To determine whether a single person
-	else if($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
+	if($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
 		raidMultiExplore();
 		return;
 	}
@@ -328,7 +340,7 @@ function raidMulti() {
 	}
 	else {
 		console.log('==Raid Multi Stage==');
-		if(!masterYoda(true)) {
+		if(!masterYoda()) {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -359,7 +371,7 @@ function raidMultiExplore() {
 			}, 1000);
 			return;
 		}
-		else if(!masterYoda(true)) {
+		else if(!masterYoda()) {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -403,7 +415,7 @@ function raidMultiExplore() {
 	}
 	else {
 		console.log('==Raid Multi Single-Easy Stage==');
-		if(!masterYoda(true)) {
+		if(!masterYoda()) {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -454,42 +466,36 @@ function raidMultiExplore() {
 	setTimeout(analyzingURL, 1500);
 }
 
-function masterYoda(healing) {
+function masterYoda() {
 	if($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
 		var hp = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
-		if(hp <= 50 && healing) {
+		while(hp <= 50) {
 			$('.btn-temporary').trigger('tap');
-			setTimeout(function(){
-				if($('.lis-item.item-small.btn-temporary-small:not(.disable)>img').length) {
-					$('.lis-item.item-small.btn-temporary-small>img').trigger('tap');
-					setTimeout(function(){
-						if($('.lis-character3:first').length) {
-							$('.lis-character3:first').trigger('tap');
-						}
-						if($('.btn-usual-cancel').length) {
-							$('.btn-usual-cancel').trigger('tap');
-						}
-						masterYoda(true);
-					}, 2000);
+			if($('.lis-item.item-small.btn-temporary-small:not(.disable)>img').length) {
+				$('.lis-item.item-small.btn-temporary-small>img').trigger('tap');
+				if($('.lis-character3:first').length) {
+					$('.lis-character3:first').trigger('tap');
 				}
-				//TODO: Send stamp to get large-posion
-				else if($('.lis-item.item-large.btn-temporary-large:not(.disable)>img').length) {
-					$('.lis-item.item-large.btn-temporary-large>img').trigger('tap');
-					setTimeout(function(){
-						if($('.btn-usual-use').length) {
-							$('.btn-usual-use').trigger('tap');
-						}
-						if($('.btn-usual-cancel').length) {
-							$('.btn-usual-cancel').trigger('tap');
-						}
-						masterYoda(true);
-					}, 2000);
+				if($('.btn-usual-cancel').length) {
+					$('.btn-usual-cancel').trigger('tap');
 				}
-				else {
-					masterYoda(false);
+			}
+			else if($('.lis-item.item-large.btn-temporary-large:not(.disable)>img').length) {
+				$('.lis-item.item-large.btn-temporary-large>img').trigger('tap');
+				if($('.btn-usual-use').length) {
+					$('.btn-usual-use').trigger('tap');
 				}
-			}, 2000);
-			return false;
+				if($('.btn-usual-cancel').length) {
+					$('.btn-usual-cancel').trigger('tap');
+				}
+			}
+			else if($('.lis-item.item-small.btn-temporary-small.disable>img').length && 
+				$('.lis-item.item-large.btn-temporary-large.disable>img').length) {
+				if($('.btn-usual-cancel').length)
+					$('.btn-usual-cancel').trigger('tap');
+				break;
+			}
+			hp = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
 		}
 		var char1 = $('.lis-character0>.prt-percent>span:first').html();
 		var char2 = $('.lis-character1>.prt-percent>span:first').html();
