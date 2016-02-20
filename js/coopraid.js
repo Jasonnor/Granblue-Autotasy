@@ -299,7 +299,7 @@ function supporter() {
 			if($('.btn-usual-ok').length)
 				$('.btn-usual-ok').trigger('tap');
 			setTimeout(analyzingURL, 300);
-		}, 200);
+		}, 1000);
 	}, 200);
 }
 
@@ -386,17 +386,17 @@ function raidMultiExplore() {
 			return;
 		}
 		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
