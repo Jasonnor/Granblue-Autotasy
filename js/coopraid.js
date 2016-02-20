@@ -687,10 +687,10 @@ function raid() {
 		return;
 	}
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
-	if(enemyTotal > 1000000) {
+	/*if(enemyTotal > 1000000) {
 		raidMultiSingle();
 		return;
-	}
+	}*/
 	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length;
 	if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
