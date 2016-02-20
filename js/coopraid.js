@@ -329,15 +329,15 @@ function raidMulti() {
 	}
 	var isCoopraid = $('.value.num-info-slash + [class="max value"] + [class="max value num-info4"]').length;
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
+	if($('.btn-lock.lock1').length) {
+		$('.btn-lock.lock1').trigger('tap');
+	}
 	if(isCoopraid) {
 		console.log('==Raid Coopraid Stage==');
 		//TODO: Add hard mode
 		if(enemyTotal > 3000000) {
 			raidMultiSingle();
 			return;
-		}
-		if($('.btn-lock.lock1').length) {
-			$('.btn-lock.lock1').trigger('tap');
 		}
 	}
 	else {
