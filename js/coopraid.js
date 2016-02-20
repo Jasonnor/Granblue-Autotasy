@@ -113,9 +113,10 @@ function room() {
 }
 
 function supporter() {
-	console.log('==Supporter Stage==');
-	var isMainStoryline = /supporter\/\d{3}/i.test(location.hash);
 	// You can see pic of supporter at src/supporter
+	console.log('==Supporter Stage==');
+	//var isMainStoryline = /supporter\/\d{3}/i.test(location.hash);
+	var isMainStoryline = false;
 	var isEventForEarth = /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/708511/i.test(location.hash);
 	var isEventForWind = false;
 	var isEventForFire = false;
@@ -334,17 +335,31 @@ function raidMulti() {
 	}
 	if(isCoopraid) {
 		console.log('==Raid Coopraid Stage==');
-		//TODO: Add hard mode
-		if(enemyTotal > 3000000) {
+		if(enemyTotal >= 3000000) {
 			raidMultiSingle();
 			return;
+		}
+		else if(enemyTotal >= 1500000) {
+			if(!simpleMasterYoda()) {
+				setTimeout(analyzingURL, 1000);
+				return;
+			}
 		}
 	}
 	else {
 		console.log('==Raid Multi Stage==');
-		if(!masterYoda()) {
-			setTimeout(analyzingURL, 1000);
-			return;
+		var enemyNow = $('.hp-show:first>span').html().split('/')[0];
+		if(enemyNow <= 3000000) {
+			if(!simpleMasterYoda()) {
+				setTimeout(analyzingURL, 1000);
+				return;
+			}
+		}
+		else {
+			if(!masterYoda()) {
+				setTimeout(analyzingURL, 1000);
+				return;
+			}
 		}
 	}
 	if($('.btn-attack-start.display-on').length) {
@@ -434,7 +449,7 @@ function raidMultiSingle() {
 	}
 	else {
 		console.log('==Raid Multi Single-Easy Stage==');
-		if(!masterYoda()) {
+		if(!simpleMasterYoda()) {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -582,6 +597,8 @@ function masterYoda() {
 		// Ensure no delay for the operation
 		if((threeStatus == 0 && canUseStatus && canUseSkill) || 
 			(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1 && canUseSkill) || 
+			(threeStatus == 0 && $('.btn-ability-available>div[ability-id=2172]').length > 1 && canUseSkill) || 
+			(!maxKatha && $('.btn-lock.lock1').length) || 
 			(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) || 
 			(threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length)) {
 				return false;
@@ -666,6 +683,45 @@ function cureEveryone() {
 			}
 		}, 1000);
 		return false;
+	}
+	return true;
+}
+
+function simpleMasterYoda() {
+	if($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
+		var char1 = $('.lis-character0>.prt-percent>span:first').html();
+		var char2 = $('.lis-character1>.prt-percent>span:first').html();
+		var char3 = $('.lis-character2>.prt-percent>span:first').html();
+		var char4 = $('.lis-character3>.prt-percent>span:first').html();
+		if(char1 >= 100) {
+			char2 += 10;
+			char3 += 10;
+			char4 += 10;
+		}
+		if(char2 >= 100) {
+			char3 += 10;
+			char4 += 10;
+		}
+		if(char3 >= 100) {
+			char4 += 10;
+		}
+		var threeStatus = 0;
+		if($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14143]').length)
+			threeStatus = 3;
+		else if($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14142]').length)
+			threeStatus = 2;
+		else if($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14141]').length)
+			threeStatus = 1;
+		var maxKatha = (char4 >= 100) ? true : false;
+		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
+		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length;
+		
+		if($('.btn-lock.lock1').length)
+			$('.btn-lock.lock1').trigger('tap');
+		if(threeStatus != 3 && canUseStatus && canUseSkill && maxKatha) {
+			$('.btn-ability-available>div[ability-id=555]').trigger('tap');
+			return false;
+		}
 	}
 	return true;
 }
