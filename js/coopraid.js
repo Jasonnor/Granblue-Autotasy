@@ -117,12 +117,12 @@ function supporter() {
 	console.log('==Supporter Stage==');
 	//var isMainStoryline = /supporter\/\d{3}/i.test(location.hash);
 	var isMainStoryline = false;
-	var isEventForEarth = /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/708511/i.test(location.hash);
-	var isEventForWind = false;
-	var isEventForFire = false;
-	var isEventForWater = false;
-	var isEventForLight = false;
-	var isEventForDark = false;
+	var isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash);
+	var isEventForWind = /supporter\/300261/i.test(location.hash);
+	var isEventForFire = /supporter\/300051/i.test(location.hash);
+	var isEventForWater = /supporter\/300101/i.test(location.hash);
+	var isEventForLight = /supporter\/300281/i.test(location.hash);
+	var isEventForDark = /supporter\/300271/i.test(location.hash);
 	if($('.prt-deck-select').is(':visible'))
 		console.log('Team selected.');
 	// Event for water enemy
@@ -295,9 +295,33 @@ function supporter() {
 		$('.prt-supporter-detail').trigger('tap');
 	setTimeout(function(){
 		if(isEventForEarth) {
-			$('li>a>.ico-attribute-3').click();
+			$('li>a>.ico-attribute-3:first').click();
 			setTimeout(function(){
 				if($('.btn-usual-ok').length && $('li>a.flex-active>.ico-attribute-3').length)
+					$('.btn-usual-ok').trigger('tap');
+				setTimeout(analyzingURL, 300);
+			}, 800);
+		}
+		else if(isEventForWind) {
+			$('li>a>.ico-attribute-4:first').click();
+			setTimeout(function(){
+				if($('.btn-usual-ok').length && $('li>a.flex-active>.ico-attribute-4').length)
+					$('.btn-usual-ok').trigger('tap');
+				setTimeout(analyzingURL, 300);
+			}, 800);
+		}
+		else if(isEventForFire) {
+			$('li>a>.ico-attribute-1:eq(1)').click();
+			setTimeout(function(){
+				if($('.btn-usual-ok').length && $('li>a.flex-active>.ico-attribute-1').length)
+					$('.btn-usual-ok').trigger('tap');
+				setTimeout(analyzingURL, 300);
+			}, 800);
+		}
+		else if(isEventForWater) {
+			$('li>a>.ico-attribute-2:first').click();
+			setTimeout(function(){
+				if($('.btn-usual-ok').length && $('li>a.flex-active>.ico-attribute-2').length)
 					$('.btn-usual-ok').trigger('tap');
 				setTimeout(analyzingURL, 300);
 			}, 800);
