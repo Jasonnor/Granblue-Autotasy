@@ -473,7 +473,7 @@ function raidMultiSingle() {
 			return;
 		}
 		// Hag's Summon Devil
-		else if(!$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
+		else if($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040011000_03.jpg"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
 			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
