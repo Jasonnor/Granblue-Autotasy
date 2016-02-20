@@ -329,7 +329,7 @@ function supporter() {
 		else {
 			$('li>a>.ico-attribute-1:first').click();
 			setTimeout(function(){
-				if($('.btn-usual-ok').length && $('li>a.flex-active>.ico-attribute-1').length)
+				if($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(0)>a.flex-active>.ico-attribute-1').length)
 					$('.btn-usual-ok').trigger('tap');
 				setTimeout(analyzingURL, 300);
 			}, 800);
