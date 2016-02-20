@@ -44,62 +44,6 @@ function analyzingURL() {
 		setTimeout(analyzingURL, 5000);
 }
 
-function stageRolling() {
-	console.log('==Stage Rolling Stage==');
-	if($('.btn-command-forward').length)
-		$('.btn-command-forward').trigger('tap');
-	setTimeout(analyzingURL, 1000);
-}
-
-function raid() {
-	console.log('==Raid Stage==');
-	if($('.btn-result').is(':visible')) {
-		$('.btn-result').trigger('tap');
-	}
-	if(!$('#mkt_ability_use_bar>.prt-ability-list>.lis-ability').is(':visible')) {
-		setTimeout(analyzingURL, 1000);
-		return;
-	}
-	if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
-		$('.summon-on').trigger('tap');
-		setTimeout(function(){
-			$('.btn-summon-available[summon-code=2030026000]').trigger('tap');
-			setTimeout(function(){
-				if($('.btn-usual-ok.btn-summon-use').length) {
-					$('.btn-usual-ok.btn-summon-use').trigger('tap');
-				}
-				if($('.btn-usual-cancel').length) {
-					$('.btn-usual-cancel').trigger('tap');
-				}
-			}, 500);
-		}, 500);
-	}
-	else if($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length) {
-		$('.summon-on').trigger('tap');
-		setTimeout(function(){
-			$('.btn-summon-available[summon-code=2040025000]').trigger('tap');
-			setTimeout(function(){
-				if($('.btn-usual-ok.btn-summon-use').length) {
-					$('.btn-usual-ok.btn-summon-use').trigger('tap');
-				}
-				if($('.btn-usual-cancel').length) {
-					$('.btn-usual-cancel').trigger('tap');
-				}
-			}, 500);
-		}, 500);
-	}
-	else if($('.btn-ability-available>div[ability-id=6001]').length > 1) {
-		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
-	}
-	else if($('.btn-ability-available>div[ability-id=6002]').length > 1) {
-		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
-	}
-	else if($('.btn-attack-start.display-on').length) {
-		$('.btn-attack-start.display-on').trigger('tap');
-	}
-	setTimeout(analyzingURL, 1500);
-}
-
 function coopraid() {
 	console.log('==Coopraid Stage==');
 	if($('.btn-join').length)
@@ -173,27 +117,140 @@ function supporter() {
 	var isMainStoryline = /supporter\/\d{3}/i.test(location.hash);
 	// You can see pic of supporter at src/supporter
 	var isEventForEarth = /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash);
+	var isEventForWind = false;
+	var isEventForFire = false;
+	var isEventForWater = false;
+	var isEventForLight = false;
+	var isEventForDark = false;
 	// Event for water enemy
 	if(isEventForEarth) {
-		// 80% + 25%hp
-		if($('.prt-summon-image[data-image=2040059000]+div>.bless-rank2-style').length)
-			$('.prt-summon-image[data-image=2040059000]+div>.bless-rank2-style').trigger('tap');
+		// 80% + 20%hp
+		if($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(土):not(:contains(「大地」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(土):not(:contains(「大地」))').trigger('tap');
 		// 80%
-		else if($('.prt-summon-image[data-image=2040059000]+div>.bless-rank1-style').length)
-			$('.prt-summon-image[data-image=2040059000]+div>.bless-rank1-style').trigger('tap');
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(土):not(:contains(「大地」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(土):not(:contains(「大地」))').trigger('tap');
 		// 60%
-		else if($('.prt-summon-image[data-image=2040014000]+div>.bless-rank2-style').length)
-			$('.prt-summon-image[data-image=2040014000]+div>.bless-rank2-style').trigger('tap');
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(土):not(:contains(「大地」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(土):not(:contains(「大地」))').trigger('tap');
 		// 50%
-		else if($('.prt-summon-image[data-image=2040014000]+div>.bless-rank1-style').length)
-			$('.prt-summon-image[data-image=2040014000]+div>.bless-rank1-style').trigger('tap');
-		else if($('.prt-summon-image[data-image=2040097000]+div>.bless-rank1-style').length)
-			$('.prt-summon-image[data-image=2040097000]+div>.bless-rank1-style').trigger('tap');
-		else if($('.prt-summon-image[data-image=2040059000]').length)
-			$('.prt-summon-image[data-image=2040059000]').trigger('tap');
-		// 100%Anima
-		else if($('.prt-summon-image[data-image=2040027000]+div>.bless-rank1-style').length)
-			$('.prt-summon-image[data-image=2040027000]+div>.bless-rank1-style').trigger('tap');
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」))').trigger('tap');
+		// 100% Anima
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').trigger('tap');
+	}
+	else if(isEventForWind) {
+		// 80%
+		if($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').trigger('tap');
+		// 70%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(風):not(:contains(「竜巻」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(風):not(:contains(「竜巻」))').trigger('tap');
+		// 60%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(風):not(:contains(「竜巻」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(風):not(:contains(「竜巻」))').trigger('tap');
+		// 50%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」))').trigger('tap');
+		// 100% Anima
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').trigger('tap');
+	}
+	else if(isEventForFire) {
+		// 80%
+		if($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').trigger('tap');
+		// 70%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(火):not(:contains(「業火」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(火):not(:contains(「業火」))').trigger('tap');
+		// 60%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(火):not(:contains(「業火」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(火):not(:contains(「業火」))').trigger('tap');
+		// 100% Anima
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').trigger('tap');
+		// 50%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」))').trigger('tap');
+	}
+	else if(isEventForWater) {
+		// 80% + 20%hp
+		if($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').trigger('tap');
+		// 80%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').trigger('tap');
+		// 60%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').trigger('tap');
+		// 50%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」))').trigger('tap');
+		// 100% Anima
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').trigger('tap');
+	}
+	else if(isEventForLight) {
+		// 120%
+		if($('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(光):not(:contains(「雷電」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(光):not(:contains(「雷電」))').trigger('tap');
+		// 100%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(光):not(:contains(「雷電」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(光):not(:contains(「雷電」))').trigger('tap');
+		// 80% + 20%hp
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(光):not(:contains(「雷電」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(光):not(:contains(「雷電」))').trigger('tap');
+		// 80%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(光):not(:contains(「雷電」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(光):not(:contains(「雷電」))').trigger('tap');
+		// 75% + 15%hp
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(HP):contains(光):not(:contains(「雷電」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(HP):contains(光):not(:contains(「雷電」))').trigger('tap');
+		// 75%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(光):not(:contains(「雷電」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(光):not(:contains(「雷電」))').trigger('tap');
+		// 60%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(光):not(:contains(「雷電」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(光):not(:contains(「雷電」))').trigger('tap');
+		// 50% + 20%hp
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(HP):contains(光):not(:contains(「雷電」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(HP):contains(光):not(:contains(「雷電」))').trigger('tap');
+		// 50%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(光):not(:contains(「雷電」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(光):not(:contains(「雷電」))').trigger('tap');
+		// 100% Anima
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(騎解方陣):not(:contains(「雷電」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(騎解方陣):not(:contains(「雷電」))').trigger('tap');
+	}
+	else if(isEventForDark) {
+		// 120%
+		if($('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(闇):not(:contains(「憎悪」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(闇):not(:contains(「憎悪」))').trigger('tap');
+		// 100%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(闇):not(:contains(「憎悪」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(闇):not(:contains(「憎悪」))').trigger('tap');
+		// 75% + 15%hp
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(HP):contains(闇):not(:contains(「憎悪」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(HP):contains(闇):not(:contains(「憎悪」))').trigger('tap');
+		// 75%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(闇):not(:contains(「憎悪」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(闇):not(:contains(「憎悪」))').trigger('tap');
+		// 60% + 40%hp
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(HP):contains(闇):not(:contains(「憎悪」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(HP):contains(闇):not(:contains(「憎悪」))').trigger('tap');
+		// 60%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(闇):not(:contains(「憎悪」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(闇):not(:contains(「憎悪」))').trigger('tap');
+		// 50% + 20%hp
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(HP):contains(闇):not(:contains(「憎悪」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(HP):contains(闇):not(:contains(「憎悪」))').trigger('tap');
+		// 50%
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(闇):not(:contains(「憎悪」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(闇):not(:contains(「憎悪」))').trigger('tap');
+		// 100% Anima
+		else if($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(黒霧方陣):not(:contains(「憎悪」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(黒霧方陣):not(:contains(「憎悪」))').trigger('tap');
 	}
 	// Rabbit Exp & Treasure
 	else if($('.prt-summon-image[data-image=2030026000]+div>.bless-rank1-style').length)
@@ -215,15 +272,34 @@ function supporter() {
 		$('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').trigger('tap');
 	else if($('.prt-summon-image[data-image=2040065000]').length)
 		$('.prt-summon-image[data-image=2040065000]').trigger('tap');
+	// 火80%
+	else if($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').trigger('tap');
+	// 火70%
+	else if($('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(火):not(:contains(「業火」))').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(火):not(:contains(「業火」))').trigger('tap');
+	// 火60%
+	else if($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(火):not(:contains(「業火」))').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(火):not(:contains(「業火」))').trigger('tap');
+	// 火100% Anima
+	else if($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').trigger('tap');
+	// 火50%
+	else if($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」))').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」))').trigger('tap');
 	// Others
 	else if($('.prt-supporter-detail').length)
 		$('.prt-supporter-detail').trigger('tap');
 	setTimeout(function(){
 		if(isEventForEarth)
 			$('li>a>.ico-attribute-3').click();
-		if($('.btn-usual-ok').length)
-			$('.btn-usual-ok').trigger('tap');
-		setTimeout(analyzingURL, 300);
+		else
+			$('li>a>.ico-attribute-1:first').click();
+		setTimeout(function(){
+			if($('.btn-usual-ok').length)
+				$('.btn-usual-ok').trigger('tap');
+			setTimeout(analyzingURL, 300);
+		}, 200);
 	}, 200);
 }
 
@@ -245,6 +321,9 @@ function raidMulti() {
 	var isCoopraid = $('.value.num-info-slash + [class="max value"] + [class="max value num-info4"]').length;
 	if(isCoopraid) {
 		console.log('==Raid Coopraid Stage==');
+		if($('.btn-lock.lock1').length) {
+			$('.btn-lock.lock1').trigger('tap');
+		}
 		//TODO: Add hard mode
 	}
 	else {
@@ -300,9 +379,24 @@ function raidMultiExplore() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		// Use all skill expect yoda's and blackmeat's charging
-		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1):not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1):not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
+		// Use all skill expect yoda's and blackmeat's charging, order : yellow(3) > green(2) > blue(4) > red(1)
+		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -447,6 +541,62 @@ function masterYoda(healing) {
 		}
 	}
 	return true;
+}
+
+function stageRolling() {
+	console.log('==Stage Rolling Stage==');
+	if($('.btn-command-forward').length)
+		$('.btn-command-forward').trigger('tap');
+	setTimeout(analyzingURL, 1000);
+}
+
+function raid() {
+	console.log('==Raid Stage==');
+	if($('.btn-result').is(':visible')) {
+		$('.btn-result').trigger('tap');
+	}
+	if(!$('#mkt_ability_use_bar>.prt-ability-list>.lis-ability').is(':visible')) {
+		setTimeout(analyzingURL, 1000);
+		return;
+	}
+	if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
+		$('.summon-on').trigger('tap');
+		setTimeout(function(){
+			$('.btn-summon-available[summon-code=2030026000]').trigger('tap');
+			setTimeout(function(){
+				if($('.btn-usual-ok.btn-summon-use').length) {
+					$('.btn-usual-ok.btn-summon-use').trigger('tap');
+				}
+				if($('.btn-usual-cancel').length) {
+					$('.btn-usual-cancel').trigger('tap');
+				}
+			}, 500);
+		}, 500);
+	}
+	else if($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length) {
+		$('.summon-on').trigger('tap');
+		setTimeout(function(){
+			$('.btn-summon-available[summon-code=2040025000]').trigger('tap');
+			setTimeout(function(){
+				if($('.btn-usual-ok.btn-summon-use').length) {
+					$('.btn-usual-ok.btn-summon-use').trigger('tap');
+				}
+				if($('.btn-usual-cancel').length) {
+					$('.btn-usual-cancel').trigger('tap');
+				}
+			}, 500);
+		}, 500);
+	}
+	else if($('.btn-ability-available>div[ability-id=6001]').length > 1) {
+		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
+	}
+	else if($('.btn-ability-available>div[ability-id=6002]').length > 1) {
+		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
+	}
+	else if($('.btn-attack-start.display-on').length) {
+		$('.btn-attack-start.display-on').trigger('tap');
+	}
+	setTimeout(analyzingURL, 1500);
 }
 
 function resultMulti() {
