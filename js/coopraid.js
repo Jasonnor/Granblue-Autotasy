@@ -122,8 +122,10 @@ function supporter() {
 	var isEventForWater = false;
 	var isEventForLight = false;
 	var isEventForDark = false;
+	if($('.prt-deck-select').is(':visible'))
+		console.log('Team selected.');
 	// Event for water enemy
-	if(isEventForEarth) {
+	else if(isEventForEarth) {
 		// 80% + 20%hp
 		if($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(土):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(土):not(:contains(「大地」))').trigger('tap');
