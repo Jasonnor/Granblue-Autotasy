@@ -448,25 +448,33 @@ function raidMultiSingle() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		// Use all skill expect yoda's and blackmeat's charging, order : yellow(3) > green(2) > blue(4) > red(1)
+		// Use all skill, order : yellow(3) > green(2) > blue(4) > red(1)
 		// Bug: If can not use skill, will stop here
-		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
+		//var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
+		// Expect list: Blackmeat(5322-3-or-2), Yoda(2172-1, 3173-3, 555-2), Hag(510-3)
+		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
+		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([ability-id=5322]):not([ability-id=555])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([ability-id=5322]):not([ability-id=555])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
+		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=5322]):not([ability-id=2172]):not([ability-id=3173]):not([ability-id=555])').trigger('tap');
+		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// Hag's Summon Devil
+		else if(!$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
+			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -478,7 +486,7 @@ function raidMultiSingle() {
 			return;
 		}
 	}
-	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length;
+	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
 	// Summon
 	if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
@@ -598,7 +606,7 @@ function masterYoda() {
 			threeStatus = 1;
 		var maxKatha = (char4 >= 100) ? true : false;
 		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
-		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length;
+		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1111]').length;
 		
 		if(threeStatus == 0 && canUseStatus && canUseSkill) {
 			$('.btn-ability-available>div[ability-id=555]').trigger('tap');
@@ -738,7 +746,7 @@ function simpleMasterYoda() {
 			threeStatus = 1;
 		var maxKatha = (char4 >= 100) ? true : false;
 		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
-		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length;
+		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1111]').length;
 		
 		if($('.btn-lock.lock1').length)
 			$('.btn-lock.lock1').trigger('tap');
@@ -771,7 +779,7 @@ function raid() {
 		raidMultiSingle();
 		return;
 	}*/
-	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length;
+	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
 	if($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
 		setTimeout(function(){
