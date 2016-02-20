@@ -298,16 +298,16 @@ function supporter() {
 			setTimeout(function(){
 				if($('.btn-usual-ok').length && $('li>a.flex-active>.ico-attribute-3').length)
 					$('.btn-usual-ok').trigger('tap');
-				setTimeout(analyzingURL, 1000);
-			}, 1000);
+				setTimeout(analyzingURL, 300);
+			}, 800);
 		}
 		else {
 			$('li>a>.ico-attribute-1:first').click();
 			setTimeout(function(){
 				if($('.btn-usual-ok').length && $('li>a.flex-active>.ico-attribute-1').length)
 					$('.btn-usual-ok').trigger('tap');
-				setTimeout(analyzingURL, 1000);
-			}, 1000);
+				setTimeout(analyzingURL, 300);
+			}, 800);
 		}
 	}, 200);
 }
@@ -322,6 +322,11 @@ function raidMulti() {
 		setTimeout(analyzingURL, 1000);
 		return;
 	}
+	// To determine whether a single person
+	if($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
+		raidMultiSingle();
+		return;
+	}
 	var isCoopraid = $('.value.num-info-slash + [class="max value"] + [class="max value num-info4"]').length;
 	if(isCoopraid) {
 		console.log('==Raid Coopraid Stage==');
@@ -329,23 +334,6 @@ function raidMulti() {
 			$('.btn-lock.lock1').trigger('tap');
 		}
 		//TODO: Add hard mode
-	}
-	// Send stamp to get large-solution
-	if(!isCoopraid && $('.btn-chat:not(.comment)>.ico-attention').is(':visible')) {
-		$('.btn-chat:not(.comment)>.ico-attention').trigger('tap');
-		setTimeout(function(){
-			if($('.lis-stamp[chatid=19]').length)
-				$('.lis-stamp[chatid=19]').trigger('tap');
-			if($('.btn-usual-close').length)
-				$('.btn-usual-close').trigger('tap');
-			setTimeout(analyzingURL, 1200);
-		}, 1000);
-		return;
-	}
-	// To determine whether a single person
-	if($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
-		raidMultiExplore();
-		return;
 	}
 	else {
 		console.log('==Raid Multi Stage==');
@@ -360,7 +348,19 @@ function raidMulti() {
 	setTimeout(analyzingURL, 1000);
 }
 
-function raidMultiExplore() {
+function raidMultiSingle() {
+	// Send stamp to get large-solution
+	if($('.btn-chat:not(.comment)>.ico-attention').is(':visible')) {
+		$('.btn-chat:not(.comment)>.ico-attention').trigger('tap');
+		setTimeout(function(){
+			if($('.lis-stamp[chatid=19]').length)
+				$('.lis-stamp[chatid=19]').trigger('tap');
+			if($('.btn-usual-close').length)
+				$('.btn-usual-close').trigger('tap');
+			setTimeout(analyzingURL, 1200);
+		}, 1000);
+		return;
+	}
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if(enemyTotal > 1300000) {
 		console.log('==Raid Multi Single-Hard Stage==');
