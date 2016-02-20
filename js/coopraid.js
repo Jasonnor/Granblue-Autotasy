@@ -116,7 +116,7 @@ function supporter() {
 	console.log('==Supporter Stage==');
 	var isMainStoryline = /supporter\/\d{3}/i.test(location.hash);
 	// You can see pic of supporter at src/supporter
-	var isEventForEarth = /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash);
+	var isEventForEarth = /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/708511/i.test(location.hash);
 	var isEventForWind = false;
 	var isEventForFire = false;
 	var isEventForWater = false;
@@ -328,12 +328,17 @@ function raidMulti() {
 		return;
 	}
 	var isCoopraid = $('.value.num-info-slash + [class="max value"] + [class="max value num-info4"]').length;
+	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if(isCoopraid) {
 		console.log('==Raid Coopraid Stage==');
+		//TODO: Add hard mode
+		if(enemyTotal > 2000000) {
+			raidMultiSingle();
+			return;
+		}
 		if($('.btn-lock.lock1').length) {
 			$('.btn-lock.lock1').trigger('tap');
 		}
-		//TODO: Add hard mode
 	}
 	else {
 		console.log('==Raid Multi Stage==');
@@ -672,6 +677,11 @@ function stageRolling() {
 
 function raid() {
 	console.log('==Raid Stage==');
+	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
+	if(enemyTotal > 1000000) {
+		raidMultiSingle();
+		return;
+	}
 	if($('.btn-result').is(':visible')) {
 		$('.btn-result').trigger('tap');
 	}
