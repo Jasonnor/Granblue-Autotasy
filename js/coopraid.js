@@ -861,9 +861,8 @@ function assist() {
 				$('.img-raid-thumbnail[alt=2040008000]').trigger('tap');
 			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040086000])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040086000]').trigger('tap');
-			// Bug: If has multi high level, may go to joined battle
 			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt*=high])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.img-raid-thumbnail[alt*=high]').trigger('tap');
+				$('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt*=high])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').trigger('tap');
 			else
 				return;
 			setTimeout(function(){
