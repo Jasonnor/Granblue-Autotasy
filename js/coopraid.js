@@ -347,6 +347,9 @@ function raidMulti() {
 		setTimeout(analyzingURL, 1000);
 		return;
 	}
+	if($('.btn-lock.lock1').length) {
+		$('.btn-lock.lock1').trigger('tap');
+	}
 	// To determine whether a single person
 	if($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
 		raidMultiSingle();
@@ -354,9 +357,6 @@ function raidMulti() {
 	}
 	var isCoopraid = $('.value.num-info-slash + [class="max value"] + [class="max value num-info4"]').length;
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
-	if($('.btn-lock.lock1').length) {
-		$('.btn-lock.lock1').trigger('tap');
-	}
 	if(isCoopraid) {
 		console.log('==Raid Coopraid Stage==');
 		if(enemyTotal >= 3000000) {
@@ -861,6 +861,9 @@ function assist() {
 				$('.img-raid-thumbnail[alt=2040008000]').trigger('tap');
 			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040086000])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040086000]').trigger('tap');
+			// Bug: If has multi high level, may go to joined battle
+			else if($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt*=high])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
+				$('.img-raid-thumbnail[alt*=high]').trigger('tap');
 			else
 				return;
 			setTimeout(function(){
