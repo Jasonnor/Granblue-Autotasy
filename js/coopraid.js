@@ -495,6 +495,10 @@ function raidMultiSingle() {
 			return;
 		}
 		// DarkFencer's Slow
+		else if($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/leader/raid_normal/150101_sw_"])').length && stage.pJsnData.boss.param[0].recast > stage.pJsnData.boss.param[0].recastmax) {
+			location.reload();
+			return;
+		}
 		else if($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/leader/raid_normal/150101_sw_"])').length && $('.btn-ability-available>div[ability-id=1201]').length > 1 && stage.pJsnData.boss.param[0].recast < stage.pJsnData.boss.param[0].recastmax) {
 			$('.btn-ability-available>div[ability-id=1201]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
