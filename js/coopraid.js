@@ -359,7 +359,7 @@ function raidMulti() {
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if(isCoopraid) {
 		console.log('==Raid Coopraid Stage==');
-		if(enemyTotal >= 3000000) {
+		if(enemyTotal >= 100000000) {
 			raidMultiSingle();
 			return;
 		}
@@ -448,6 +448,12 @@ function raidMultiSingle() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
+		// Hag's Summon Devil
+		else if($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040011000_03.jpg"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
+			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
 		// Use all skill, order : yellow(3) > green(2) > blue(4) > red(1)
 		// Bug: If can not use skill, will stop here
 		//var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
@@ -469,12 +475,6 @@ function raidMultiSingle() {
 		}
 		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
 			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-			return;
-		}
-		// Hag's Summon Devil
-		else if($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040011000_03.jpg"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
-			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
