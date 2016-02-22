@@ -473,7 +473,7 @@ function raidMultiSingle() {
 		// Use all skill, order : yellow(3) > green(2) > blue(4) > red(1)
 		// Bug: If can not use skill, will stop here
 		//var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
-		// Expect list: Blackmeat(5322-3-or-2), Yoda(2172-1, 3173-3, 555-2), Hag(510-3)
+		// Expect list: Blackmeat(5322-3-or-2), Yoda(2172-1, 3173-3, 555-2), Hag(510-3), Darkfencer(1201-1)
 		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510])').length) {
 			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
@@ -489,8 +489,14 @@ function raidMultiSingle() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
+		else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201])').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// DarkFencer's Slow
+		else if($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/leader/raid_normal/150101_sw_"])').length && $('.btn-ability-available>div[ability-id=1201]').length > 1 && stage.pJsnData.boss.param[0].recast < stage.pJsnData.boss.param[0].recastmax) {
+			$('.btn-ability-available>div[ability-id=1201]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
