@@ -363,6 +363,17 @@ function raidMulti() {
 			raidMultiSingle();
 			return;
 		}
+		else if(enemyTotal >= 3000000) {
+			if(!masterYoda()) {
+				setTimeout(analyzingURL, 1000);
+				return;
+			}
+			else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
+				$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
+				setTimeout(analyzingURL, 1000);
+				return;
+			}
+		}
 		else if(enemyTotal >= 1500000) {
 			if(!simpleMasterYoda()) {
 				setTimeout(analyzingURL, 1000);
@@ -381,6 +392,11 @@ function raidMulti() {
 		}
 		else {
 			if(!masterYoda()) {
+				setTimeout(analyzingURL, 1000);
+				return;
+			}
+			else if($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
+				$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
 				setTimeout(analyzingURL, 1000);
 				return;
 			}
