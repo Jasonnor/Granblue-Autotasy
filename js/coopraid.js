@@ -286,43 +286,27 @@ function supporter() {
 	else if ($('.prt-supporter-detail').length)
 		$('.prt-supporter-detail').trigger('tap');
 	setTimeout(function () {
-		if (isEventForEarth) {
-			$('.flex-control-nav>li:eq(2)>a').click();
-			setTimeout(function () {
-				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(2)>a.flex-active').length)
-					$('.btn-usual-ok').trigger('tap');
-				setTimeout(analyzingURL, 300);
-			}, 800);
-		} else if (isEventForWind) {
-			$('.flex-control-nav>li:eq(3)>a').click();
-			setTimeout(function () {
-				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(3)>a.flex-active').length)
-					$('.btn-usual-ok').trigger('tap');
-				setTimeout(analyzingURL, 300);
-			}, 800);
-		} else if (isEventForFire) {
-			$('.flex-control-nav>li:eq(4)>a').click();
-			setTimeout(function () {
-				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(4)>a.flex-active').length)
-					$('.btn-usual-ok').trigger('tap');
-				setTimeout(analyzingURL, 300);
-			}, 800);
-		} else if (isEventForWater) {
-			$('.flex-control-nav>li:eq(1)>a').click();
-			setTimeout(function () {
-				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(1)>a.flex-active').length)
-					$('.btn-usual-ok').trigger('tap');
-				setTimeout(analyzingURL, 300);
-			}, 800);
-		} else {
-			$('.flex-control-nav>li:eq(0)>a').click();
-			setTimeout(function () {
-				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(0)>a.flex-active').length)
-					$('.btn-usual-ok').trigger('tap');
-				setTimeout(analyzingURL, 300);
-			}, 800);
-		}
+		if (isEventForEarth)
+			selectTeam(2);
+		else if (isEventForWind)
+			selectTeam(3);
+		else if (isEventForFire)
+			selectTeam(4);
+		else if (isEventForWater)
+			selectTeam(1);
+		else
+			selectTeam(0);
 	}, 200);
+}
+
+// Select the n-th team
+function selectTeam(n) {
+	$('.flex-control-nav>li:eq(' + n + ')>a').click();
+	setTimeout(function () {
+		if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(' + n + ')>a.flex-active').length)
+			$('.btn-usual-ok').trigger('tap');
+		setTimeout(analyzingURL, 300);
+	}, 800);
 }
 
 // TODO: Add a stop script button
@@ -413,18 +397,7 @@ function raidMultiSingle() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		} else if ($('.summon-on').length) {
-			$('.summon-on').trigger('tap');
-			setTimeout(function () {
-				$('.btn-summon-available').trigger('tap');
-				setTimeout(function () {
-					if ($('.btn-usual-ok.btn-summon-use').length) {
-						$('.btn-usual-ok.btn-summon-use').trigger('tap');
-					}
-					if ($('.btn-usual-cancel').length) {
-						$('.btn-usual-cancel').trigger('tap');
-					}
-				}, 500);
-			}, 500);
+			summonByCode('all');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -437,7 +410,7 @@ function raidMultiSingle() {
 		// Use all skill, order : yellow(3) > green(2) > blue(4) > red(1)
 		// Expect list: Blackmeat(5322-3), Yoda(2172-1, 3173-3, 555-2), Hag(510-3), Darkfencer(1201-1)
 		// Bug: If can not use skill, will stop here
-		//var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
+		// TODO: var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
 		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510])').length) {
 			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
@@ -471,31 +444,31 @@ function raidMultiSingle() {
 			return;
 		}
 	}
+	dropRateUpAttack();
+}
+
+function summonByCode(code) {
+	var parameter = (code == 'all') ? '' : '[summon-code=' + code + ']';
+	$('.summon-on').trigger('tap');
+	setTimeout(function () {
+		$('.btn-summon-available' + parameter).trigger('tap');
+		setTimeout(function () {
+			if ($('.btn-usual-ok.btn-summon-use').length)
+				$('.btn-usual-ok.btn-summon-use').trigger('tap');
+			if ($('.btn-usual-cancel').length)
+				$('.btn-usual-cancel').trigger('tap');
+		}, 500);
+	}, 500);
+}
+
+// Use summon & skill rise drop rate then attack
+function dropRateUpAttack() {
 	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
-	// Summon
-	if ($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
-		$('.summon-on').trigger('tap');
-		setTimeout(function () {
-			$('.btn-summon-available[summon-code=2030026000]').trigger('tap');
-			setTimeout(function () {
-				if ($('.btn-usual-ok.btn-summon-use').length)
-					$('.btn-usual-ok.btn-summon-use').trigger('tap');
-				if ($('.btn-usual-cancel').length)
-					$('.btn-usual-cancel').trigger('tap');
-			}, 500);
-		}, 500);
-	} else if ($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length) {
-		$('.summon-on').trigger('tap');
-		setTimeout(function () {
-			$('.btn-summon-available[summon-code=2040025000]').trigger('tap');
-			setTimeout(function () {
-				if ($('.btn-usual-ok.btn-summon-use').length)
-					$('.btn-usual-ok.btn-summon-use').trigger('tap');
-				if ($('.btn-usual-cancel').length)
-					$('.btn-usual-cancel').trigger('tap');
-			}, 500);
-		}, 500);
-	} else if ($('.btn-ability-available>div[ability-id=6001]').length > 1 && canUseSkill)
+	if ($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length)
+		summonByCode('2030026000');
+	else if ($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length)
+		summonByCode('2040025000');
+	else if ($('.btn-ability-available>div[ability-id=6001]').length > 1 && canUseSkill)
 		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
 	else if ($('.btn-ability-available>div[ability-id=6002]').length > 1 && canUseSkill)
 		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
@@ -506,6 +479,17 @@ function raidMultiSingle() {
 
 var smallSolution = -1;
 var largeSolution = -1;
+
+function checkSolution() {
+	$('.btn-temporary').trigger('tap');
+	setTimeout(function () {
+		smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
+		largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
+		console.log('Get solution : ' + smallSolution + ', ' + largeSolution);
+		if ($('.btn-usual-cancel').length)
+			$('.btn-usual-cancel').trigger('tap');
+	}, 1000);
+}
 
 function masterYoda() {
 	// Send stamp to get large-solution
@@ -521,14 +505,7 @@ function masterYoda() {
 	}
 	if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
 		if (smallSolution == -1 || smallSolution === undefined || largeSolution == -1 || largeSolution === undefined) {
-			$('.btn-temporary').trigger('tap');
-			setTimeout(function () {
-				smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
-				largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
-				console.log('Get solution : ' + smallSolution + ', ' + largeSolution);
-				if ($('.btn-usual-cancel').length)
-					$('.btn-usual-cancel').trigger('tap');
-			}, 1000);
+			checkSolution();
 			return false;
 		}
 		var hp = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
@@ -562,30 +539,8 @@ function masterYoda() {
 			}, 1000);
 			return false;
 		}
-		var char1 = $('.lis-character0>.prt-percent>span:first').html();
-		var char2 = $('.lis-character1>.prt-percent>span:first').html();
-		var char3 = $('.lis-character2>.prt-percent>span:first').html();
-		var char4 = $('.lis-character3>.prt-percent>span:first').html();
-		if (char1 >= 100) {
-			char2 += 10;
-			char3 += 10;
-			char4 += 10;
-		}
-		if (char2 >= 100) {
-			char3 += 10;
-			char4 += 10;
-		}
-		if (char3 >= 100) {
-			char4 += 10;
-		}
-		var threeStatus = 0;
-		if ($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14143]').length)
-			threeStatus = 3;
-		else if ($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14142]').length)
-			threeStatus = 2;
-		else if ($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14141]').length)
-			threeStatus = 1;
-		var maxKatha = (char4 >= 100) ? true : false;
+		var maxKatha = getMaxKatha();
+		var threeStatus = getThreeStatus();
 		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
 		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1111]').length;
 
@@ -613,16 +568,39 @@ function masterYoda() {
 	return true;
 }
 
+function getMaxKatha() {
+	var char1 = $('.lis-character0>.prt-percent>span:first').html();
+	var char2 = $('.lis-character1>.prt-percent>span:first').html();
+	var char3 = $('.lis-character2>.prt-percent>span:first').html();
+	var char4 = $('.lis-character3>.prt-percent>span:first').html();
+	if (char1 >= 100) {
+		char2 += 10;
+		char3 += 10;
+		char4 += 10;
+	}
+	if (char2 >= 100) {
+		char3 += 10;
+		char4 += 10;
+	}
+	if (char3 >= 100)
+		char4 += 10;
+	return (char4 >= 100) ? true : false;
+}
+
+function getThreeStatus() {
+	if ($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14143]').length)
+		return 3;
+	else if ($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14142]').length)
+		return 2;
+	else if ($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14141]').length)
+		return 1;
+	else
+		return 0;
+}
+
 function cureEveryone() {
 	if (smallSolution == -1 || smallSolution === undefined || largeSolution == -1 || largeSolution === undefined) {
-		$('.btn-temporary').trigger('tap');
-		setTimeout(function () {
-			smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
-			largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
-			console.log('Get solution : ' + smallSolution + ', ' + largeSolution);
-			if ($('.btn-usual-cancel').length)
-				$('.btn-usual-cancel').trigger('tap');
-		}, 1000);
+		checkSolution();
 		return false;
 	}
 	var cureIndex = 0;
@@ -659,7 +637,8 @@ function cureEveryone() {
 		}, 1000);
 		return false;
 	}
-	if (smallSolution > 0 && ((hp1 <= 50 && hp1 !== 0) || (hp2 <= 50 && hp2 !== 0) || (hp3 <= 50 && hp3 !== 0) || (hp4 <= 50 && hp4 !== 0))) {
+	var someoneDanger = (hp1 <= 50 && hp1 > 0) || (hp2 <= 50 && hp2 > 0) || (hp3 <= 50 && hp3 > 0) || (hp4 <= 50 && hp4 > 0);
+	if (smallSolution > 0 && someoneDanger) {
 		$('.btn-temporary').trigger('tap');
 		setTimeout(function () {
 			smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
@@ -668,13 +647,13 @@ function cureEveryone() {
 			if ($('.lis-item.item-small.btn-temporary-small:not(.disable)>img').length) {
 				$('.lis-item.item-small.btn-temporary-small>img').trigger('tap');
 				setTimeout(function () {
-					if (hp1 <= 50 && hp1 !== 0 && $('.lis-character0:first').length)
+					if (hp1 <= 50 && hp1 > 0 && $('.lis-character0:first').length)
 						$('.lis-character0:first').trigger('tap');
-					else if (hp2 <= 50 && hp2 !== 0 && $('.lis-character1:first').length)
+					else if (hp2 <= 50 && hp2 > 0 && $('.lis-character1:first').length)
 						$('.lis-character1:first').trigger('tap');
-					else if (hp3 <= 50 && hp3 !== 0 && $('.lis-character2:first').length)
+					else if (hp3 <= 50 && hp3 > 0 && $('.lis-character2:first').length)
 						$('.lis-character2:first').trigger('tap');
-					else if (hp4 <= 50 && hp4 !== 0 && $('.lis-character3:first').length)
+					else if (hp4 <= 50 && hp4 > 0 && $('.lis-character3:first').length)
 						$('.lis-character3:first').trigger('tap');
 					if ($('.btn-usual-cancel').length)
 						$('.btn-usual-cancel').trigger('tap');
@@ -691,32 +670,10 @@ function cureEveryone() {
 
 function simpleMasterYoda() {
 	if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
-		var char1 = $('.lis-character0>.prt-percent>span:first').html();
-		var char2 = $('.lis-character1>.prt-percent>span:first').html();
-		var char3 = $('.lis-character2>.prt-percent>span:first').html();
-		var char4 = $('.lis-character3>.prt-percent>span:first').html();
-		if (char1 >= 100) {
-			char2 += 10;
-			char3 += 10;
-			char4 += 10;
-		}
-		if (char2 >= 100) {
-			char3 += 10;
-			char4 += 10;
-		}
-		if (char3 >= 100)
-			char4 += 10;
-		var threeStatus = 0;
-		if ($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14143]').length)
-			threeStatus = 3;
-		else if ($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14142]').length)
-			threeStatus = 2;
-		else if ($('.lis-character3>.prt-status>.img-ico-status-s[data-status=14141]').length)
-			threeStatus = 1;
-		var maxKatha = (char4 >= 100) ? true : false;
+		var maxKatha = getMaxKatha();
+		var threeStatus = getThreeStatus();
 		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
 		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1111]').length;
-
 		if ($('.btn-lock.lock1').length)
 			$('.btn-lock.lock1').trigger('tap');
 		if (threeStatus != 3 && canUseStatus && canUseSkill && maxKatha) {
@@ -748,36 +705,7 @@ function raid() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
-	if ($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
-		$('.summon-on').trigger('tap');
-		setTimeout(function () {
-			$('.btn-summon-available[summon-code=2030026000]').trigger('tap');
-			setTimeout(function () {
-				if ($('.btn-usual-ok.btn-summon-use').length)
-					$('.btn-usual-ok.btn-summon-use').trigger('tap');
-				if ($('.btn-usual-cancel').length)
-					$('.btn-usual-cancel').trigger('tap');
-			}, 500);
-		}, 500);
-	} else if ($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length) {
-		$('.summon-on').trigger('tap');
-		setTimeout(function () {
-			$('.btn-summon-available[summon-code=2040025000]').trigger('tap');
-			setTimeout(function () {
-				if ($('.btn-usual-ok.btn-summon-use').length)
-					$('.btn-usual-ok.btn-summon-use').trigger('tap');
-				if ($('.btn-usual-cancel').length)
-					$('.btn-usual-cancel').trigger('tap');
-			}, 500);
-		}, 500);
-	} else if ($('.btn-ability-available>div[ability-id=6001]').length > 1 && canUseSkill)
-		$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
-	else if ($('.btn-ability-available>div[ability-id=6002]').length > 1 && canUseSkill)
-		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
-	else if ($('.btn-attack-start.display-on').length)
-		$('.btn-attack-start.display-on').trigger('tap');
-	setTimeout(analyzingURL, 1500);
+	dropRateUpAttack();
 }
 
 function resultMulti() {
