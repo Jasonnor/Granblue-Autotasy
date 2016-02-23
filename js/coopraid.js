@@ -531,7 +531,7 @@ function masterYoda() {
 							$('.btn-usual-use').trigger('tap');
 						if ($('.btn-usual-cancel').length)
 							$('.btn-usual-cancel').trigger('tap');
-					}, 500);
+					}, 300);
 				} else if ($('.lis-item.item-small.btn-temporary-small.disable>img').length &&
 					$('.lis-item.item-large.btn-temporary-large.disable>img').length) {
 					if ($('.btn-usual-cancel').length)
@@ -658,7 +658,7 @@ function cureEveryone() {
 						$('.lis-character3:first').trigger('tap');
 					if ($('.btn-usual-cancel').length)
 						$('.btn-usual-cancel').trigger('tap');
-				}, 500);
+				}, 300);
 			} else if ($('.lis-item.item-small.btn-temporary-small.disable>img').length) {
 				if ($('.btn-usual-cancel').length)
 					$('.btn-usual-cancel').trigger('tap');
