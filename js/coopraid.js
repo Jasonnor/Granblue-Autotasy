@@ -53,7 +53,6 @@ function coopraid() {
 			location.reload();
 		}, 1000);
 	}
-
 	setTimeout(analyzingURL, 1000);
 }
 
@@ -63,7 +62,6 @@ function offer() {
 		setTimeout(offerFind, 800);
 		return;
 	}
-
 	setTimeout(analyzingURL, 100);
 }
 
@@ -390,18 +388,6 @@ function raidMulti() {
 }
 
 function raidMultiSingle() {
-	// Send stamp to get large-solution
-	if ($('.btn-chat:not(.comment)>.ico-attention').is(':visible')) {
-		$('.btn-chat:not(.comment)>.ico-attention').trigger('tap');
-		setTimeout(function () {
-			if ($('.lis-stamp[chatid=19]').length)
-				$('.lis-stamp[chatid=19]').trigger('tap');
-			if ($('.btn-usual-close').length)
-				$('.btn-usual-close').trigger('tap');
-			setTimeout(analyzingURL, 1200);
-		}, 1000);
-		return;
-	}
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if (enemyTotal > 1300000) {
 		console.log('==Raid Multi Single-Hard Stage==');
@@ -449,9 +435,9 @@ function raidMultiSingle() {
 			return;
 		}
 		// Use all skill, order : yellow(3) > green(2) > blue(4) > red(1)
+		// Expect list: Blackmeat(5322-3), Yoda(2172-1, 3173-3, 555-2), Hag(510-3), Darkfencer(1201-1)
 		// Bug: If can not use skill, will stop here
 		//var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
-		// Expect list: Blackmeat(5322-3), Yoda(2172-1, 3173-3, 555-2), Hag(510-3), Darkfencer(1201-1)
 		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510])').length) {
 			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
@@ -522,6 +508,17 @@ var smallSolution = -1;
 var largeSolution = -1;
 
 function masterYoda() {
+	// Send stamp to get large-solution
+	if ($('.btn-chat:not(.comment)>.ico-attention').is(':visible')) {
+		$('.btn-chat:not(.comment)>.ico-attention').trigger('tap');
+		setTimeout(function () {
+			if ($('.lis-stamp[chatid=19]').length)
+				$('.lis-stamp[chatid=19]').trigger('tap');
+			if ($('.btn-usual-close').length)
+				$('.btn-usual-close').trigger('tap');
+		}, 1000);
+		return false;
+	}
 	if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
 		if (smallSolution == -1 || smallSolution === undefined || largeSolution == -1 || largeSolution === undefined) {
 			$('.btn-temporary').trigger('tap');
@@ -746,10 +743,11 @@ function raid() {
 		return;
 	}
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
-	/*if(enemyTotal > 1000000) {
-		raidMultiSingle();
-		return;
-	}*/
+	if (enemyTotal >= 700000)
+		if (!simpleMasterYoda()) {
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
 	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
 	if ($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
