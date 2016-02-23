@@ -114,7 +114,7 @@ function room() {
 function supporter() {
 	// You can see pic of supporter at src/supporter
 	console.log('==Supporter Stage==');
-	//var isMainStoryline = /supporter\/\d{3}/i.test(location.hash);
+	/* var isMainStoryline = /supporter\/\d{3}/i.test(location.hash); */
 	var isMainStoryline = false;
 	var isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash);
 	var isEventForWind = /supporter\/300261/i.test(location.hash);
@@ -125,126 +125,126 @@ function supporter() {
 	if ($('.prt-deck-select').is(':visible'))
 		console.log('Team selected.');
 	else if (isEventForEarth) {
-		// 80% + 20%hp
+		// 土80% + 20%hp
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(土):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(土):not(:contains(「大地」))').trigger('tap');
-		// 80%
+		// 土80%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(土):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(土):not(:contains(「大地」))').trigger('tap');
-		// 60%
+		// 土60%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(土):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(土):not(:contains(「大地」))').trigger('tap');
-		// 50%
+		// 土50%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」))').trigger('tap');
-		// 100% Anima
+		// 土100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').trigger('tap');
 	} else if (isEventForWind) {
-		// 80%
+		// 風80%
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').trigger('tap');
-		// 70%
+		// 風70%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(風):not(:contains(「竜巻」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(風):not(:contains(「竜巻」))').trigger('tap');
-		// 60%
+		// 風60%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(風):not(:contains(「竜巻」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(風):not(:contains(「竜巻」))').trigger('tap');
-		// 50%
+		// 風50%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」))').trigger('tap');
-		// 100% Anima
+		// 風100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').trigger('tap');
 	} else if (isEventForFire) {
-		// 80%
+		// 火80%
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').trigger('tap');
-		// 70%
+		// 火70%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(火):not(:contains(「業火」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(火):not(:contains(「業火」))').trigger('tap');
-		// 60%
+		// 火60%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(火):not(:contains(「業火」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(火):not(:contains(「業火」))').trigger('tap');
-		// 100% Anima
+		// 火100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').trigger('tap');
-		// 50%
+		// 火50%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」))').trigger('tap');
 	} else if (isEventForWater) {
-		// 80% + 20%hp
+		// 水80% + 20%hp
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').trigger('tap');
-		// 80%
+		// 水80%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').trigger('tap');
-		// 60%
+		// 水60%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').trigger('tap');
-		// 50%
+		// 水50%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」))').trigger('tap');
-		// 100% Anima
+		// 水100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').trigger('tap');
 	} else if (isEventForLight) {
-		// 120%
+		// 光120%
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(光):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(光):not(:contains(「雷電」))').trigger('tap');
-		// 100%
+		// 光100%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(光):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(光):not(:contains(「雷電」))').trigger('tap');
-		// 80% + 20%hp
+		// 光80% + 20%hp
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(光):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(光):not(:contains(「雷電」))').trigger('tap');
-		// 80%
+		// 光80%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(光):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(光):not(:contains(「雷電」))').trigger('tap');
-		// 75% + 15%hp
+		// 光75% + 15%hp
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(HP):contains(光):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(HP):contains(光):not(:contains(「雷電」))').trigger('tap');
-		// 75%
+		// 光75%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(光):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(光):not(:contains(「雷電」))').trigger('tap');
-		// 60%
+		// 光60%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(光):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(光):not(:contains(「雷電」))').trigger('tap');
-		// 50% + 20%hp
+		// 光50% + 20%hp
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(HP):contains(光):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(HP):contains(光):not(:contains(「雷電」))').trigger('tap');
-		// 50%
+		// 光50%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(光):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(光):not(:contains(「雷電」))').trigger('tap');
-		// 100% Anima
+		// 光100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(騎解方陣):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(騎解方陣):not(:contains(「雷電」))').trigger('tap');
 	} else if (isEventForDark) {
-		// 120%
+		// 闇120%
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(闇):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(闇):not(:contains(「憎悪」))').trigger('tap');
-		// 100%
+		// 闇100%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(闇):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(闇):not(:contains(「憎悪」))').trigger('tap');
-		// 75% + 15%hp
+		// 闇75% + 15%hp
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(HP):contains(闇):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(HP):contains(闇):not(:contains(「憎悪」))').trigger('tap');
-		// 75%
+		// 闇75%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(闇):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(75):contains(闇):not(:contains(「憎悪」))').trigger('tap');
-		// 60% + 40%hp
+		// 闇60% + 40%hp
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(HP):contains(闇):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(HP):contains(闇):not(:contains(「憎悪」))').trigger('tap');
-		// 60%
+		// 闇60%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(闇):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(闇):not(:contains(「憎悪」))').trigger('tap');
-		// 50% + 20%hp
+		// 闇50% + 20%hp
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(HP):contains(闇):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(HP):contains(闇):not(:contains(「憎悪」))').trigger('tap');
-		// 50%
+		// 闇50%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(闇):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(闇):not(:contains(「憎悪」))').trigger('tap');
-		// 100% Anima
+		// 闇100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(黒霧方陣):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(黒霧方陣):not(:contains(「憎悪」))').trigger('tap');
 	}
@@ -288,30 +288,30 @@ function supporter() {
 		$('.prt-supporter-detail').trigger('tap');
 	setTimeout(function() {
 		if (isEventForEarth) {
-			$('li>a>.ico-attribute-3:first').click();
+			$('.flex-control-nav>li:eq(2)>a').click();
 			setTimeout(function() {
-				if ($('.btn-usual-ok').length && $('li>a.flex-active>.ico-attribute-3').length)
+				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(2)>a.flex-active').length)
 					$('.btn-usual-ok').trigger('tap');
 				setTimeout(analyzingURL, 300);
 			}, 800);
 		} else if (isEventForWind) {
-			$('li>a>.ico-attribute-4:first').click();
+			$('.flex-control-nav>li:eq(3)>a').click();
 			setTimeout(function() {
-				if ($('.btn-usual-ok').length && $('li>a.flex-active>.ico-attribute-4').length)
+				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(3)>a.flex-active').length)
 					$('.btn-usual-ok').trigger('tap');
 				setTimeout(analyzingURL, 300);
 			}, 800);
 		} else if (isEventForFire) {
-			$('li>a>.ico-attribute-1:eq(0)').click();
+			$('.flex-control-nav>li:eq(4)>a').click();
 			setTimeout(function() {
-				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(4)>a.flex-active>.ico-attribute-1').length)
+				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(4)>a.flex-active').length)
 					$('.btn-usual-ok').trigger('tap');
 				setTimeout(analyzingURL, 300);
 			}, 800);
 		} else if (isEventForWater) {
-			$('li>a>.ico-attribute-2:first').click();
+			$('.flex-control-nav>li:eq(1)>a').click();
 			setTimeout(function() {
-				if ($('.btn-usual-ok').length && $('li>a.flex-active>.ico-attribute-2').length)
+				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(1)>a.flex-active').length)
 					$('.btn-usual-ok').trigger('tap');
 				setTimeout(analyzingURL, 300);
 			}, 800);
