@@ -1,9 +1,8 @@
-﻿
-(function() {
+(function () {
 	analyzingURL();
 })();
 
-Game.reportError = function(msg, url, line, column, err, callback) {
+Game.reportError = function (msg, url, line, column, err, callback) {
 	console.log(msg, url, line, column, err, callback);
 	location.reload();
 };
@@ -50,10 +49,11 @@ function coopraid() {
 	if ($('.btn-join').length)
 		$('.btn-join').trigger('tap');
 	else if ($('.prt-result-head head-win').length) {
-		setTimeout(function() {
+		setTimeout(function () {
 			location.reload();
 		}, 1000);
 	}
+
 	setTimeout(analyzingURL, 1000);
 }
 
@@ -63,16 +63,17 @@ function offer() {
 		setTimeout(offerFind, 800);
 		return;
 	}
+
 	setTimeout(analyzingURL, 100);
 }
 
 function offerFind() {
-	var room = $('.txt-room-comment:not(:contains(順)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-1)');
-	var room2 = $('.txt-room-comment:not(:contains(順)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-6)');
-	if (room.length)
-		room.trigger('tap');
-	else if (room2.length)
-		room2.trigger('tap');
+	var $room = $('.txt-room-comment:not(:contains(順)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-1)');
+	var $room2 = $('.txt-room-comment:not(:contains(順)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-6)');
+	if ($room.length)
+		$room.trigger('tap');
+	else if ($room2.length)
+		$room2.trigger('tap');
 	setTimeout(offerJoin, 100);
 }
 
@@ -286,38 +287,38 @@ function supporter() {
 	// Others
 	else if ($('.prt-supporter-detail').length)
 		$('.prt-supporter-detail').trigger('tap');
-	setTimeout(function() {
+	setTimeout(function () {
 		if (isEventForEarth) {
 			$('.flex-control-nav>li:eq(2)>a').click();
-			setTimeout(function() {
+			setTimeout(function () {
 				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(2)>a.flex-active').length)
 					$('.btn-usual-ok').trigger('tap');
 				setTimeout(analyzingURL, 300);
 			}, 800);
 		} else if (isEventForWind) {
 			$('.flex-control-nav>li:eq(3)>a').click();
-			setTimeout(function() {
+			setTimeout(function () {
 				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(3)>a.flex-active').length)
 					$('.btn-usual-ok').trigger('tap');
 				setTimeout(analyzingURL, 300);
 			}, 800);
 		} else if (isEventForFire) {
 			$('.flex-control-nav>li:eq(4)>a').click();
-			setTimeout(function() {
+			setTimeout(function () {
 				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(4)>a.flex-active').length)
 					$('.btn-usual-ok').trigger('tap');
 				setTimeout(analyzingURL, 300);
 			}, 800);
 		} else if (isEventForWater) {
 			$('.flex-control-nav>li:eq(1)>a').click();
-			setTimeout(function() {
+			setTimeout(function () {
 				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(1)>a.flex-active').length)
 					$('.btn-usual-ok').trigger('tap');
 				setTimeout(analyzingURL, 300);
 			}, 800);
 		} else {
 			$('.flex-control-nav>li:eq(0)>a').click();
-			setTimeout(function() {
+			setTimeout(function () {
 				if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(0)>a.flex-active').length)
 					$('.btn-usual-ok').trigger('tap');
 				setTimeout(analyzingURL, 300);
@@ -337,7 +338,7 @@ function raidMulti() {
 	}
 	if ($('.btn-lock.lock1').length)
 		$('.btn-lock.lock1').trigger('tap');
-	// To determine whether a single person
+	// Determine whether is a single person battle
 	if ($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
 		raidMultiSingle();
 		return;
@@ -392,7 +393,7 @@ function raidMultiSingle() {
 	// Send stamp to get large-solution
 	if ($('.btn-chat:not(.comment)>.ico-attention').is(':visible')) {
 		$('.btn-chat:not(.comment)>.ico-attention').trigger('tap');
-		setTimeout(function() {
+		setTimeout(function () {
 			if ($('.lis-stamp[chatid=19]').length)
 				$('.lis-stamp[chatid=19]').trigger('tap');
 			if ($('.btn-usual-close').length)
@@ -408,10 +409,10 @@ function raidMultiSingle() {
 		// If enemy's HP is lower than 60%, send assist
 		if (enemyHp < 60 && !$('.btn-assist.disable').length) {
 			$('.btn-assist').trigger('tap');
-			setTimeout(function() {
+			setTimeout(function () {
 				if ($('.btn-usual-text:contains(救援依頼)').length)
 					$('.btn-usual-text:contains(救援依頼)').trigger('tap');
-				setTimeout(function() {
+				setTimeout(function () {
 					if ($('.btn-usual-ok').length)
 						$('.btn-usual-ok').trigger('tap');
 					$('.btn-usual-cancel').trigger('tap');
@@ -427,9 +428,9 @@ function raidMultiSingle() {
 			return;
 		} else if ($('.summon-on').length) {
 			$('.summon-on').trigger('tap');
-			setTimeout(function() {
+			setTimeout(function () {
 				$('.btn-summon-available').trigger('tap');
-				setTimeout(function() {
+				setTimeout(function () {
 					if ($('.btn-usual-ok.btn-summon-use').length) {
 						$('.btn-usual-ok.btn-summon-use').trigger('tap');
 					}
@@ -488,9 +489,9 @@ function raidMultiSingle() {
 	// Summon
 	if ($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
-		setTimeout(function() {
+		setTimeout(function () {
 			$('.btn-summon-available[summon-code=2030026000]').trigger('tap');
-			setTimeout(function() {
+			setTimeout(function () {
 				if ($('.btn-usual-ok.btn-summon-use').length)
 					$('.btn-usual-ok.btn-summon-use').trigger('tap');
 				if ($('.btn-usual-cancel').length)
@@ -499,9 +500,9 @@ function raidMultiSingle() {
 		}, 500);
 	} else if ($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
-		setTimeout(function() {
+		setTimeout(function () {
 			$('.btn-summon-available[summon-code=2040025000]').trigger('tap');
-			setTimeout(function() {
+			setTimeout(function () {
 				if ($('.btn-usual-ok.btn-summon-use').length)
 					$('.btn-usual-ok.btn-summon-use').trigger('tap');
 				if ($('.btn-usual-cancel').length)
@@ -524,7 +525,7 @@ function masterYoda() {
 	if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
 		if (smallSolution == -1 || smallSolution === undefined || largeSolution == -1 || largeSolution === undefined) {
 			$('.btn-temporary').trigger('tap');
-			setTimeout(function() {
+			setTimeout(function () {
 				smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
 				largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
 				console.log('Get solution : ' + smallSolution + ', ' + largeSolution);
@@ -536,13 +537,13 @@ function masterYoda() {
 		var hp = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
 		if (hp <= 50 && (smallSolution > 0 || largeSolution > 0)) {
 			$('.btn-temporary').trigger('tap');
-			setTimeout(function() {
+			setTimeout(function () {
 				smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
 				largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
 				console.log('Get solution : ' + smallSolution + ', ' + largeSolution);
 				if ($('.lis-item.item-small.btn-temporary-small:not(.disable)>img').length) {
 					$('.lis-item.item-small.btn-temporary-small>img').trigger('tap');
-					setTimeout(function() {
+					setTimeout(function () {
 						if ($('.lis-character3:first').length)
 							$('.lis-character3:first').trigger('tap');
 						if ($('.btn-usual-cancel').length)
@@ -550,7 +551,7 @@ function masterYoda() {
 					}, 2000);
 				} else if ($('.lis-item.item-large.btn-temporary-large:not(.disable)>img').length) {
 					$('.lis-item.item-large.btn-temporary-large>img').trigger('tap');
-					setTimeout(function() {
+					setTimeout(function () {
 						if ($('.btn-usual-use').length)
 							$('.btn-usual-use').trigger('tap');
 						if ($('.btn-usual-cancel').length)
@@ -618,7 +619,7 @@ function masterYoda() {
 function cureEveryone() {
 	if (smallSolution == -1 || smallSolution === undefined || largeSolution == -1 || largeSolution === undefined) {
 		$('.btn-temporary').trigger('tap');
-		setTimeout(function() {
+		setTimeout(function () {
 			smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
 			largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
 			console.log('Get solution : ' + smallSolution + ', ' + largeSolution);
@@ -642,13 +643,13 @@ function cureEveryone() {
 	if (hp4 <= 50 && hp4 !== 0) cureIndex++;
 	if (cureIndex > 3 && largeSolution > 0) {
 		$('.btn-temporary').trigger('tap');
-		setTimeout(function() {
+		setTimeout(function () {
 			smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
 			largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
 			console.log('Get solution : ' + smallSolution + ', ' + largeSolution);
 			if ($('.lis-item.item-large.btn-temporary-large:not(.disable)>img').length) {
 				$('.lis-item.item-large.btn-temporary-large>img').trigger('tap');
-				setTimeout(function() {
+				setTimeout(function () {
 					if ($('.btn-usual-use').length)
 						$('.btn-usual-use').trigger('tap');
 					if ($('.btn-usual-cancel').length)
@@ -663,13 +664,13 @@ function cureEveryone() {
 	}
 	if (smallSolution > 0 && ((hp1 <= 50 && hp1 !== 0) || (hp2 <= 50 && hp2 !== 0) || (hp3 <= 50 && hp3 !== 0) || (hp4 <= 50 && hp4 !== 0))) {
 		$('.btn-temporary').trigger('tap');
-		setTimeout(function() {
+		setTimeout(function () {
 			smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
 			largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
 			console.log('Get solution : ' + smallSolution + ', ' + largeSolution);
 			if ($('.lis-item.item-small.btn-temporary-small:not(.disable)>img').length) {
 				$('.lis-item.item-small.btn-temporary-small>img').trigger('tap');
-				setTimeout(function() {
+				setTimeout(function () {
 					if (hp1 <= 50 && hp1 !== 0 && $('.lis-character0:first').length)
 						$('.lis-character0:first').trigger('tap');
 					else if (hp2 <= 50 && hp2 !== 0 && $('.lis-character1:first').length)
@@ -752,9 +753,9 @@ function raid() {
 	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
 	if ($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
-		setTimeout(function() {
+		setTimeout(function () {
 			$('.btn-summon-available[summon-code=2030026000]').trigger('tap');
-			setTimeout(function() {
+			setTimeout(function () {
 				if ($('.btn-usual-ok.btn-summon-use').length)
 					$('.btn-usual-ok.btn-summon-use').trigger('tap');
 				if ($('.btn-usual-cancel').length)
@@ -763,9 +764,9 @@ function raid() {
 		}, 500);
 	} else if ($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length) {
 		$('.summon-on').trigger('tap');
-		setTimeout(function() {
+		setTimeout(function () {
 			$('.btn-summon-available[summon-code=2040025000]').trigger('tap');
-			setTimeout(function() {
+			setTimeout(function () {
 				if ($('.btn-usual-ok.btn-summon-use').length)
 					$('.btn-usual-ok.btn-summon-use').trigger('tap');
 				if ($('.btn-usual-cancel').length)
@@ -794,7 +795,7 @@ function assist() {
 	console.log('==Assist Stage==');
 	if ($('#tab-multi').length) {
 		$('#tab-multi').trigger('tap');
-		setTimeout(function() {
+		setTimeout(function () {
 			// You can see pic of summon at src/assist
 			if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2030002000_hell])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2030002000_hell]').trigger('tap');
@@ -826,7 +827,7 @@ function assist() {
 				$('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt*=high])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').trigger('tap');
 			else
 				return;
-			setTimeout(function() {
+			setTimeout(function () {
 				if ($('.prt-item-disp:last>.prt-use-button>.btn-use-full').length)
 					$('.prt-item-disp:last>.prt-use-button>.btn-use-full').trigger('tap');
 			}, 3000);
@@ -839,11 +840,11 @@ function exchange() {
 	console.log('==Exchange Stage==');
 	if ($('.btn-exchange').length)
 		$('.btn-exchange').trigger('tap');
-	setTimeout(function() {
+	setTimeout(function () {
 		// BUG: It doesn't work, try to fix it.
 		if ($('.num-set').length)
 			$('.num-set').val($('.num-set>option:last-child').val());
-		setTimeout(function() {
+		setTimeout(function () {
 			if ($('.btn-usual-text.exchange').length)
 				$('.btn-usual-text.exchange').trigger('tap');
 			setTimeout(analyzingURL, 100);
