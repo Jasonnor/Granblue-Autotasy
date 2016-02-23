@@ -125,7 +125,6 @@ function supporter() {
 	var isEventForDark = /supporter\/300271/i.test(location.hash);
 	if($('.prt-deck-select').is(':visible'))
 		console.log('Team selected.');
-	// Event for water enemy
 	else if(isEventForEarth) {
 		// 80% + 20%hp
 		if($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(土):not(:contains(「大地」))').length)
@@ -559,7 +558,7 @@ var largeSolution = -1;
 
 function masterYoda() {
 	if($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
-		if(smallSolution == -1 || smallSolution == undefined || largeSolution == -1 || largeSolution == undefined) {
+		if(smallSolution == -1 || smallSolution === undefined || largeSolution == -1 || largeSolution === undefined) {
 			$('.btn-temporary').trigger('tap');
 			setTimeout(function(){
 				smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
@@ -599,7 +598,7 @@ function masterYoda() {
 						}
 					}, 2000);
 				}
-				else if($('.lis-item.item-small.btn-temporary-small.disable>img').length && 
+				else if($('.lis-item.item-small.btn-temporary-small.disable>img').length &&
 					$('.lis-item.item-large.btn-temporary-large.disable>img').length) {
 					if($('.btn-usual-cancel').length)
 						$('.btn-usual-cancel').trigger('tap');
@@ -633,14 +632,14 @@ function masterYoda() {
 		var maxKatha = (char4 >= 100) ? true : false;
 		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
 		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1111]').length;
-		
-		if(threeStatus == 0 && canUseStatus && canUseSkill) {
+
+		if(threeStatus === 0 && canUseStatus && canUseSkill) {
 			$('.btn-ability-available>div[ability-id=555]').trigger('tap');
 		}
-		if(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1 && canUseSkill) {
+		if(threeStatus === 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1 && canUseSkill) {
 			$('.btn-ability-available>div[ability-id=3173]').trigger('tap');
 		}
-		if(threeStatus == 0 && $('.btn-ability-available>div[ability-id=2172]').length > 1 && canUseSkill) {
+		if(threeStatus === 0 && $('.btn-ability-available>div[ability-id=2172]').length > 1 && canUseSkill) {
 			$('.btn-ability-available>div[ability-id=2172]').trigger('tap');
 		}
 		if(!maxKatha && $('.btn-lock.lock1').length) {
@@ -653,11 +652,11 @@ function masterYoda() {
 			$('.btn-lock.lock0').trigger('tap');
 		}
 		// Ensure no delay for the operation
-		if((threeStatus == 0 && canUseStatus && canUseSkill) || 
-			(threeStatus == 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1 && canUseSkill) || 
-			(threeStatus == 0 && $('.btn-ability-available>div[ability-id=2172]').length > 1 && canUseSkill) || 
-			(!maxKatha && $('.btn-lock.lock1').length) || 
-			(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) || 
+		if((threeStatus === 0 && canUseStatus && canUseSkill) ||
+			(threeStatus === 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1 && canUseSkill) ||
+			(threeStatus === 0 && $('.btn-ability-available>div[ability-id=2172]').length > 1 && canUseSkill) ||
+			(!maxKatha && $('.btn-lock.lock1').length) ||
+			(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) ||
 			(threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length)) {
 				return false;
 		}
@@ -666,7 +665,7 @@ function masterYoda() {
 }
 
 function cureEveryone() {
-	if(smallSolution == -1 || smallSolution == undefined || largeSolution == -1 || largeSolution == undefined) {
+	if(smallSolution == -1 || smallSolution === undefined || largeSolution == -1 || largeSolution === undefined) {
 		$('.btn-temporary').trigger('tap');
 		setTimeout(function(){
 			smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
@@ -679,17 +678,17 @@ function cureEveryone() {
 	}
 	var cureIndex = 0;
 	var hp1 = 100 * parseFloat($('.lis-character0>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character0>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
-	if(hp1 <= 70 && hp1 != 0) cureIndex++;
-	if(hp1 <= 50 && hp1 != 0) cureIndex++;
+	if(hp1 <= 70 && hp1 !== 0) cureIndex++;
+	if(hp1 <= 50 && hp1 !== 0) cureIndex++;
 	var hp2 = 100 * parseFloat($('.lis-character1>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character1>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
-	if(hp2 <= 70 && hp2 != 0) cureIndex++;
-	if(hp2 <= 50 && hp2 != 0) cureIndex++;
+	if(hp2 <= 70 && hp2 !== 0) cureIndex++;
+	if(hp2 <= 50 && hp2 !== 0) cureIndex++;
 	var hp3 = 100 * parseFloat($('.lis-character2>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character2>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
-	if(hp3 <= 70 && hp3 != 0) cureIndex++;
-	if(hp3 <= 50 && hp3 != 0) cureIndex++;
+	if(hp3 <= 70 && hp3 !== 0) cureIndex++;
+	if(hp3 <= 50 && hp3 !== 0) cureIndex++;
 	var hp4 = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
-	if(hp4 <= 70 && hp4 != 0) cureIndex++;
-	if(hp4 <= 50 && hp4 != 0) cureIndex++;
+	if(hp4 <= 70 && hp4 !== 0) cureIndex++;
+	if(hp4 <= 50 && hp4 !== 0) cureIndex++;
 	if(cureIndex > 3 && largeSolution > 0) {
 		$('.btn-temporary').trigger('tap');
 		setTimeout(function(){
@@ -714,7 +713,7 @@ function cureEveryone() {
 		}, 1000);
 		return false;
 	}
-	if(smallSolution > 0 && ((hp1 <= 50 && hp1 != 0) || (hp2 <= 50 && hp2 != 0) || (hp3 <= 50 && hp3 != 0) || (hp4 <= 50 && hp4 != 0))) {
+	if(smallSolution > 0 && ((hp1 <= 50 && hp1 !== 0) || (hp2 <= 50 && hp2 !== 0) || (hp3 <= 50 && hp3 !== 0) || (hp4 <= 50 && hp4 !== 0))) {
 		$('.btn-temporary').trigger('tap');
 		setTimeout(function(){
 			smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
@@ -723,13 +722,13 @@ function cureEveryone() {
 			if($('.lis-item.item-small.btn-temporary-small:not(.disable)>img').length) {
 				$('.lis-item.item-small.btn-temporary-small>img').trigger('tap');
 				setTimeout(function(){
-					if(hp1 <= 50 && hp1 != 0 && $('.lis-character0:first').length)
+					if(hp1 <= 50 && hp1 !== 0 && $('.lis-character0:first').length)
 						$('.lis-character0:first').trigger('tap');
-					else if(hp2 <= 50 && hp2 != 0 && $('.lis-character1:first').length)
+					else if(hp2 <= 50 && hp2 !== 0 && $('.lis-character1:first').length)
 						$('.lis-character1:first').trigger('tap');
-					else if(hp3 <= 50 && hp3 != 0 && $('.lis-character2:first').length)
+					else if(hp3 <= 50 && hp3 !== 0 && $('.lis-character2:first').length)
 						$('.lis-character2:first').trigger('tap');
-					else if(hp4 <= 50 && hp4 != 0 && $('.lis-character3:first').length)
+					else if(hp4 <= 50 && hp4 !== 0 && $('.lis-character3:first').length)
 						$('.lis-character3:first').trigger('tap');
 					if($('.btn-usual-cancel').length)
 						$('.btn-usual-cancel').trigger('tap');
@@ -773,7 +772,7 @@ function simpleMasterYoda() {
 		var maxKatha = (char4 >= 100) ? true : false;
 		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
 		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1111]').length;
-		
+
 		if($('.btn-lock.lock1').length)
 			$('.btn-lock.lock1').trigger('tap');
 		if(threeStatus != 3 && canUseStatus && canUseSkill && maxKatha) {
@@ -908,7 +907,7 @@ function exchange() {
 	setTimeout(function(){
 		if($('.num-set').length) {
 			// It doesn't work, try to fix it.
-			$('.num-set').val($('.num-set>option:last-child').val())
+			$('.num-set').val($('.num-set>option:last-child').val());
 		}
 		setTimeout(function(){
 			if($('.btn-usual-text.exchange').length) {
