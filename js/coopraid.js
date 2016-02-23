@@ -569,10 +569,10 @@ function masterYoda() {
 }
 
 function getMaxKatha() {
-	var char1 = $('.lis-character0>.prt-percent>span:first').html();
-	var char2 = $('.lis-character1>.prt-percent>span:first').html();
-	var char3 = $('.lis-character2>.prt-percent>span:first').html();
-	var char4 = $('.lis-character3>.prt-percent>span:first').html();
+	var char1 = parseInt($('.lis-character0>.prt-percent>span:first').html());
+	var char2 = parseInt($('.lis-character1>.prt-percent>span:first').html());
+	var char3 = parseInt($('.lis-character2>.prt-percent>span:first').html());
+	var char4 = parseInt($('.lis-character3>.prt-percent>span:first').html());
 	if (char1 >= 100) {
 		char2 += 10;
 		char3 += 10;
