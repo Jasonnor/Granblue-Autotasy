@@ -1,7 +1,7 @@
-chrome.browserAction.onClicked.addListener(function(tab) {
+chrome.browserAction.onClicked.addListener(function (tab) {
 	chrome.storage.sync.get({
 		toggle: true
-	}, function(item) {
+	}, function (item) {
 		var toggle = !item.toggle;
 		if (toggle) {
 			chrome.browserAction.setIcon({

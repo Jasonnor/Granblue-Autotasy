@@ -1,6 +1,6 @@
 chrome.storage.sync.get({
 	toggle: true
-}, function(item) {
+}, function (item) {
 	if (item.toggle) {
 		var script = document.createElement('script');
 		// https://cdn.rawgit.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js
