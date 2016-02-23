@@ -5,7 +5,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 		var toggle = !item.toggle;
 		if (toggle) {
 			chrome.browserAction.setIcon({
-				path: 'on.png',
+				path: 'src/icon/on.png',
 				tabId: null
 			});
 			chrome.tabs.executeScript(null, {
@@ -13,7 +13,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 			});
 		} else {
 			chrome.browserAction.setIcon({
-				path: 'off.png',
+				path: 'src/icon/off.png',
 				tabId: null
 			});
 		}
