@@ -523,7 +523,7 @@ function masterYoda() {
 							$('.lis-character3:first').trigger('tap');
 						if ($('.btn-usual-cancel').length)
 							$('.btn-usual-cancel').trigger('tap');
-					}, 2000);
+					}, 500);
 				} else if ($('.lis-item.item-large.btn-temporary-large:not(.disable)>img').length) {
 					$('.lis-item.item-large.btn-temporary-large>img').trigger('tap');
 					setTimeout(function () {
@@ -531,13 +531,13 @@ function masterYoda() {
 							$('.btn-usual-use').trigger('tap');
 						if ($('.btn-usual-cancel').length)
 							$('.btn-usual-cancel').trigger('tap');
-					}, 2000);
+					}, 500);
 				} else if ($('.lis-item.item-small.btn-temporary-small.disable>img').length &&
 					$('.lis-item.item-large.btn-temporary-large.disable>img').length) {
 					if ($('.btn-usual-cancel').length)
 						$('.btn-usual-cancel').trigger('tap');
 				}
-			}, 1000);
+			}, 500);
 			return false;
 		}
 		var maxKatha = getMaxKatha();
@@ -630,12 +630,12 @@ function cureEveryone() {
 						$('.btn-usual-use').trigger('tap');
 					if ($('.btn-usual-cancel').length)
 						$('.btn-usual-cancel').trigger('tap');
-				}, 2000);
+				}, 500);
 			} else if ($('.lis-item.item-large.btn-temporary-large.disable>img').length) {
 				if ($('.btn-usual-cancel').length)
 					$('.btn-usual-cancel').trigger('tap');
 			}
-		}, 1000);
+		}, 500);
 		return false;
 	}
 	var someoneDanger = (hp1 <= 50 && hp1 > 0) || (hp2 <= 50 && hp2 > 0) || (hp3 <= 50 && hp3 > 0) || (hp4 <= 50 && hp4 > 0);
@@ -658,12 +658,12 @@ function cureEveryone() {
 						$('.lis-character3:first').trigger('tap');
 					if ($('.btn-usual-cancel').length)
 						$('.btn-usual-cancel').trigger('tap');
-				}, 2000);
+				}, 500);
 			} else if ($('.lis-item.item-small.btn-temporary-small.disable>img').length) {
 				if ($('.btn-usual-cancel').length)
 					$('.btn-usual-cancel').trigger('tap');
 			}
-		}, 1000);
+		}, 500);
 		return false;
 	}
 	return true;
