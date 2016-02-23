@@ -1,28 +1,28 @@
 {
-  "manifest_version": 2,
-  "name": "Granblue Autotasy",
-  "description": "Granblue Fantasy Auto Coopraid Fight",
-  "version": "0.2",
-  "icons": {
-    "16": "icon16.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
-  },
-  "browser_action": {
-    "default_icon": "on.png"
-  },
-  "content_scripts": [{
-    "matches": ["*://gbf.game.mbga.jp/*"],
-    "js": ["js/jquery-2.2.0.min.js", "js/auto.js"]
-  }],
-  "background": {
-    "scripts": ["js/background.js"],
-    "persistent": false
-  },
-  "options_page": "options.html",
-  "permissions": [
-	"tabs",
-    "activeTab",
-    "storage"
-  ]
+	"manifest_version": 2,
+	"name": "Granblue Autotasy",
+	"description": "Granblue Fantasy Auto Coopraid Fight",
+	"version": "0.2",
+	"icons": {
+		"16": "icon16.png",
+		"48": "icon48.png",
+		"128": "icon128.png"
+	},
+	"browser_action": {
+		"default_icon": "on.png"
+	},
+	"content_scripts": [{
+		"matches": ["*://gbf.game.mbga.jp/*"],
+		"js": ["js/jquery-2.2.0.min.js", "js/auto.js"]
+	}],
+	"background": {
+		"scripts": ["js/background.js"],
+		"persistent": false
+	},
+	"options_page": "options.html",
+	"permissions": [
+		"tabs",
+		"activeTab",
+		"storage"
+	]
 }
