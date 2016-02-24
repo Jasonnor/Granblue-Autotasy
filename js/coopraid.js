@@ -482,7 +482,8 @@ var smallSolution = -1;
 var largeSolution = -1;
 
 function checkSolution() {
-	$('.btn-temporary').trigger('tap');
+	if(!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
+		$('.btn-temporary').trigger('tap');
 	setTimeout(function () {
 		smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
 		largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
@@ -511,7 +512,8 @@ function masterYoda() {
 		}
 		var hp = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
 		if (hp <= 50 && (smallSolution > 0 || largeSolution > 0)) {
-			$('.btn-temporary').trigger('tap');
+			if(!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
+				$('.btn-temporary').trigger('tap');
 			setTimeout(function () {
 				smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
 				largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
@@ -618,7 +620,8 @@ function cureEveryone() {
 	if (hp4 <= 70 && hp4 !== 0) cureIndex++;
 	if (hp4 <= 50 && hp4 !== 0) cureIndex++;
 	if (cureIndex > 3 && largeSolution > 0) {
-		$('.btn-temporary').trigger('tap');
+		if(!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
+			$('.btn-temporary').trigger('tap');
 		setTimeout(function () {
 			smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
 			largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
@@ -640,7 +643,8 @@ function cureEveryone() {
 	}
 	var someoneDanger = (hp1 <= 50 && hp1 > 0) || (hp2 <= 50 && hp2 > 0) || (hp3 <= 50 && hp3 > 0) || (hp4 <= 50 && hp4 > 0);
 	if (smallSolution > 0 && someoneDanger) {
-		$('.btn-temporary').trigger('tap');
+		if(!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
+			$('.btn-temporary').trigger('tap');
 		setTimeout(function () {
 			smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
 			largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
