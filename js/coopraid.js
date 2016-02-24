@@ -342,7 +342,7 @@ function raidMulti() {
 				setTimeout(analyzingURL, 1000);
 				return;
 			}
-		} else if (enemyTotal >= 1500000) {
+		} else if (enemyTotal >= 1000000) {
 			if (!simpleMasterYoda()) {
 				setTimeout(analyzingURL, 1000);
 				return;
@@ -377,8 +377,8 @@ function raidMultiSingle() {
 	if (enemyTotal > 1300000) {
 		console.log('==Raid Multi Single-Hard Stage==');
 		var enemyHp = $('.hp-show:first>span').html().split('<br>')[1].replace('%', '');
-		// If enemy's HP is lower than 60%, send assist
-		if (enemyHp < 60 && !$('.btn-assist.disable').length) {
+		// If enemy's HP is lower than 50%, send assist
+		if (enemyHp <= 50 && !$('.btn-assist.disable').length) {
 			$('.btn-assist').trigger('tap');
 			setTimeout(function () {
 				if ($('.btn-usual-text:contains(救援依頼)').length)
