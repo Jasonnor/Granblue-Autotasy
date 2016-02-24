@@ -116,7 +116,7 @@ function supporter() {
 	/* var isMainStoryline = /supporter\/\d{3}/i.test(location.hash); */
 	var isMainStoryline = false;
 	var isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash);
-	var isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash);
+	var isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8100813]').length;
 	var isEventForFire = /supporter\/300051/i.test(location.hash);
 	var isEventForWater = /supporter\/300101/i.test(location.hash);
 	var isEventForLight = /supporter\/300281/i.test(location.hash);
@@ -329,6 +329,7 @@ function raidMulti() {
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if (isCoopraid) {
 		// TODO: if number of person is 1/4, retreat
+		// TODO: if see enemy is died, reload
 		console.log('==Raid Coopraid Stage==');
 		if (enemyTotal >= 100000000) {
 			raidMultiSingle();
@@ -356,7 +357,7 @@ function raidMulti() {
 				setTimeout(analyzingURL, 1000);
 				return;
 			}
-		} else {
+		} else if (enemyNow <= 10000000) {
 			if (!masterYoda()) {
 				setTimeout(analyzingURL, 1000);
 				return;
@@ -365,6 +366,9 @@ function raidMulti() {
 				setTimeout(analyzingURL, 1000);
 				return;
 			}
+		} else {
+			raidMultiSingle();
+			return;
 		}
 	}
 	if ($('.btn-attack-start.display-on').length)
