@@ -357,7 +357,7 @@ function raidMulti() {
 				setTimeout(analyzingURL, 1000);
 				return;
 			}
-		} else if (enemyNow <= 10000000) {
+		} else if (enemyNow <= 100000000) {
 			if (!masterYoda()) {
 				setTimeout(analyzingURL, 1000);
 				return;
