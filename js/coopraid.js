@@ -116,7 +116,7 @@ function supporter() {
 	/* var isMainStoryline = /supporter\/\d{3}/i.test(location.hash); */
 	var isMainStoryline = false;
 	var isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash);
-	var isEventForWind = /supporter\/300261/i.test(location.hash);
+	var isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash);
 	var isEventForFire = /supporter\/300051/i.test(location.hash);
 	var isEventForWater = /supporter\/300101/i.test(location.hash);
 	var isEventForLight = /supporter\/300281/i.test(location.hash);
