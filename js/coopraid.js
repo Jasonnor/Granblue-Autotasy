@@ -321,7 +321,7 @@ function raidMulti() {
 	if ($('.btn-lock.lock1').length)
 		$('.btn-lock.lock1').trigger('tap');
 	if ($('.btn-usual-ok').is(':visible'))
-		$('.btn-usual-ok').trigger('tap');
+		$('.btn-usual-ok:visible').trigger('tap');
 	// Determine whether is a single person battle
 	if ($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
 		raidMultiSingle();
