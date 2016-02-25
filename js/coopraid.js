@@ -1,4 +1,8 @@
 (function () {
+	var stopBtn = document.createElement('div');
+	stopBtn.style.cssText = 'text-align:center;margin:5px;font-size:8px';
+	stopBtn.innerHTML = '<button id="stopBtn" onclick="stopScript()" value="0">Stop Script</button>';
+	$('body').append(stopBtn);
 	analyzingURL();
 })();
 
@@ -12,9 +16,48 @@ function randomTime(time) {
 	return time * (Math.ramdom() + 0.8);
 }
 
-// TODO: Read hidden input to enable script, using right menu to control
+function stopScript() {
+	if($('#stopBtn').val() == 1) {
+		console.log('Start Script ...');
+		$('#stopBtn').val(0);
+		$('#stopBtn').html('Stop Script');
+		if($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
+			$('#mkt_menu_mainsection>div:eq(4)').css('-webkit-filter', 'grayscale(0)');
+			$('#mkt_menu_mainsection>div:eq(4)').css('filter', 'grayscale(0)');
+		}
+		if($('.btn-switch-sound.btn-bgm-change').length) {
+			$('.btn-switch-sound.btn-bgm-change').css('-webkit-filter', 'grayscale(0)');
+			$('.btn-switch-sound.btn-bgm-change').css('filter', 'grayscale(0)');
+		}
+		analyzingURL();
+	}
+	else {
+		console.log('Stop Script ...');
+		$('#stopBtn').val(1);
+		$('#stopBtn').html('Start Script');
+		if($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
+			$('#mkt_menu_mainsection>div:eq(4)').css('-webkit-filter', 'grayscale(1)');
+			$('#mkt_menu_mainsection>div:eq(4)').css('filter', 'grayscale(1)');
+		}
+		if($('.btn-switch-sound.btn-bgm-change').length) {
+			$('.btn-switch-sound.btn-bgm-change').css('-webkit-filter', 'grayscale(1)');
+			$('.btn-switch-sound.btn-bgm-change').css('filter', 'grayscale(1)');
+		}
+	}
+}
+
 // TODO: Rubylottery 100 times
 function analyzingURL() {
+	if($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
+		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('href', 'javascript:void(0);');
+		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('onclick', 'stopScript()');
+	}
+	if($('.btn-switch-sound.btn-bgm-change').length)
+		$('.btn-switch-sound.btn-bgm-change').attr('onclick', 'stopScript()');
+	if($('.bgm-change').length)
+		$('.bgm-change').attr('onclick', 'stopScript()');
+	if($('#stopBtn').val() == 1)
+		return;
 	console.log('==Analyzing URL==');
 	var hash = location.hash;
 	console.log('Get Hash : ' + hash);
@@ -299,7 +342,6 @@ function supporter() {
 	}, 200);
 }
 
-// Select the n-th team
 function selectTeam(n) {
 	$('.flex-control-nav>li:eq(' + n + ')>a').click();
 	setTimeout(function () {
@@ -309,7 +351,6 @@ function selectTeam(n) {
 	}, 800);
 }
 
-// TODO: Add a stop script button
 // TODO: Add refresh button
 function raidMulti() {
 	if ($('.btn-result').is(':visible'))
@@ -331,7 +372,6 @@ function raidMulti() {
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if (isCoopraid) {
 		// TODO: if number of person is 1/4, retreat
-		// TODO: if see enemy is died, reload
 		console.log('==Raid Coopraid Stage==');
 		if (enemyTotal >= 100000000) {
 			raidMultiSingle();
