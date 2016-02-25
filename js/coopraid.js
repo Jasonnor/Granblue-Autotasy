@@ -153,7 +153,7 @@ function room() {
 	if ($('.prt-chat-button').length && !$('#sendStamp').length) {
 		var sendStamp = document.createElement('div');
 		sendStamp.style.cssText = 'text-align:center;line-height:34px;font-size:8px;position:absolute;right:45%;z-index:9999999';
-		sendStamp.innerHTML = '<button id="sendStamp" onclick="sendStamp()">Stamp</button>';
+		sendStamp.innerHTML = '<button id="sendStamp" onclick="sendRoomStamp()">Stamp</button>';
 		$('.prt-chat-button').before(sendStamp);
 	}
 	if ($('.btn-make-ready-large.not-ready').length)
@@ -161,8 +161,8 @@ function room() {
 	else if ($('.btn-execute-ready.se-ok').length)
 		$('.btn-execute-ready.se-ok').trigger('tap');
 	// Send stamp to social
-	if(!$('.prt-member-balloon.btn-member-balloon:visible + div + .prt-member-name:contains(Jasonnor)').length)
-		sendStamp();
+	else if(!$('.prt-member-balloon.btn-member-balloon:visible + div + .prt-member-name:contains(Jasonnor)').length)
+		sendRoomStamp();
 	setTimeout(analyzingURL, 1000);
 }
 
@@ -176,10 +176,14 @@ function leaveRoom() {
 			$('.btn-close').trigger('tap');
 		if ($('.btn-leave').length)
 			$('.btn-leave').trigger('tap');
+		setTimeout(function () {
+			if ($('.btn-usual-close').length)
+				$('.btn-usual-close').trigger('tap');
+		}, 500);
 	}, 500);
 }
 
-function sendStamp() {
+function sendRoomStamp() {
 	if ($('.btn-members-stamp').length)
 		$('.btn-members-stamp').trigger('tap');
 	setTimeout(function () {
