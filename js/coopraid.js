@@ -395,6 +395,15 @@ function raidMultiSingle() {
 				}, 1000);
 			}, 1000);
 			return;
+		}
+		// Gran's Buff Eliminate
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/leader/raid_normal/150101_sw_"])').length && $('.btn-ability-available>div[ability-id=3040]').length > 1 && stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ' && stage.gGameStatus.boss.param[0].condition.buff) {
+			if(stage.gGameStatus.boss.param[0].condition.buff.length) {
+				$('.btn-ability-available>div[ability-id=3040]').trigger('tap');
+				stage.gGameStatus.boss.param[0].condition.buff = 0;
+			}
+			setTimeout(analyzingURL, 1000);
+			return;
 		} else if (!masterYoda()) {
 			setTimeout(analyzingURL, 1000);
 			return;
@@ -409,15 +418,6 @@ function raidMultiSingle() {
 		// Hag's Summon Devil
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040011000_03.jpg"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
 			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-			return;
-		}
-		// Gran's Buff Eliminate
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/leader/raid_normal/150101_sw_"])').length && $('.btn-ability-available>div[ability-id=3040]').length > 1 && stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ' && stage.gGameStatus.boss.param[0].condition.buff) {
-			if(stage.gGameStatus.boss.param[0].condition.buff.length) {
-				$('.btn-ability-available>div[ability-id=3040]').trigger('tap');
-				stage.gGameStatus.boss.param[0].condition.buff = 0;
-			}
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
