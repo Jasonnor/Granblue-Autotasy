@@ -5,7 +5,7 @@ chrome.storage.sync.get({
 		var script = document.createElement('script');
 		// https://cdn.rawgit.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js
 		// https://rawgit.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js
-		var url = 'https://rawgit.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js';
+		var url = chrome.extension.getURL('js/coopraid.js');
 		var inner = "function createScript() {" +
 			"	var script = document.createElement('script');" +
 			"	script.onerror = function(){location.reload()};" +

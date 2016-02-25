@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Granblue Autotasy",
 	"description": "Granblue Fantasy Auto Coopraid Fight",
-	"version": "0.5",
+	"version": "0.6",
 	"icons": {
 		"16": "src/icon/icon16.png",
 		"48": "src/icon/icon48.png",
@@ -15,6 +15,7 @@
 		"matches": ["*://gbf.game.mbga.jp/*"],
 		"js": ["js/jquery-2.2.0.min.js", "js/auto.js"]
 	}],
+	"web_accessible_resources": ["js/coopraid.js"],
 	"background": {
 		"scripts": ["js/background.js"],
 		"persistent": false
