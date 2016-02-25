@@ -414,8 +414,10 @@ function raidMultiSingle() {
 		}
 		// Gran's Buff Eliminate
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/leader/raid_normal/150101_sw_"])').length && $('.btn-ability-available>div[ability-id=3040]').length > 1 && stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ' && stage.gGameStatus.boss.param[0].condition.buff) {
-			if(stage.gGameStatus.boss.param[0].condition.buff.length)
+			if(stage.gGameStatus.boss.param[0].condition.buff.length) {
 				$('.btn-ability-available>div[ability-id=3040]').trigger('tap');
+				stage.gGameStatus.boss.param[0].condition.buff = 0;
+			}
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
