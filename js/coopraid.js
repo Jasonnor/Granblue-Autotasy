@@ -142,7 +142,6 @@ function offerCancel() {
 	setTimeout(analyzingURL, 100);
 }
 
-// TODO: if others send stamp, send it.
 function room() {
 	console.log('==Room Stage==');
 	if ($('.prt-chat-button').length && !$('#leaveRoom').length) {
@@ -151,10 +150,19 @@ function room() {
 		leaveRoom.innerHTML = '<button id="leaveRoom" onclick="leaveRoom()">Leave</button>';
 		$('.prt-chat-button').before(leaveRoom);
 	}
+	if ($('.prt-chat-button').length && !$('#sendStamp').length) {
+		var sendStamp = document.createElement('div');
+		sendStamp.style.cssText = 'text-align:center;line-height:34px;font-size:8px;position:absolute;right:45%;z-index:9999999';
+		sendStamp.innerHTML = '<button id="sendStamp" onclick="sendStamp()">Stamp</button>';
+		$('.prt-chat-button').before(sendStamp);
+	}
 	if ($('.btn-make-ready-large.not-ready').length)
 		$('.btn-make-ready-large.not-ready').trigger('tap');
 	else if ($('.btn-execute-ready.se-ok').length)
 		$('.btn-execute-ready.se-ok').trigger('tap');
+	// Send stamp to social
+	if(!$('.prt-member-balloon.btn-member-balloon:visible + div + .prt-member-name:contains(Jasonnor)').length)
+		sendStamp();
 	setTimeout(analyzingURL, 1000);
 }
 
@@ -168,6 +176,17 @@ function leaveRoom() {
 			$('.btn-close').trigger('tap');
 		if ($('.btn-leave').length)
 			$('.btn-leave').trigger('tap');
+	}, 500);
+}
+
+function sendStamp() {
+	if ($('.btn-members-stamp').length)
+		$('.btn-members-stamp').trigger('tap');
+	setTimeout(function () {
+		if ($('.lis-stamp.selectable>img[data-stamp-id=4]').length)
+			$('.lis-stamp.selectable>img[data-stamp-id=4]').trigger('tap');
+		if ($('.btn-usual-cancel').length)
+			$('.btn-usual-cancel').trigger('tap');
 	}, 500);
 }
 
