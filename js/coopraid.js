@@ -143,14 +143,32 @@ function offerCancel() {
 }
 
 // TODO: if others send stamp, send it.
-// TODO: Add a leave room button
 function room() {
 	console.log('==Room Stage==');
+	if ($('.prt-chat-button').length && !$('#leaveRoom').length) {
+		var leaveRoom = document.createElement('div');
+		leaveRoom.style.cssText = 'text-align:center;line-height:34px;font-size:8px;position:absolute;right:30%;z-index:9999999';
+		leaveRoom.innerHTML = '<button id="leaveRoom" onclick="leaveRoom()">Leave</button>';
+		$('.prt-chat-button').before(leaveRoom);
+	}
 	if ($('.btn-make-ready-large.not-ready').length)
 		$('.btn-make-ready-large.not-ready').trigger('tap');
 	else if ($('.btn-execute-ready.se-ok').length)
 		$('.btn-execute-ready.se-ok').trigger('tap');
 	setTimeout(analyzingURL, 1000);
+}
+
+function leaveRoom() {
+	if ($('.btn-close-room').length)
+		$('.btn-close-room').trigger('tap');
+	if ($('.btn-leave-room').length)
+		$('.btn-leave-room').trigger('tap');
+	setTimeout(function () {
+		if ($('.btn-close').length)
+			$('.btn-close').trigger('tap');
+		if ($('.btn-leave').length)
+			$('.btn-leave').trigger('tap');
+	}, 500);
 }
 
 function supporter() {
