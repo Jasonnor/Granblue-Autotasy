@@ -217,12 +217,12 @@ function supporter() {
 		// 土60%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(土):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(土):not(:contains(「大地」))').trigger('tap');
-		// 土50%
-		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」))').trigger('tap');
 		// 土100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').trigger('tap');
+		// 土50%
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」))').trigger('tap');
 	} else if (isEventForWind) {
 		// 風80%
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').length)
@@ -402,7 +402,7 @@ function raidMulti() {
 	}
 	if ($('.btn-lock.lock1').length)
 		$('.btn-lock.lock1').trigger('tap');
-	if ($('.btn-usual-ok').is(':visible'))
+	if ($('div:not(:has(div>.prt-item-result>.txt-stamina-title:contains(エリクシール)))+.prt-popup-footer>.btn-usual-ok').is(':visible'))
 		$('.btn-usual-ok:visible').trigger('tap');
 	// Determine whether is a single person battle
 	if ($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
@@ -480,11 +480,9 @@ function raidMultiSingle() {
 			return;
 		}
 		// Gran's Buff Eliminate
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/leader/raid_normal/150101_sw_"])').length && $('.btn-ability-available>div[ability-id=3040]').length > 1 && stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ' && stage.gGameStatus.boss.param[0].condition.buff) {
-			if(stage.gGameStatus.boss.param[0].condition.buff.length) {
-				$('.btn-ability-available>div[ability-id=3040]').trigger('tap');
-				stage.gGameStatus.boss.param[0].condition.buff = 0;
-			}
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/leader/raid_normal/150101_sw_"])').length && $('.btn-ability-available>div[ability-id=3040]').length > 1 && stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ' && stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff.length) {
+			$('.btn-ability-available>div[ability-id=3040]').trigger('tap');
+			stage.gGameStatus.boss.param[0].condition.buff = 0;
 			setTimeout(analyzingURL, 1000);
 			return;
 		} else if (!masterYoda()) {
