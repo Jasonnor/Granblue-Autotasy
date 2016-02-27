@@ -480,7 +480,7 @@ function raidMultiSingle() {
 			return;
 		}
 		// Gran's Buff Eliminate
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/leader/raid_normal/150101_sw_"])').length && $('.btn-ability-available>div[ability-id=3040]').length > 1 && stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ' && stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff.length) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-id=3040]').length > 1 && stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ' && stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff.length) {
 			$('.btn-ability-available>div[ability-id=3040]').trigger('tap');
 			stage.gGameStatus.boss.param[0].condition.buff = 0;
 			setTimeout(analyzingURL, 1000);
@@ -497,7 +497,7 @@ function raidMultiSingle() {
 			return;
 		}
 		// Hag's Summon Devil
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040011000_03.jpg"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000_03.jpg"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
 			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
@@ -524,10 +524,10 @@ function raidMultiSingle() {
 			return;
 		}
 		// DarkFencer's Slow
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/leader/raid_normal/150101_sw_"])').length && stage.pJsnData.boss.param[0].recast > stage.pJsnData.boss.param[0].recastmax) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && stage.pJsnData.boss.param[0].recast > stage.pJsnData.boss.param[0].recastmax) {
 			location.reload();
 			return;
-		} else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/leader/raid_normal/150101_sw_"])').length && $('.btn-ability-available>div[ability-id=1201]').length > 1 && stage.pJsnData.boss.param[0].recast < stage.pJsnData.boss.param[0].recastmax) {
+		} else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-id=1201]').length > 1 && stage.pJsnData.boss.param[0].recast < stage.pJsnData.boss.param[0].recastmax) {
 			$('.btn-ability-available>div[ability-id=1201]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
@@ -806,7 +806,7 @@ function raid() {
 		return;
 	}
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
-	if (enemyTotal >= 700000)
+	if (enemyTotal >= 600000)
 		if (!simpleMasterYoda()) {
 			setTimeout(analyzingURL, 1000);
 			return;
