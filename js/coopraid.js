@@ -197,11 +197,15 @@ function sendRoomStamp() {
 function supporter() {
 	// You can see pic of supporter at src/supporter
 	console.log('==Supporter Stage==');
-	/* var isMainStoryline = /supporter\/\d{3}/i.test(location.hash); */
-	var isMainStoryline = false;
+	var isMainStoryline = /supporter\/\d{2,3}\/0/i.test(location.hash);
+	var isMultiBattle = /supporter\/3\d{5}\/1/i.test(location.hash);
+	var isCharStory = /supporter\/2\d{5}\/2/i.test(location.hash);
+	var isBranchLine = /supporter\/1\d{5}\/3/i.test(location.hash);
+	var isOrdealEvent = /supporter\/4\d{5}\/4/i.test(location.hash) || /supporter\/5\d{5}\/5/i.test(location.hash);
+	var isCoopraid = /supporter\/6\d{5}\/7/i.test(location.hash);
 	var isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash);
 	var isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || /supporter\/708651/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8100813]').length;
-	var isEventForFire = /supporter\/300051/i.test(location.hash);
+	var isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101203]').length || $('.prt-raid-thumbnail>img[alt=8101213]').length;
 	var isEventForWater = /supporter\/300101/i.test(location.hash);
 	var isEventForLight = /supporter\/300281/i.test(location.hash);
 	var isEventForDark = /supporter\/300271/i.test(location.hash);
@@ -259,12 +263,12 @@ function supporter() {
 		// 水80% + 20%hp
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').trigger('tap');
-		// 水80%
-		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').trigger('tap');
 		// 水100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').trigger('tap');
+		// 水80%
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').trigger('tap');
 		// 水60%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').trigger('tap');
@@ -337,9 +341,9 @@ function supporter() {
 	else if ($('.prt-summon-image[data-image=2030026000]').length)
 		$('.prt-summon-image[data-image=2030026000]').trigger('tap');
 	// Mushroom RM
-	else if (isMainStoryline && $('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').length)
+	else if ((isMainStoryline || isBranchLine) && $('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').length)
 		$('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').trigger('tap');
-	else if (isMainStoryline && $('.prt-summon-image[data-image=2030051000]').length)
+	else if ((isMainStoryline || isBranchLine) && $('.prt-summon-image[data-image=2030051000]').length)
 		$('.prt-summon-image[data-image=2030051000]').trigger('tap');
 	// Exp King
 	else if ($('.prt-summon-image[data-image=2040025000]+div>.bless-rank1-style').length)
@@ -347,10 +351,10 @@ function supporter() {
 	else if ($('.prt-summon-image[data-image=2040025000]').length)
 		$('.prt-summon-image[data-image=2040025000]').trigger('tap');
 	// Grande
-	else if ($('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').length)
+	/*else if ($('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').length)
 		$('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').trigger('tap');
 	else if ($('.prt-summon-image[data-image=2040065000]').length)
-		$('.prt-summon-image[data-image=2040065000]').trigger('tap');
+		$('.prt-summon-image[data-image=2040065000]').trigger('tap');*/
 	// 風80%
 	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').length)
 		$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').trigger('tap');
@@ -435,12 +439,13 @@ function raidMulti() {
 	} else {
 		console.log('==Raid Multi Stage==');
 		var enemyNow = $('.hp-show:first>span').html().split('/')[0];
-		if (enemyNow <= 3000000) {
+		var MVP = $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible');
+		if (enemyNow <= 3000000 && !MVP) {
 			if (!simpleMasterYoda()) {
 				setTimeout(analyzingURL, 1000);
 				return;
 			}
-		} else if (enemyNow <= 100000000) {
+		} else if (enemyNow <= 100000000 && !MVP) {
 			if (!masterYoda()) {
 				setTimeout(analyzingURL, 1000);
 				return;
@@ -855,8 +860,10 @@ function assist() {
 				$('.img-raid-thumbnail[alt=2040008000]').trigger('tap');
 			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040086000])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040086000]').trigger('tap');
+			/*
 			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt*=high])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt*=high])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').trigger('tap');
+			*/
 			else
 				return;
 			setTimeout(function () {
