@@ -6,9 +6,48 @@
 	analyzingURL();
 })();
 
+(function(console){
+    console.save = function(data, filename){
+        if (!data) {
+            console.error('Console.save: No data')
+            return;
+        }
+        if (!filename) filename = 'console.json'
+        if (typeof data === "object") {
+            data = JSON.stringify(data, undefined, 4)
+        }
+        var blob = new Blob([data], {type: 'text/json'});
+        var e = document.createEvent('MouseEvents');
+        var a = document.createElement('a');
+        a.download = filename;
+        a.href = window.URL.createObjectURL(blob);
+        a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':');
+        e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        a.dispatchEvent(e);
+    }
+})(console)
+
 Game.reportError = function (msg, url, line, column, err, callback) {
-	console.log(msg, url, line, column, err, callback);
-	location.reload();
+	var recordLog = 'Message: ' + msg + '\r\nUrl: ' + url + '\r\nLine: ' + line + '\r\nColumn: ' + column + '\r\nError: ' + err + '\r\nCallback: ' + callback;
+	var currentdate = new Date(); 
+	var year = currentdate.getFullYear();
+	var month = (1 + currentdate.getMonth()).toString();
+	var day = currentdate.getDate().toString();
+	var hour = currentdate.getHours().toString();
+	var min = currentdate.getMinutes().toString();
+	var sec = currentdate.getSeconds().toString();
+	month = month.length > 1 ? month : '0' + month;
+	day = day.length > 1 ? day : '0' + day;
+	hour = hour.length > 1 ? hour : '0' + hour;
+	min = min.length > 1 ? min : '0' + min;
+	sec = sec.length > 1 ? sec : '0' + sec;
+	var datetime = year + '-' + month + '-' + day + ' ' + hour + '-' + min + '-'+ sec;
+	console.log(recordLog);
+	console.save(recordLog, 'errorRecord-' + datetime + '.log');
+	// msg.indexOf("Script error") > -1
+	var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1;
+	if (needReload)
+		location.reload();
 };
 
 // TODO: replace all time to randomTime(time)
@@ -221,19 +260,19 @@ function supporter() {
 		// 土60%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(土):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(土):not(:contains(「大地」))').trigger('tap');
-		// 土100% Anima
-		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').trigger('tap');
 		// 土50%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」))').trigger('tap');
+		// 土100% Anima
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').trigger('tap');
 	} else if (isEventForWind) {
-		// 風80%
-		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').trigger('tap');
 		// 風100% Anima
-		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').length)
+		if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').trigger('tap');
+		// 風80%
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').trigger('tap');
 		// 風70%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(風):not(:contains(「竜巻」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(風):not(:contains(「竜巻」))').trigger('tap');
@@ -263,9 +302,6 @@ function supporter() {
 		// 水80% + 20%hp
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').trigger('tap');
-		// 水100% Anima
-		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').trigger('tap');
 		// 水80%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').trigger('tap');
@@ -275,6 +311,9 @@ function supporter() {
 		// 水50%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」))').trigger('tap');
+		// 水100% Anima
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').trigger('tap');
 	} else if (isEventForLight) {
 		// 光120%
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(光):not(:contains(「雷電」))').length)
@@ -487,7 +526,7 @@ function raidMultiSingle() {
 		// Gran's Buff Eliminate
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-id=3040]').length > 1 && stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ' && stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff.length) {
 			$('.btn-ability-available>div[ability-id=3040]').trigger('tap');
-			stage.gGameStatus.boss.param[0].condition.buff = 0;
+			stage.gGameStatus.boss.param[0].condition.buff = [];
 			setTimeout(analyzingURL, 1000);
 			return;
 		} else if (!masterYoda()) {
@@ -502,17 +541,17 @@ function raidMultiSingle() {
 			return;
 		}
 		// Hag's Summon Devil
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000_03.jpg"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000_03"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
 			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		// Use all skill, order : yellow(3) > green(2) > blue(4) > red(1)
-		// Expect list: Blackmeat(5322-3), Yoda(2172-1, 3173-3, 555-2), Hag(510-3), Darkfencer(1201-1), Gran(3040-4)
+		// Expect list: Blackmeat(5322-3), Yoda(2172-1, 3173-3, 555-2), Hag(510-3), Darkfencer(1201-1), Gran(3040-4), Sara(352-3, 294-3)
 		// Bug: If can not use skill, will stop here
 		// TODO: var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
-		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510])').trigger('tap');
+		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		} else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([ability-id=555])').length) {
@@ -534,6 +573,16 @@ function raidMultiSingle() {
 			return;
 		} else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-id=1201]').length > 1 && stage.pJsnData.boss.param[0].recast < stage.pJsnData.boss.param[0].recastmax) {
 			$('.btn-ability-available>div[ability-id=1201]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// Sara's defense
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000_02"])').length && $('.btn-ability-available>div[ability-id=352]').length > 1 && stage.pJsnData.boss.param[0].recast == 1) {
+			$('.btn-ability-available>div[ability-id=352]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		} else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000_02"])').length && $('.btn-ability-available>div[ability-id=294]').length > 1 && stage.pJsnData.boss.param[0].recast == 1) {
+			$('.btn-ability-available>div[ability-id=294]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
