@@ -99,6 +99,11 @@ function analyzingURL() {
 		$('.bgm-change').attr('onclick', 'stopScript()');
 	if ($('#stopBtn').val() == 1)
 		return;
+	if($('#pop-captcha>div>.prt-popup-header:contains(認証)').is(':visible')) {
+		var audio = new Audio('https://cdn.rawgit.com/Jasonnor/Granblue-Autotasy/master/js/alert_minions.mp3');
+		audio.play();
+		return;
+	}
 	if (errorTimes > 15) {
 		location.reload();
 		return;
