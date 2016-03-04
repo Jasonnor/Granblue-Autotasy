@@ -45,10 +45,12 @@ Game.reportError = function (msg, url, line, column, err, callback) {
 	console.log(recordLog);
 	console.save(recordLog, 'errorRecord-' + datetime + '.log');
 	// msg.indexOf("Script error") > -1
-	var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1;
+	var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'3' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1;
 	if (needReload)
 		location.reload();
 };
+
+var errorTimes = 0;
 
 // TODO: replace all time to randomTime(time)
 function randomTime(time) {
@@ -87,16 +89,20 @@ function stopScript() {
 
 // TODO: Rubylottery 100 times
 function analyzingURL() {
-	if($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
+	if ($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
 		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('href', 'javascript:void(0);');
 		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('onclick', 'stopScript()');
 	}
-	if($('.btn-switch-sound.btn-bgm-change').length)
+	if ($('.btn-switch-sound.btn-bgm-change').length)
 		$('.btn-switch-sound.btn-bgm-change').attr('onclick', 'stopScript()');
-	if($('.bgm-change').length)
+	if ($('.bgm-change').length)
 		$('.bgm-change').attr('onclick', 'stopScript()');
-	if($('#stopBtn').val() == 1)
+	if ($('#stopBtn').val() == 1)
 		return;
+	if (errorTimes > 15) {
+		location.reload();
+		return;
+	}
 	console.log('==Analyzing URL==');
 	var hash = location.hash;
 	console.log('Get Hash : ' + hash);
@@ -130,11 +136,6 @@ function coopraid() {
 	console.log('==Coopraid Stage==');
 	if ($('.btn-join').length)
 		$('.btn-join').trigger('tap');
-	else if ($('.prt-result-head head-win').length) {
-		setTimeout(function () {
-			location.reload();
-		}, 1000);
-	}
 	setTimeout(analyzingURL, 1000);
 }
 
@@ -208,12 +209,12 @@ function room() {
 function leaveRoom() {
 	if ($('.btn-close-room').length)
 		$('.btn-close-room').trigger('tap');
-	if ($('.btn-leave-room').length)
+	else if ($('.btn-leave-room').length)
 		$('.btn-leave-room').trigger('tap');
 	setTimeout(function () {
 		if ($('.btn-close').length)
 			$('.btn-close').trigger('tap');
-		if ($('.btn-leave').length)
+		else if ($('.btn-leave').length)
 			$('.btn-leave').trigger('tap');
 		setTimeout(function () {
 			if ($('.btn-usual-close').length)
@@ -394,6 +395,9 @@ function supporter() {
 		$('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').trigger('tap');
 	else if ($('.prt-summon-image[data-image=2040065000]').length)
 		$('.prt-summon-image[data-image=2040065000]').trigger('tap');*/
+	// 風100% Anima
+	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').trigger('tap');
 	// 風80%
 	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').length)
 		$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').trigger('tap');
@@ -406,9 +410,6 @@ function supporter() {
 	// 風50%
 	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」))').length)
 		$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」))').trigger('tap');
-	// 風100% Anima
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').trigger('tap');
 	// Others
 	else if ($('.prt-supporter-detail').length)
 		$('.prt-supporter-detail').trigger('tap');
@@ -443,6 +444,10 @@ function raidMulti() {
 		setTimeout(analyzingURL, 1000);
 		return;
 	}
+	if (stage.gGameStatus.boss.param[0].hp == 0) {
+		location.reload();
+		return;
+	}
 	if ($('.btn-lock.lock1').length)
 		$('.btn-lock.lock1').trigger('tap');
 	if ($('div:not(:has(div>.prt-item-result>.txt-stamina-title:contains(エリクシール)))+.prt-popup-footer>.btn-usual-ok').is(':visible'))
@@ -462,6 +467,7 @@ function raidMulti() {
 			return;
 		} else if (enemyTotal >= 3000000) {
 			if (!masterYoda()) {
+				errorTimes++;
 				setTimeout(analyzingURL, 1000);
 				return;
 			} else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
@@ -471,6 +477,7 @@ function raidMulti() {
 			}
 		} else if (enemyTotal >= 1000000) {
 			if (!simpleMasterYoda()) {
+				errorTimes++;
 				setTimeout(analyzingURL, 1000);
 				return;
 			}
