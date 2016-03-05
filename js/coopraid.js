@@ -640,8 +640,13 @@ function dropRateUpAttack() {
 		}, 500);
 		return;
 	}
-	else if ($('.btn-attack-start.display-on').length)
+	else if ($('.btn-attack-start.display-on').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
+		setTimeout(function () {
+			if ($('.btn-attack-start.display-on').length)
+				location.reload();
+		}, 1500);
+	}
 	setTimeout(analyzingURL, 1500);
 }
 
