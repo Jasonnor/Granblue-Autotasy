@@ -453,8 +453,7 @@ function raidMulti() {
 		location.reload();
 		return;
 	}
-	if ($('.btn-lock.lock1').length)
-		$('.btn-lock.lock1').trigger('tap');
+	isMaxKatha('all');
 	if ($('div:not(:has(div>.prt-item-result>.txt-stamina-title:contains(エリクシール)))+.prt-popup-footer>.btn-usual-ok').is(':visible'))
 		$('.btn-usual-ok:visible').trigger('tap');
 	// Determine whether is a single person battle
@@ -553,17 +552,17 @@ function raidMultiSingle() {
 			return;
 		}
 		// Hag's Summon Devil
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000_03"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
 			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		// Use all skill, order : yellow(3) > green(2) > blue(4) > red(1)
-		// Expect list: Blackmeat(5322-3), Yoda(2172-1, 3173-3, 555-2), Hag(510-3), Darkfencer(1201-1), Gran(3040-4), Sara(352-3, 294-3)
-		// Bug: If can not use skill, will stop here
+		// Expect list: Blackmeat(5322-3, 2117-1), Yoda(2172-1, 3173-3, 555-2), Hag(510-3), Darkfencer(1201-1), Gran(3040-4), Sara(352-3, 294-3), Catgirl(4107-1, 195-3)
+		// BUG: If can not use skill, will stop here
 		// TODO: var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
-		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294])').trigger('tap');
+		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		} else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([ability-id=555])').length) {
@@ -574,8 +573,8 @@ function raidMultiSingle() {
 			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([ability-id=3040])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
-		} else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201])').trigger('tap');
+		} else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201]):not([ability-id=2117]):not([ability-id=4107])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201]):not([ability-id=2117]):not([ability-id=4107])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -588,12 +587,29 @@ function raidMultiSingle() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
+		// Catgirl
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040022000"])').length && $('.btn-ability-available>div[ability-id=4107]').length > 1 && !isMaxKatha('3040022000')) {
+			$('.btn-ability-available>div[ability-id=4107]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040022000"])').length && $('.btn-ability-available>div[ability-id=195]').length > 1 && !isMaxKatha('3040022000')) {
+			$('.btn-ability-available>div[ability-id=195]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// Blackmeat's shoot
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040069000"])').length && $('.btn-ability-available>div[ability-id=2117]').length > 1 && !isMaxKatha('3040069000')) {
+			$('.btn-ability-available>div[ability-id=2117]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
 		// Sara's defense
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000_02"])').length && $('.btn-ability-available>div[ability-id=352]').length > 1 && stage.pJsnData.boss.param[0].recast == 1) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000"])').length && $('.btn-ability-available>div[ability-id=352]').length > 1 && stage.pJsnData.boss.param[0].recast == 1) {
 			$('.btn-ability-available>div[ability-id=352]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
-		} else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000_02"])').length && $('.btn-ability-available>div[ability-id=294]').length > 1 && stage.pJsnData.boss.param[0].recast == 1) {
+		} else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000"])').length && $('.btn-ability-available>div[ability-id=294]').length > 1 && stage.pJsnData.boss.param[0].recast == 1) {
 			$('.btn-ability-available>div[ability-id=294]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
@@ -606,6 +622,42 @@ function raidMultiSingle() {
 		}
 	}
 	dropRateUpAttack();
+}
+
+function isMaxKatha(targetPicture) {
+	var char1 = ($('.lis-character0.btn-command-character.blank').length) ? 0 : parseInt($('.lis-character0>.prt-percent>span:first').html());
+	var char2 = ($('.lis-character1.btn-command-character.blank').length) ? 0 : parseInt($('.lis-character1>.prt-percent>span:first').html());
+	var char3 = ($('.lis-character2.btn-command-character.blank').length) ? 0 : parseInt($('.lis-character2>.prt-percent>span:first').html());
+	var char4 = ($('.lis-character3.btn-command-character.blank').length) ? 0 : parseInt($('.lis-character3>.prt-percent>span:first').html());
+	if (char1 >= 100) {
+		char2 += 10;
+		char3 += 10;
+		char4 += 10;
+	}
+	if (char2 >= 100) {
+		char3 += 10;
+		char4 += 10;
+	}
+	if (char3 >= 100)
+		char4 += 10;
+	if (targetPicture == 'all') {
+		var someoneMax = char1 >= 100 || char2 >= 100 || char3 >= 100 || char4 >= 100;
+		var someoneAlmost = (char1 >= 90 && char1 < 100) || (char2 >= 90 && char2 < 100) || (char3 >= 90 && char3 < 100) || (char4 >= 90 && char4 < 100);
+		if (someoneMax && someoneAlmost && $('.btn-lock.lock0').length)
+				$('.btn-lock.lock0').trigger('tap');
+		else if ((!someoneMax || !someoneAlmost) && $('.btn-lock.lock1').length)
+				$('.btn-lock.lock1').trigger('tap');
+	}
+	else {
+		var position = $('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="' + targetPicture + '"])').attr('pos');
+		switch (position) {
+			case '0': return char1 >= 100;
+			case '1': return char2 >= 100;
+			case '2': return char3 >= 100;
+			case '3': return char4 >= 100;
+			default: return false;
+		}
+	}
 }
 
 function summonByCode(code) {
@@ -677,7 +729,7 @@ function masterYoda() {
 		}, 1000);
 		return false;
 	}
-	if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
+	if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src*="3040064000"])').length) {
 		if (smallSolution == -1 || smallSolution === undefined || largeSolution == -1 || largeSolution === undefined) {
 			checkSolution();
 			return false;
@@ -714,7 +766,7 @@ function masterYoda() {
 			}, 500);
 			return false;
 		}
-		var maxKatha = getMaxKatha();
+		var maxKatha = isMaxKatha('3040064000');
 		var threeStatus = getThreeStatus();
 		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
 		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1111]').length;
@@ -725,8 +777,6 @@ function masterYoda() {
 			$('.btn-ability-available>div[ability-id=3173]').trigger('tap');
 		if (threeStatus === 0 && $('.btn-ability-available>div[ability-id=2172]').length > 1 && canUseSkill)
 			$('.btn-ability-available>div[ability-id=2172]').trigger('tap');
-		if (!maxKatha && $('.btn-lock.lock1').length)
-			$('.btn-lock.lock1').trigger('tap');
 		if (threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length)
 			$('.btn-lock.lock1').trigger('tap');
 		if (threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length)
@@ -735,31 +785,11 @@ function masterYoda() {
 		if ((threeStatus === 0 && canUseStatus && canUseSkill) ||
 			(threeStatus === 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1 && canUseSkill) ||
 			(threeStatus === 0 && $('.btn-ability-available>div[ability-id=2172]').length > 1 && canUseSkill) ||
-			(!maxKatha && $('.btn-lock.lock1').length) ||
 			(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) ||
 			(threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length))
 			return false;
 	}
 	return true;
-}
-
-function getMaxKatha() {
-	var char1 = parseInt($('.lis-character0>.prt-percent>span:first').html());
-	var char2 = parseInt($('.lis-character1>.prt-percent>span:first').html());
-	var char3 = parseInt($('.lis-character2>.prt-percent>span:first').html());
-	var char4 = parseInt($('.lis-character3>.prt-percent>span:first').html());
-	if (char1 >= 100) {
-		char2 += 10;
-		char3 += 10;
-		char4 += 10;
-	}
-	if (char2 >= 100) {
-		char3 += 10;
-		char4 += 10;
-	}
-	if (char3 >= 100)
-		char4 += 10;
-	return (char4 >= 100) ? true : false;
 }
 
 function getThreeStatus() {
@@ -846,14 +876,14 @@ function cureEveryone() {
 }
 
 function simpleMasterYoda() {
-	if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src="http://gbf.game-a1.mbga.jp/assets/img_light/sp/assets/npc/raid_normal/3040064000_02.jpg"])').length) {
-		var maxKatha = getMaxKatha();
+	if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src*="3040064000"])').length) {
+		var maxKatha = isMaxKatha('3040064000');
 		var threeStatus = getThreeStatus();
 		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
 		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1111]').length;
-		if ($('.btn-lock.lock1').length)
-			$('.btn-lock.lock1').trigger('tap');
 		if (threeStatus != 3 && canUseStatus && canUseSkill && maxKatha) {
+			if ($('.btn-lock.lock1').length)
+				$('.btn-lock.lock1').trigger('tap');
 			$('.btn-ability-available>div[ability-id=555]').trigger('tap');
 			return false;
 		}
