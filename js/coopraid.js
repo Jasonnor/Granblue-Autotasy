@@ -1,7 +1,7 @@
 (function () {
 	var stopBtn = document.createElement('div');
 	stopBtn.style.cssText = 'text-align:center;margin:5px;font-size:8px';
-	stopBtn.innerHTML = '<button id="stopBtn" onclick="stopScript()" value="0">Stop Script</button>';
+	stopBtn.innerHTML = '<button id="stopBtn" onclick="stopScript()" value="0" style="color:white;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(140, 220, 250, 0.8)), color-stop(0.4, rgba(75, 170, 190, 0.8)), color-stop(0.6, rgba(75, 170, 190, 0.8)), to(rgba(140, 220, 250, 0.8)));border:1px solid rgb(85, 102, 119);border-radius:5px;">Stop Script</button>';
 	$('body').append(stopBtn);
 	analyzingURL();
 })();
@@ -192,13 +192,13 @@ function room() {
 	if ($('.prt-chat-button').length && !$('#leaveRoom').length) {
 		var leaveRoom = document.createElement('div');
 		leaveRoom.style.cssText = 'text-align:center;line-height:34px;font-size:8px;position:absolute;right:30%;z-index:9999999';
-		leaveRoom.innerHTML = '<button id="leaveRoom" onclick="leaveRoom()">Leave</button>';
+		leaveRoom.innerHTML = '<button id="leaveRoom" onclick="leaveRoom()" style="color:white;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(140, 220, 250, 0.8)), color-stop(0.4, rgba(75, 170, 190, 0.8)), color-stop(0.6, rgba(75, 170, 190, 0.8)), to(rgba(140, 220, 250, 0.8)));border:1px solid rgb(85, 102, 119);border-radius:5px;">Leave</button>';
 		$('.prt-chat-button').before(leaveRoom);
 	}
 	if ($('.prt-chat-button').length && !$('#sendStamp').length) {
 		var sendStamp = document.createElement('div');
 		sendStamp.style.cssText = 'text-align:center;line-height:34px;font-size:8px;position:absolute;right:45%;z-index:9999999';
-		sendStamp.innerHTML = '<button id="sendStamp" onclick="sendRoomStamp()">Stamp</button>';
+		sendStamp.innerHTML = '<button id="sendStamp" onclick="sendRoomStamp()" style="color:white;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(140, 220, 250, 0.8)), color-stop(0.4, rgba(75, 170, 190, 0.8)), color-stop(0.6, rgba(75, 170, 190, 0.8)), to(rgba(140, 220, 250, 0.8)));border:1px solid rgb(85, 102, 119);border-radius:5px;">Stamp</button>';
 		$('.prt-chat-button').before(sendStamp);
 	}
 	if ($('.btn-make-ready-large.not-ready').length)
@@ -891,8 +891,8 @@ function resultMulti() {
 
 function assist() {
 	console.log('==Assist Stage==');
-	if ($('#tab-multi').length) {
-		$('#tab-multi').trigger('tap');
+	if ($('#tab-multi.active').length) {
+		$('#tab-multi.active').trigger('tap');
 		setTimeout(function () {
 			// You can see pic of summon at src/assist
 			if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2030002000_hell])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
@@ -932,6 +932,8 @@ function assist() {
 					$('.prt-item-disp:last>.prt-use-button>.btn-use-full').trigger('tap');
 			}, 3000);
 		}, 1000);
+	} else if ($('#tab-event.active').length) {
+		$('#tab-event.active').trigger('tap');
 	}
 	setTimeout(analyzingURL, 3000);
 }
