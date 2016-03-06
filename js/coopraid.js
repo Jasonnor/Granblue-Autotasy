@@ -29,25 +29,28 @@
 
 Game.reportError = function (msg, url, line, column, err, callback) {
 	var recordLog = 'Message: ' + msg + '\r\nUrl: ' + url + '\r\nLine: ' + line + '\r\nColumn: ' + column + '\r\nError: ' + err + '\r\nCallback: ' + callback;
-	var currentdate = new Date(); 
-	var year = currentdate.getFullYear();
-	var month = (1 + currentdate.getMonth()).toString();
-	var day = currentdate.getDate().toString();
-	var hour = currentdate.getHours().toString();
-	var min = currentdate.getMinutes().toString();
-	var sec = currentdate.getSeconds().toString();
-	month = month.length > 1 ? month : '0' + month;
-	day = day.length > 1 ? day : '0' + day;
-	hour = hour.length > 1 ? hour : '0' + hour;
-	min = min.length > 1 ? min : '0' + min;
-	sec = sec.length > 1 ? sec : '0' + sec;
-	var datetime = year + '-' + month + '-' + day + ' ' + hour + '-' + min + '-'+ sec;
 	console.log(recordLog);
-	console.save(recordLog, 'errorRecord-' + datetime + '.log');
 	// msg.indexOf("Script error") > -1
 	var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'3' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1;
-	if (needReload)
+	if (needReload) {
 		location.reload();
+	}
+	else {
+		var currentdate = new Date(); 
+		var year = currentdate.getFullYear();
+		var month = (1 + currentdate.getMonth()).toString();
+		var day = currentdate.getDate().toString();
+		var hour = currentdate.getHours().toString();
+		var min = currentdate.getMinutes().toString();
+		var sec = currentdate.getSeconds().toString();
+		month = month.length > 1 ? month : '0' + month;
+		day = day.length > 1 ? day : '0' + day;
+		hour = hour.length > 1 ? hour : '0' + hour;
+		min = min.length > 1 ? min : '0' + min;
+		sec = sec.length > 1 ? sec : '0' + sec;
+		var datetime = year + '-' + month + '-' + day + ' ' + hour + '-' + min + '-'+ sec;
+		console.save(recordLog, 'errorRecord-' + datetime + '.log');
+	}
 };
 
 var errorTimes = 0;
@@ -536,6 +539,7 @@ function raidMultiSingle() {
 		}
 		// Gran's Buff Eliminate
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-id=3040]').length > 1 && stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ' && stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff.length) {
+			//BUG: if stage.gGameStatus.boss.param[0].condition.buff == null , stage.gGameStatus.boss.param[0].condition.buff.length will get error
 			$('.btn-ability-available>div[ability-id=3040]').trigger('tap');
 			stage.gGameStatus.boss.param[0].condition.buff = [];
 			setTimeout(analyzingURL, 1000);
@@ -551,18 +555,24 @@ function raidMultiSingle() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		// Hag's Summon Devil
+		// Magisa's Summon Devil
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
 			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
+		// Shiku's water buff
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030106000"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1068]').length && $('.btn-ability-available>div[ability-id=509]').length > 1) {
+			$('.btn-ability-available>div[ability-id=509]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
 		// Use all skill, order : yellow(3) > green(2) > blue(4) > red(1)
-		// Expect list: Blackmeat(5322-3, 2117-1), Yoda(2172-1, 3173-3, 555-2), Hag(510-3), Darkfencer(1201-1), Gran(3040-4), Sara(352-3, 294-3), Catgirl(4107-1, 195-3)
+		// Expect list: Yusutesu(5322-3, 2117-1), Yoda(2172-1, 3173-3, 555-2), Magisa(510-3), Darkfencer(1201-1), Gran(3040-4), Sara(352-3, 294-3), Meru(4107-1, 195-3), Katarina(2133-1), Shiku(4117-1, 509-3), Lancelot(408-3), Joke(427-3)
 		// BUG: If can not use skill, will stop here
 		// TODO: var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
-		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195])').trigger('tap');
+		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195]):not([ability-id=509]):not([ability-id=408]):not([ability-id=427])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195]):not([ability-id=509]):not([ability-id=408]):not([ability-id=427])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		} else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([ability-id=555])').length) {
@@ -573,8 +583,8 @@ function raidMultiSingle() {
 			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([ability-id=3040])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
-		} else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201]):not([ability-id=2117]):not([ability-id=4107])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201]):not([ability-id=2117]):not([ability-id=4107])').trigger('tap');
+		} else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201]):not([ability-id=2117]):not([ability-id=4107]):not([ability-id=2133]):not([ability-id=4117])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201]):not([ability-id=2117]):not([ability-id=4107]):not([ability-id=2133]):not([ability-id=4117])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -587,7 +597,7 @@ function raidMultiSingle() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		// Catgirl
+		// Meru's claw
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040022000"])').length && $('.btn-ability-available>div[ability-id=4107]').length > 1 && !isMaxKatha('3040022000')) {
 			$('.btn-ability-available>div[ability-id=4107]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
@@ -598,9 +608,33 @@ function raidMultiSingle() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		// Blackmeat's shoot
+		// Yusutesu's shoot
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040069000"])').length && $('.btn-ability-available>div[ability-id=2117]').length > 1 && !isMaxKatha('3040069000')) {
 			$('.btn-ability-available>div[ability-id=2117]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// Katarina's blade
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040054000"])').length && $('.btn-ability-available>div[ability-id=2133]').length > 1 && !isMaxKatha('3040054000')) {
+			$('.btn-ability-available>div[ability-id=2133]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// Shiku's blade
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030106000"])').length && $('.btn-ability-available>div[ability-id=4117]').length > 1 && !isMaxKatha('3030106000')) {
+			$('.btn-ability-available>div[ability-id=4117]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// Lancelot's buff
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030108000"])').length && $('.btn-ability-available>div[ability-id=408]').length > 1 && !isMaxKatha('3030108000')) {
+			$('.btn-ability-available>div[ability-id=408]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// Joke's buff
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030014000"])').length && $('.btn-ability-available>div[ability-id=427]').length > 1 && !isMaxKatha('3030014000')) {
+			$('.btn-ability-available>div[ability-id=427]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -624,7 +658,7 @@ function raidMultiSingle() {
 	dropRateUpAttack();
 }
 
-function isMaxKatha(targetPicture) {
+function isMaxKatha(target) {
 	var char1 = ($('.lis-character0.btn-command-character.blank').length) ? 0 : parseInt($('.lis-character0>.prt-percent>span:first').html());
 	var char2 = ($('.lis-character1.btn-command-character.blank').length) ? 0 : parseInt($('.lis-character1>.prt-percent>span:first').html());
 	var char3 = ($('.lis-character2.btn-command-character.blank').length) ? 0 : parseInt($('.lis-character2>.prt-percent>span:first').html());
@@ -640,7 +674,7 @@ function isMaxKatha(targetPicture) {
 	}
 	if (char3 >= 100)
 		char4 += 10;
-	if (targetPicture == 'all') {
+	if (target == 'all') {
 		var someoneMax = char1 >= 100 || char2 >= 100 || char3 >= 100 || char4 >= 100;
 		var someoneAlmost = (char1 >= 90 && char1 < 100) || (char2 >= 90 && char2 < 100) || (char3 >= 90 && char3 < 100) || (char4 >= 90 && char4 < 100);
 		if (someoneMax && someoneAlmost && $('.btn-lock.lock0').length)
@@ -649,7 +683,7 @@ function isMaxKatha(targetPicture) {
 				$('.btn-lock.lock1').trigger('tap');
 	}
 	else {
-		var position = $('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="' + targetPicture + '"])').attr('pos');
+		var position = $('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="' + target + '"])').attr('pos');
 		switch (position) {
 			case '0': return char1 >= 100;
 			case '1': return char2 >= 100;
@@ -697,7 +731,7 @@ function dropRateUpAttack() {
 		setTimeout(function () {
 			if ($('.btn-attack-start.display-on').length)
 				location.reload();
-		}, 1500);
+		}, 1200);
 	}
 	setTimeout(analyzingURL, 1500);
 }
