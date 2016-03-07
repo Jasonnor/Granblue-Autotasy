@@ -1,4 +1,5 @@
 (function () {
+	// Create stop script button
 	var stopBtn = document.createElement('div');
 	stopBtn.style.cssText = 'text-align:center;margin:5px;font-size:8px';
 	stopBtn.innerHTML = '<button id="stopBtn" onclick="stopScript()" value="0" style="color:white;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(140, 220, 250, 0.8)), color-stop(0.4, rgba(75, 170, 190, 0.8)), color-stop(0.6, rgba(75, 170, 190, 0.8)), to(rgba(140, 220, 250, 0.8)));border:1px solid rgb(85, 102, 119);border-radius:5px;">Stop Script</button>';
@@ -6,6 +7,7 @@
 	analyzingURL();
 })();
 
+// Save console error message
 (function(console){
     console.save = function(data, filename){
         if (!data) {
@@ -31,7 +33,7 @@ Game.reportError = function (msg, url, line, column, err, callback) {
 	var recordLog = 'Message: ' + msg + '\r\nUrl: ' + url + '\r\nLine: ' + line + '\r\nColumn: ' + column + '\r\nError: ' + err + '\r\nCallback: ' + callback;
 	console.log(recordLog);
 	// msg.indexOf("Script error") > -1
-	var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'3' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1;
+	var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'3' of undefined") > -1 || msg.indexOf("'4' of undefined") > -1 || msg.indexOf("'5' of undefined") > -1 || msg.indexOf("'6' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1;
 	if (needReload) {
 		location.reload();
 	}
@@ -62,7 +64,7 @@ function randomTime(time) {
 
 function stopScript() {
 	if($('#stopBtn').val() == 1) {
-		console.log('Start Script ...');
+		console.log('Starting Script ...');
 		$('#stopBtn').val(0);
 		$('#stopBtn').html('Stop Script');
 		if($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
@@ -76,7 +78,7 @@ function stopScript() {
 		analyzingURL();
 	}
 	else {
-		console.log('Stop Script ...');
+		console.log('Stopping Script ...');
 		$('#stopBtn').val(1);
 		$('#stopBtn').html('Start Script');
 		if($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
@@ -92,10 +94,12 @@ function stopScript() {
 
 // TODO: Rubylottery 100 times
 function analyzingURL() {
+	// Set event button as stop script button
 	if ($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
 		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('href', 'javascript:void(0);');
 		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('onclick', 'stopScript()');
 	}
+	// Set voice button as stop script button
 	if ($('.btn-switch-sound.btn-bgm-change').length)
 		$('.btn-switch-sound.btn-bgm-change').attr('onclick', 'stopScript()');
 	if ($('.bgm-change').length)
@@ -105,15 +109,15 @@ function analyzingURL() {
 	if($('#pop-captcha>div>.prt-popup-header:contains(認証)').is(':visible')) {
 		var audio = new Audio('https://cdn.rawgit.com/Jasonnor/Granblue-Autotasy/master/js/alert_minions.mp3');
 		audio.play();
+		stopScript();
 		return;
 	}
 	if (errorTimes > 15) {
 		location.reload();
 		return;
 	}
-	console.log('==Analyzing URL==');
 	var hash = location.hash;
-	console.log('Get Hash : ' + hash);
+	console.log('URL Hash : ' + hash);
 	if (/coopraid\/offer/i.test(hash))
 		offer();
 	else if (/coopraid\/room/i.test(hash))
@@ -192,12 +196,14 @@ function offerCancel() {
 
 function room() {
 	console.log('==Room Stage==');
+	// Create leaveRoom button
 	if ($('.prt-chat-button').length && !$('#leaveRoom').length) {
 		var leaveRoom = document.createElement('div');
 		leaveRoom.style.cssText = 'text-align:center;line-height:34px;font-size:8px;position:absolute;right:30%;z-index:9999999';
 		leaveRoom.innerHTML = '<button id="leaveRoom" onclick="leaveRoom()" style="color:white;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(140, 220, 250, 0.8)), color-stop(0.4, rgba(75, 170, 190, 0.8)), color-stop(0.6, rgba(75, 170, 190, 0.8)), to(rgba(140, 220, 250, 0.8)));border:1px solid rgb(85, 102, 119);border-radius:5px;">Leave</button>';
 		$('.prt-chat-button').before(leaveRoom);
 	}
+	// Create sendStamp button
 	if ($('.prt-chat-button').length && !$('#sendStamp').length) {
 		var sendStamp = document.createElement('div');
 		sendStamp.style.cssText = 'text-align:center;line-height:34px;font-size:8px;position:absolute;right:45%;z-index:9999999';
@@ -208,7 +214,7 @@ function room() {
 		$('.btn-make-ready-large.not-ready').trigger('tap');
 	else if ($('.btn-execute-ready.se-ok').length)
 		$('.btn-execute-ready.se-ok').trigger('tap');
-	// Send stamp to social
+	// Send stamp for socially
 	else if(!$('.prt-member-balloon.btn-member-balloon:visible + div + .prt-member-name:contains(Jasonnor)').length)
 		sendRoomStamp();
 	setTimeout(analyzingURL, 1000);
@@ -452,7 +458,8 @@ function raidMulti() {
 		setTimeout(analyzingURL, 1000);
 		return;
 	}
-	if (stage.gGameStatus.boss.param[0].hp == 0) {
+	// BUG: if have muti emeny and first of it is dead, will continue to reload
+	if (stage.gGameStatus.boss.param[0].hp == 0 || $('.prt-error-information').length) {
 		location.reload();
 		return;
 	}
@@ -461,7 +468,8 @@ function raidMulti() {
 		$('.btn-usual-ok:visible').trigger('tap');
 	// Determine whether is a single person battle
 	if ($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
-		raidMultiSingle();
+		console.log('==Raid Single Stage==');
+		raidSmartFighting();
 		return;
 	}
 	var isCoopraid = $('.value.num-info-slash + [class="max value"] + [class="max value num-info4"]').length;
@@ -469,8 +477,8 @@ function raidMulti() {
 	if (isCoopraid) {
 		// TODO: if number of person is 1/4, retreat
 		console.log('==Raid Coopraid Stage==');
-		if (enemyTotal >= 100000000) {
-			raidMultiSingle();
+		if (enemyTotal >= 7000000) {
+			raidSmartFighting();
 			return;
 		} else if (enemyTotal >= 3000000) {
 			if (!masterYoda()) {
@@ -508,7 +516,7 @@ function raidMulti() {
 				return;
 			}
 		} else {
-			raidMultiSingle();
+			raidSmartFighting();
 			return;
 		}
 	}
@@ -517,10 +525,9 @@ function raidMulti() {
 	setTimeout(analyzingURL, 1000);
 }
 
-function raidMultiSingle() {
+function raidSmartFighting() {
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if (enemyTotal > 1300000) {
-		console.log('==Raid Multi Single-Hard Stage==');
 		var enemyHp = $('.hp-show:first>span').html().split('<br>')[1].replace('%', '');
 		// If enemy's HP is lower than 50%, send assist
 		if (enemyHp <= 50 && !$('.btn-assist.disable').length) {
@@ -649,7 +656,6 @@ function raidMultiSingle() {
 			return;
 		}
 	} else {
-		console.log('==Raid Multi Single-Easy Stage==');
 		if (!simpleMasterYoda()) {
 			setTimeout(analyzingURL, 1000);
 			return;
@@ -659,10 +665,19 @@ function raidMultiSingle() {
 }
 
 function isMaxKatha(target) {
-	var char1 = ($('.lis-character0.btn-command-character.blank').length) ? 0 : parseInt($('.lis-character0>.prt-percent>span:first').html());
-	var char2 = ($('.lis-character1.btn-command-character.blank').length) ? 0 : parseInt($('.lis-character1>.prt-percent>span:first').html());
-	var char3 = ($('.lis-character2.btn-command-character.blank').length) ? 0 : parseInt($('.lis-character2>.prt-percent>span:first').html());
-	var char4 = ($('.lis-character3.btn-command-character.blank').length) ? 0 : parseInt($('.lis-character3>.prt-percent>span:first').html());
+	// If char don't die and can use Katha
+	var char1 = ($('.lis-character0.btn-command-character.blank').length || 
+		$('.prt-member>.lis-character0.btn-command-character>.prt-gauge-special.character0>.prt-black-mask').is(':visible'))
+		? 0 : parseInt($('.lis-character0>.prt-percent>span:first').html());
+	var char2 = ($('.lis-character1.btn-command-character.blank').length || 
+		$('.prt-member>.lis-character1.btn-command-character>.prt-gauge-special.character1>.prt-black-mask').is(':visible'))
+		? 0 : parseInt($('.lis-character1>.prt-percent>span:first').html());
+	var char3 = ($('.lis-character2.btn-command-character.blank').length || 
+		$('.prt-member>.lis-character2.btn-command-character>.prt-gauge-special.character2>.prt-black-mask').is(':visible'))
+		? 0 : parseInt($('.lis-character2>.prt-percent>span:first').html());
+	var char4 = ($('.lis-character3.btn-command-character.blank').length || 
+		$('.prt-member>.lis-character3.btn-command-character>.prt-gauge-special.character3>.prt-black-mask').is(':visible'))
+		? 0 : parseInt($('.lis-character3>.prt-percent>span:first').html());
 	if (char1 >= 100) {
 		char2 += 10;
 		char3 += 10;
@@ -926,7 +941,7 @@ function simpleMasterYoda() {
 }
 
 function stageRolling() {
-	console.log('==Stage Rolling Stage==');
+	console.log('==Rolling Stage==');
 	if ($('.btn-command-forward').length)
 		$('.btn-command-forward').trigger('tap');
 	setTimeout(analyzingURL, 1000);
@@ -941,7 +956,7 @@ function raid() {
 		return;
 	}
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
-	if (enemyTotal >= 600000)
+	if (enemyTotal >= 500000)
 		if (!simpleMasterYoda()) {
 			setTimeout(analyzingURL, 1000);
 			return;
@@ -950,7 +965,7 @@ function raid() {
 }
 
 function resultMulti() {
-	console.log('==Result Multi Stage==');
+	console.log('==Result Stage==');
 	if ($('.btn-usual-ok').length)
 		$('.btn-usual-ok').trigger('tap');
 	else if ($('.btn-control').length)
