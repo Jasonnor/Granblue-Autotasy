@@ -568,7 +568,9 @@ function raidSmartFighting() {
 					if ($('.btn-usual-ok').length)
 						$('.btn-usual-ok').trigger('tap');
 					$('.btn-usual-cancel').trigger('tap');
-					setTimeout(analyzingURL, 500);
+					setTimeout(function () {
+						location.reload();
+					}, 500);
 				}, 1000);
 			}, 1000);
 			return;
