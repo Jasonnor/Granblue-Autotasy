@@ -29,17 +29,11 @@
 		e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 		a.dispatchEvent(e);
 	};
-	console.errorMsg = function (msg) {
-		console.log('%c' + msg, 'background-color: #ffd0da; color: #c10000');
-	};
-	console.stageMsg = function (msg) {
-		console.log('%c' + msg, 'color: #30aeff');
-	};
 })(console);
 
 Game.reportError = function (msg, url, line, column, err, callback) {
 	var recordLog = 'Message: ' + msg + '\r\nUrl: ' + url + '\r\nLine: ' + line + '\r\nColumn: ' + column + '\r\nError: ' + err + '\r\nCallback: ' + callback;
-	console.errorMsg(recordLog);
+	errorMsg(recordLog);
 	// msg.indexOf("Script error") > -1
 	var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'3' of undefined") > -1 || msg.indexOf("'4' of undefined") > -1 || msg.indexOf("'5' of undefined") > -1 || msg.indexOf("'6' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1;
 	if (needReload) {
@@ -69,6 +63,14 @@ function randomTime(time) {
 	return time * (Math.ramdom() + 0.8);
 }
 
+function errorMsg(msg) {
+	console.log('%c' + msg, 'background-color: #ffd0da; color: #c10000');
+}
+
+function stageMsg(msg) {
+	console.log('%c' + msg, 'color: #30aeff');
+}
+
 function stopScript() {
 	if ($('#stopBtn').val() == 1) {
 		console.log('Starting Script ...');
@@ -96,14 +98,13 @@ function stopScript() {
 			$('.btn-switch-sound.btn-bgm-change').css('filter', 'grayscale(1)');
 		}
 	}
-	return false;
 }
 
 // TODO: Rubylottery 100 times
 function analyzingURL() {
 	// Set event button as stop script button
 	if ($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
-		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('href', '#');
+		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('href', 'javascript:void(0)');
 		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('onclick', 'stopScript()');
 	}
 	// Set voice button as stop script button
@@ -133,8 +134,6 @@ function analyzingURL() {
 		supporter();
 	else if (/raid_multi/i.test(hash))
 		raidMulti();
-	else if (/result_multi/i.test(hash))
-		resultMulti();
 	else if (/coopraid/i.test(hash))
 		coopraid();
 	else if (/quest\/assist/i.test(hash))
@@ -143,23 +142,34 @@ function analyzingURL() {
 		stageRolling();
 	else if (/raid/i.test(hash))
 		raid();
-	else if (/result/i.test(hash))
-		resultMulti();
+	else if (/result_multi/i.test(hash) || /result/i.test(hash))
+		battleResult();
+	else if (/quest\/index/i.test(hash))
+		questError();
 	else if (/casino\/exchange/i.test(hash))
 		exchange();
 	else
 		setTimeout(analyzingURL, 5000);
 }
 
+function questError() {
+	if ($('.pop-common-error.pop-show>.prt-popup-body>.txt-popup-body:contains(既にバトルは終了しました)').is(':visible')) {
+		console.log('==questError Stage==');
+		//TODO: detect where to go
+		//history.go(-1);
+	}
+	setTimeout(analyzingURL, 1000);
+}
+
 function coopraid() {
-	console.stageMsg('==Coopraid Stage==');
+	stageMsg('==Coopraid Stage==');
 	if ($('.btn-join').length)
 		$('.btn-join').trigger('tap');
 	setTimeout(analyzingURL, 1000);
 }
 
 function offer() {
-	console.stageMsg('==Offer Stage==');
+	stageMsg('==Offer Stage==');
 	if ($('.prt-wanted-list>div').length) {
 		setTimeout(offerFind, 800);
 		return;
@@ -202,7 +212,7 @@ function offerCancel() {
 }
 
 function room() {
-	console.stageMsg('==Room Stage==');
+	stageMsg('==Room Stage==');
 	// Create leaveRoom button
 	if ($('.prt-chat-button').length && !$('#leaveRoom').length) {
 		var leaveRoom = document.createElement('div');
@@ -257,7 +267,7 @@ function sendRoomStamp() {
 
 function supporter() {
 	// You can see pic of supporter at src/supporter
-	console.stageMsg('==Supporter Stage==');
+	stageMsg('==Supporter Stage==');
 	var isMainStoryline = /supporter\/\d{2,3}\/0/i.test(location.hash);
 	var isMultiBattle = /supporter\/3\d{5}\/1/i.test(location.hash);
 	var isCharStory = /supporter\/2\d{5}\/2/i.test(location.hash);
@@ -270,6 +280,7 @@ function supporter() {
 	var isEventForWater = /supporter\/300101/i.test(location.hash);
 	var isEventForLight = /supporter\/300281/i.test(location.hash);
 	var isEventForDark = /supporter\/300271/i.test(location.hash);
+	var isRabbit = /supporter\/101441/i.test(location.hash);
 	if ($('.prt-deck-select').is(':visible'))
 		console.log('Team selected.');
 	else if (isEventForEarth) {
@@ -402,9 +413,9 @@ function supporter() {
 	else if ($('.prt-summon-image[data-image=2030026000]').length)
 		$('.prt-summon-image[data-image=2030026000]').trigger('tap');
 	// Mushroom RM
-	else if ((isMainStoryline || isBranchLine) && $('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').length)
+	else if ((isMainStoryline || isBranchLine) && !isRabbit && $('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').length)
 		$('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').trigger('tap');
-	else if ((isMainStoryline || isBranchLine) && $('.prt-summon-image[data-image=2030051000]').length)
+	else if ((isMainStoryline || isBranchLine) && !isRabbit && $('.prt-summon-image[data-image=2030051000]').length)
 		$('.prt-summon-image[data-image=2030051000]').trigger('tap');
 	// Exp King
 	else if ($('.prt-summon-image[data-image=2040025000]+div>.bless-rank1-style').length)
@@ -443,6 +454,8 @@ function supporter() {
 			selectTeam(4);
 		else if (isEventForWater)
 			selectTeam(1);
+		else if (isRabbit)
+			selectTeam(5);
 		else
 			selectTeam(0);
 	}, 200);
@@ -461,21 +474,30 @@ function selectTeam(n) {
 function raidMulti() {
 	if ($('.btn-result').is(':visible'))
 		$('.btn-result').trigger('tap');
+	if ($('.prt-error-infomation').length) {
+		location.reload();
+		return;
+	}
 	if (!$('.value.num-info-slash').is(':visible') || !$('#mkt_ability_use_bar>.prt-ability-list>.lis-ability').is(':visible')) {
 		setTimeout(analyzingURL, 1000);
 		return;
 	}
-	// BUG: if have muti emeny and first of it is dead, will continue to reload
-	if (stage.gGameStatus.boss.param[0].hp === 0 || $('.prt-error-information').length) {
-		location.reload();
-		return;
+	var hp = 0;
+	for(var i = 0; i < stage.gGameStatus.boss.param.length; i++) {
+		if (stage.gGameStatus.boss.param[i].hp == 0) {
+			hp++;
+		}
+		if(hp >= stage.gGameStatus.boss.param.length) {
+			location.reload();
+			return;
+		}
 	}
 	isMaxKatha('all');
 	if ($('div:not(:has(div>.prt-item-result>.txt-stamina-title:contains(エリクシール)))+.prt-popup-footer>.btn-usual-ok').is(':visible'))
 		$('.btn-usual-ok:visible').trigger('tap');
 	// Determine whether is a single person battle
 	if ($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
-		console.stageMsg('==Raid Single Stage==');
+		stageMsg('==Raid Single Stage==');
 		raidSmartFighting();
 		return;
 	}
@@ -483,7 +505,7 @@ function raidMulti() {
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if (isCoopraid) {
 		// TODO: if number of person is 1/4, retreat
-		console.stageMsg('==Raid Coopraid Stage==');
+		stageMsg('==Raid Coopraid Stage==');
 		if (enemyTotal >= 7000000) {
 			raidSmartFighting();
 			return;
@@ -505,7 +527,7 @@ function raidMulti() {
 			}
 		}
 	} else {
-		console.stageMsg('==Raid Multi Stage==');
+		stageMsg('==Raid Multi Stage==');
 		var enemyNow = $('.hp-show:first>span').html().split('/')[0];
 		var MVP = $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible');
 		if (enemyNow <= 3000000 && !MVP) {
@@ -746,7 +768,7 @@ function dropRateUpAttack() {
 			location.reload();
 		}, 500);
 		return;
-	} else if ($('.btn-attack-start.display-on').length) {
+	} else if ($('.btn-attack-start.display-on').length && $('.btn-command-character.mask-black-fade').length == 0 && $('.btn-command-character.mask-black').length == 0) {
 		$('.btn-attack-start.display-on').trigger('tap');
 		setTimeout(function () {
 			if ($('.btn-attack-start.display-on').length)
@@ -946,14 +968,15 @@ function simpleMasterYoda() {
 }
 
 function stageRolling() {
-	console.stageMsg('==Rolling Stage==');
+	stageMsg('==Rolling Stage==');
 	if ($('.btn-command-forward').length)
 		$('.btn-command-forward').trigger('tap');
 	setTimeout(analyzingURL, 1000);
 }
 
 function raid() {
-	console.stageMsg('==Raid Stage==');
+	stageMsg('==Raid Stage==');
+	var isRabbit = /supporter\/101441/i.test(location.hash);
 	if ($('.btn-result').is(':visible'))
 		$('.btn-result').trigger('tap');
 	if (!$('#mkt_ability_use_bar>.prt-ability-list>.lis-ability').is(':visible')) {
@@ -961,6 +984,19 @@ function raid() {
 		return;
 	}
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
+	// TODO: Use drop to rabbit if possible
+	if ($('.btn-lock.lock1').length)
+		$('.btn-lock.lock1').trigger('tap');
+	if ($('.summon-on').length) {
+		summonByCode('all');
+		setTimeout(analyzingURL, 1000);
+		return;
+	}
+	if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]').length) {
+		$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]').trigger('tap');
+		setTimeout(analyzingURL, 1000);
+		return;
+	}
 	if (enemyTotal >= 500000)
 		if (!simpleMasterYoda()) {
 			setTimeout(analyzingURL, 1000);
@@ -969,8 +1005,8 @@ function raid() {
 	dropRateUpAttack();
 }
 
-function resultMulti() {
-	console.stageMsg('==Result Stage==');
+function battleResult() {
+	stageMsg('==Result Stage==');
 	if ($('.btn-usual-ok').length)
 		$('.btn-usual-ok').trigger('tap');
 	else if ($('.btn-control').length)
@@ -979,7 +1015,7 @@ function resultMulti() {
 }
 
 function assist() {
-	console.stageMsg('==Assist Stage==');
+	stageMsg('==Assist Stage==');
 	if ($('#tab-multi.active').length) {
 		$('#tab-multi.active').trigger('tap');
 		setTimeout(function () {
@@ -1028,7 +1064,7 @@ function assist() {
 }
 
 function exchange() {
-	console.stageMsg('==Exchange Stage==');
+	stageMsg('==Exchange Stage==');
 	if ($('.btn-exchange').length)
 		$('.btn-exchange').trigger('tap');
 	setTimeout(function () {
