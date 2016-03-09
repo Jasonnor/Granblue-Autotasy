@@ -29,11 +29,17 @@
 		e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 		a.dispatchEvent(e);
 	};
+	console.errorMsg = function (msg) {
+		console.log('%c' + msg, 'background-color: #ffd0da; color: #c10000');
+	};
+	console.stageMsg = function (msg) {
+		console.log('%c' + msg, 'color: #30aeff');
+	};
 })(console);
 
 Game.reportError = function (msg, url, line, column, err, callback) {
 	var recordLog = 'Message: ' + msg + '\r\nUrl: ' + url + '\r\nLine: ' + line + '\r\nColumn: ' + column + '\r\nError: ' + err + '\r\nCallback: ' + callback;
-	console.log(recordLog);
+	console.errorMsg(recordLog);
 	// msg.indexOf("Script error") > -1
 	var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'3' of undefined") > -1 || msg.indexOf("'4' of undefined") > -1 || msg.indexOf("'5' of undefined") > -1 || msg.indexOf("'6' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1;
 	if (needReload) {
@@ -146,14 +152,14 @@ function analyzingURL() {
 }
 
 function coopraid() {
-	console.log('==Coopraid Stage==');
+	console.stageMsg('==Coopraid Stage==');
 	if ($('.btn-join').length)
 		$('.btn-join').trigger('tap');
 	setTimeout(analyzingURL, 1000);
 }
 
 function offer() {
-	console.log('==Offer Stage==');
+	console.stageMsg('==Offer Stage==');
 	if ($('.prt-wanted-list>div').length) {
 		setTimeout(offerFind, 800);
 		return;
@@ -196,7 +202,7 @@ function offerCancel() {
 }
 
 function room() {
-	console.log('==Room Stage==');
+	console.stageMsg('==Room Stage==');
 	// Create leaveRoom button
 	if ($('.prt-chat-button').length && !$('#leaveRoom').length) {
 		var leaveRoom = document.createElement('div');
@@ -251,7 +257,7 @@ function sendRoomStamp() {
 
 function supporter() {
 	// You can see pic of supporter at src/supporter
-	console.log('==Supporter Stage==');
+	console.stageMsg('==Supporter Stage==');
 	var isMainStoryline = /supporter\/\d{2,3}\/0/i.test(location.hash);
 	var isMultiBattle = /supporter\/3\d{5}\/1/i.test(location.hash);
 	var isCharStory = /supporter\/2\d{5}\/2/i.test(location.hash);
@@ -469,7 +475,7 @@ function raidMulti() {
 		$('.btn-usual-ok:visible').trigger('tap');
 	// Determine whether is a single person battle
 	if ($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
-		console.log('==Raid Single Stage==');
+		console.stageMsg('==Raid Single Stage==');
 		raidSmartFighting();
 		return;
 	}
@@ -477,7 +483,7 @@ function raidMulti() {
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if (isCoopraid) {
 		// TODO: if number of person is 1/4, retreat
-		console.log('==Raid Coopraid Stage==');
+		console.stageMsg('==Raid Coopraid Stage==');
 		if (enemyTotal >= 7000000) {
 			raidSmartFighting();
 			return;
@@ -499,7 +505,7 @@ function raidMulti() {
 			}
 		}
 	} else {
-		console.log('==Raid Multi Stage==');
+		console.stageMsg('==Raid Multi Stage==');
 		var enemyNow = $('.hp-show:first>span').html().split('/')[0];
 		var MVP = $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible');
 		if (enemyNow <= 3000000 && !MVP) {
@@ -940,14 +946,14 @@ function simpleMasterYoda() {
 }
 
 function stageRolling() {
-	console.log('==Rolling Stage==');
+	console.stageMsg('==Rolling Stage==');
 	if ($('.btn-command-forward').length)
 		$('.btn-command-forward').trigger('tap');
 	setTimeout(analyzingURL, 1000);
 }
 
 function raid() {
-	console.log('==Raid Stage==');
+	console.stageMsg('==Raid Stage==');
 	if ($('.btn-result').is(':visible'))
 		$('.btn-result').trigger('tap');
 	if (!$('#mkt_ability_use_bar>.prt-ability-list>.lis-ability').is(':visible')) {
@@ -964,7 +970,7 @@ function raid() {
 }
 
 function resultMulti() {
-	console.log('==Result Stage==');
+	console.stageMsg('==Result Stage==');
 	if ($('.btn-usual-ok').length)
 		$('.btn-usual-ok').trigger('tap');
 	else if ($('.btn-control').length)
@@ -973,7 +979,7 @@ function resultMulti() {
 }
 
 function assist() {
-	console.log('==Assist Stage==');
+	console.stageMsg('==Assist Stage==');
 	if ($('#tab-multi.active').length) {
 		$('#tab-multi.active').trigger('tap');
 		setTimeout(function () {
@@ -1022,7 +1028,7 @@ function assist() {
 }
 
 function exchange() {
-	console.log('==Exchange Stage==');
+	console.stageMsg('==Exchange Stage==');
 	if ($('.btn-exchange').length)
 		$('.btn-exchange').trigger('tap');
 	setTimeout(function () {
