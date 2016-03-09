@@ -576,8 +576,7 @@ function raidSmartFighting() {
 			return;
 		}
 		// Gran's Buff Eliminate
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-id=3040]').length > 1 && stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ' && stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff.length) {
-			//BUG: if stage.gGameStatus.boss.param[0].condition.buff == null , stage.gGameStatus.boss.param[0].condition.buff.length will get error
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-id=3040]').length > 1 && stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ' && stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff !== null && stage.gGameStatus.boss.param[0].condition.buff.length) {
 			$('.btn-ability-available>div[ability-id=3040]').trigger('tap');
 			stage.gGameStatus.boss.param[0].condition.buff = [];
 			setTimeout(analyzingURL, 1000);
