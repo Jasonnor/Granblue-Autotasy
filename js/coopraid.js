@@ -8,26 +8,28 @@
 })();
 
 // Save console error message
-(function(console){
-    console.save = function(data, filename){
-        if (!data) {
-            console.error('Console.save: No data')
-            return;
-        }
-        if (!filename) filename = 'console.json'
-        if (typeof data === "object") {
-            data = JSON.stringify(data, undefined, 4)
-        }
-        var blob = new Blob([data], {type: 'text/json'});
-        var e = document.createEvent('MouseEvents');
-        var a = document.createElement('a');
-        a.download = filename;
-        a.href = window.URL.createObjectURL(blob);
-        a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':');
-        e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-        a.dispatchEvent(e);
-    }
-})(console)
+(function (console) {
+	console.save = function (data, filename) {
+		if (!data) {
+			console.error('Console.save: No data');
+			return;
+		}
+		if (!filename) filename = 'console.json';
+		if (typeof data === "object") {
+			data = JSON.stringify(data, undefined, 4);
+		}
+		var blob = new Blob([data], {
+			type: 'text/json'
+		});
+		var e = document.createEvent('MouseEvents');
+		var a = document.createElement('a');
+		a.download = filename;
+		a.href = window.URL.createObjectURL(blob);
+		a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
+		e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
+	};
+})(console);
 
 Game.reportError = function (msg, url, line, column, err, callback) {
 	var recordLog = 'Message: ' + msg + '\r\nUrl: ' + url + '\r\nLine: ' + line + '\r\nColumn: ' + column + '\r\nError: ' + err + '\r\nCallback: ' + callback;
@@ -36,9 +38,8 @@ Game.reportError = function (msg, url, line, column, err, callback) {
 	var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'3' of undefined") > -1 || msg.indexOf("'4' of undefined") > -1 || msg.indexOf("'5' of undefined") > -1 || msg.indexOf("'6' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1;
 	if (needReload) {
 		location.reload();
-	}
-	else {
-		var currentdate = new Date(); 
+	} else {
+		var currentdate = new Date();
 		var year = currentdate.getFullYear();
 		var month = (1 + currentdate.getMonth()).toString();
 		var day = currentdate.getDate().toString();
@@ -50,7 +51,7 @@ Game.reportError = function (msg, url, line, column, err, callback) {
 		hour = hour.length > 1 ? hour : '0' + hour;
 		min = min.length > 1 ? min : '0' + min;
 		sec = sec.length > 1 ? sec : '0' + sec;
-		var datetime = year + '-' + month + '-' + day + ' ' + hour + '-' + min + '-'+ sec;
+		var datetime = year + '-' + month + '-' + day + ' ' + hour + '-' + min + '-' + sec;
 		console.save(recordLog, 'errorRecord-' + datetime + '.log');
 	}
 };
@@ -63,40 +64,40 @@ function randomTime(time) {
 }
 
 function stopScript() {
-	if($('#stopBtn').val() == 1) {
+	if ($('#stopBtn').val() == 1) {
 		console.log('Starting Script ...');
 		$('#stopBtn').val(0);
 		$('#stopBtn').html('Stop Script');
-		if($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
+		if ($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
 			$('#mkt_menu_mainsection>div:eq(4)').css('-webkit-filter', 'grayscale(0)');
 			$('#mkt_menu_mainsection>div:eq(4)').css('filter', 'grayscale(0)');
 		}
-		if($('.btn-switch-sound.btn-bgm-change').length) {
+		if ($('.btn-switch-sound.btn-bgm-change').length) {
 			$('.btn-switch-sound.btn-bgm-change').css('-webkit-filter', 'grayscale(0)');
 			$('.btn-switch-sound.btn-bgm-change').css('filter', 'grayscale(0)');
 		}
 		analyzingURL();
-	}
-	else {
+	} else {
 		console.log('Stopping Script ...');
 		$('#stopBtn').val(1);
 		$('#stopBtn').html('Start Script');
-		if($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
+		if ($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
 			$('#mkt_menu_mainsection>div:eq(4)').css('-webkit-filter', 'grayscale(1)');
 			$('#mkt_menu_mainsection>div:eq(4)').css('filter', 'grayscale(1)');
 		}
-		if($('.btn-switch-sound.btn-bgm-change').length) {
+		if ($('.btn-switch-sound.btn-bgm-change').length) {
 			$('.btn-switch-sound.btn-bgm-change').css('-webkit-filter', 'grayscale(1)');
 			$('.btn-switch-sound.btn-bgm-change').css('filter', 'grayscale(1)');
 		}
 	}
+	return false;
 }
 
 // TODO: Rubylottery 100 times
 function analyzingURL() {
 	// Set event button as stop script button
 	if ($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
-		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('href', 'javascript:void(0);');
+		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('href', '#');
 		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('onclick', 'stopScript()');
 	}
 	// Set voice button as stop script button
@@ -106,7 +107,7 @@ function analyzingURL() {
 		$('.bgm-change').attr('onclick', 'stopScript()');
 	if ($('#stopBtn').val() == 1)
 		return;
-	if($('#pop-captcha>div>.prt-popup-header:contains(認証)').is(':visible')) {
+	if ($('#pop-captcha>div>.prt-popup-header:contains(認証)').is(':visible')) {
 		var audio = new Audio('https://cdn.rawgit.com/Jasonnor/Granblue-Autotasy/master/js/alert_minions.mp3');
 		audio.play();
 		stopScript();
@@ -215,7 +216,7 @@ function room() {
 	else if ($('.btn-execute-ready.se-ok').length)
 		$('.btn-execute-ready.se-ok').trigger('tap');
 	// Send stamp for socially
-	else if(!$('.prt-member-balloon.btn-member-balloon:visible + div + .prt-member-name:contains(Jasonnor)').length)
+	else if (!$('.prt-member-balloon.btn-member-balloon:visible + div + .prt-member-name:contains(Jasonnor)').length)
 		sendRoomStamp();
 	setTimeout(analyzingURL, 1000);
 }
@@ -459,7 +460,7 @@ function raidMulti() {
 		return;
 	}
 	// BUG: if have muti emeny and first of it is dead, will continue to reload
-	if (stage.gGameStatus.boss.param[0].hp == 0 || $('.prt-error-information').length) {
+	if (stage.gGameStatus.boss.param[0].hp === 0 || $('.prt-error-information').length) {
 		location.reload();
 		return;
 	}
@@ -609,8 +610,7 @@ function raidSmartFighting() {
 			$('.btn-ability-available>div[ability-id=4107]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
-		}
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040022000"])').length && $('.btn-ability-available>div[ability-id=195]').length > 1 && !isMaxKatha('3040022000')) {
+		} else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040022000"])').length && $('.btn-ability-available>div[ability-id=195]').length > 1 && !isMaxKatha('3040022000')) {
 			$('.btn-ability-available>div[ability-id=195]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
@@ -666,18 +666,14 @@ function raidSmartFighting() {
 
 function isMaxKatha(target) {
 	// If char don't die and can use Katha
-	var char1 = ($('.lis-character0.btn-command-character.blank').length || 
-		$('.prt-member>.lis-character0.btn-command-character>.prt-gauge-special.character0>.prt-black-mask').is(':visible'))
-		? 0 : parseInt($('.lis-character0>.prt-percent>span:first').html());
-	var char2 = ($('.lis-character1.btn-command-character.blank').length || 
-		$('.prt-member>.lis-character1.btn-command-character>.prt-gauge-special.character1>.prt-black-mask').is(':visible'))
-		? 0 : parseInt($('.lis-character1>.prt-percent>span:first').html());
-	var char3 = ($('.lis-character2.btn-command-character.blank').length || 
-		$('.prt-member>.lis-character2.btn-command-character>.prt-gauge-special.character2>.prt-black-mask').is(':visible'))
-		? 0 : parseInt($('.lis-character2>.prt-percent>span:first').html());
-	var char4 = ($('.lis-character3.btn-command-character.blank').length || 
-		$('.prt-member>.lis-character3.btn-command-character>.prt-gauge-special.character3>.prt-black-mask').is(':visible'))
-		? 0 : parseInt($('.lis-character3>.prt-percent>span:first').html());
+	var char1 = ($('.lis-character0.btn-command-character.blank').length ||
+		$('.prt-member>.lis-character0.btn-command-character>.prt-gauge-special.character0>.prt-black-mask').is(':visible')) ? 0 : parseInt($('.lis-character0>.prt-percent>span:first').html());
+	var char2 = ($('.lis-character1.btn-command-character.blank').length ||
+		$('.prt-member>.lis-character1.btn-command-character>.prt-gauge-special.character1>.prt-black-mask').is(':visible')) ? 0 : parseInt($('.lis-character1>.prt-percent>span:first').html());
+	var char3 = ($('.lis-character2.btn-command-character.blank').length ||
+		$('.prt-member>.lis-character2.btn-command-character>.prt-gauge-special.character2>.prt-black-mask').is(':visible')) ? 0 : parseInt($('.lis-character2>.prt-percent>span:first').html());
+	var char4 = ($('.lis-character3.btn-command-character.blank').length ||
+		$('.prt-member>.lis-character3.btn-command-character>.prt-gauge-special.character3>.prt-black-mask').is(':visible')) ? 0 : parseInt($('.lis-character3>.prt-percent>span:first').html());
 	if (char1 >= 100) {
 		char2 += 10;
 		char3 += 10;
@@ -693,18 +689,22 @@ function isMaxKatha(target) {
 		var someoneMax = char1 >= 100 || char2 >= 100 || char3 >= 100 || char4 >= 100;
 		var someoneAlmost = (char1 >= 90 && char1 < 100) || (char2 >= 90 && char2 < 100) || (char3 >= 90 && char3 < 100) || (char4 >= 90 && char4 < 100);
 		if (someoneMax && someoneAlmost && $('.btn-lock.lock0').length)
-				$('.btn-lock.lock0').trigger('tap');
+			$('.btn-lock.lock0').trigger('tap');
 		else if ((!someoneMax || !someoneAlmost) && $('.btn-lock.lock1').length)
-				$('.btn-lock.lock1').trigger('tap');
-	}
-	else {
+			$('.btn-lock.lock1').trigger('tap');
+	} else {
 		var position = $('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="' + target + '"])').attr('pos');
 		switch (position) {
-			case '0': return char1 >= 100;
-			case '1': return char2 >= 100;
-			case '2': return char3 >= 100;
-			case '3': return char4 >= 100;
-			default: return false;
+			case '0':
+				return char1 >= 100;
+			case '1':
+				return char2 >= 100;
+			case '2':
+				return char3 >= 100;
+			case '3':
+				return char4 >= 100;
+			default:
+				return false;
 		}
 	}
 }
@@ -740,8 +740,7 @@ function dropRateUpAttack() {
 			location.reload();
 		}, 500);
 		return;
-	}
-	else if ($('.btn-attack-start.display-on').length) {
+	} else if ($('.btn-attack-start.display-on').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
 		setTimeout(function () {
 			if ($('.btn-attack-start.display-on').length)
@@ -755,7 +754,7 @@ var smallSolution = -1;
 var largeSolution = -1;
 
 function checkSolution() {
-	if(!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
+	if (!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
 		$('.btn-temporary').trigger('tap');
 	setTimeout(function () {
 		smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
@@ -785,7 +784,7 @@ function masterYoda() {
 		}
 		var hp = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
 		if (hp <= 50 && (smallSolution > 0 || largeSolution > 0)) {
-			if(!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
+			if (!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
 				$('.btn-temporary').trigger('tap');
 			setTimeout(function () {
 				smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
@@ -871,7 +870,7 @@ function cureEveryone() {
 	if (hp4 <= 70 && hp4 !== 0) cureIndex++;
 	if (hp4 <= 50 && hp4 !== 0) cureIndex++;
 	if (cureIndex > 3 && largeSolution > 0) {
-		if(!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
+		if (!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
 			$('.btn-temporary').trigger('tap');
 		setTimeout(function () {
 			smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
@@ -894,7 +893,7 @@ function cureEveryone() {
 	}
 	var someoneDanger = (hp1 <= 50 && hp1 > 0) || (hp2 <= 50 && hp2 > 0) || (hp3 <= 50 && hp3 > 0) || (hp4 <= 50 && hp4 > 0);
 	if (smallSolution > 0 && someoneDanger) {
-		if(!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
+		if (!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
 			$('.btn-temporary').trigger('tap');
 		setTimeout(function () {
 			smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
