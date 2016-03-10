@@ -977,15 +977,36 @@ function stageRolling() {
 
 function raid() {
 	stageMsg('==Raid Stage==');
-	var isRabbit = /supporter\/101441/i.test(location.hash);
 	if ($('.btn-result').is(':visible'))
 		$('.btn-result').trigger('tap');
 	if (!$('#mkt_ability_use_bar>.prt-ability-list>.lis-ability').is(':visible')) {
 		setTimeout(analyzingURL, 1000);
 		return;
 	}
-	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
-	// TODO: Use drop to rabbit if possible
+	var isRabbit = stage.pJsnData.boss.param.length == 3 && stage.pJsnData.boss.param[2].name == 'Lv12 ホワイトラビット' && stage.pJsnData.boss.param[2].hp != '0';
+	if (isRabbit) {
+		if(!$('.btn-targeting.enemy-3.lock-on').is(':visible') || $('.btn-targeting.enemy-3.invisible').length) {
+			$('.btn-targeting.enemy-3.invisible').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		} else if ($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
+			summonByCode('2030026000');
+			setTimeout(analyzingURL, 1000);
+			return;
+		} else if ($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length) {
+			summonByCode('2040025000');
+			setTimeout(analyzingURL, 1000);
+			return;
+		} else if ($('.btn-ability-available>div[ability-id=6001]').length > 1) {
+			$('.btn-ability-available>div[ability-id=6001]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		} else if ($('.btn-ability-available>div[ability-id=6002]').length > 1) {
+			$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+	}
 	if ($('.btn-lock.lock1').length)
 		$('.btn-lock.lock1').trigger('tap');
 	if ($('.summon-on').length) {
@@ -998,6 +1019,7 @@ function raid() {
 		setTimeout(analyzingURL, 1000);
 		return;
 	}
+	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if (enemyTotal >= 500000)
 		if (!simpleMasterYoda()) {
 			setTimeout(analyzingURL, 1000);
