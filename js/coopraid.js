@@ -849,24 +849,26 @@ function masterYoda() {
 		var threeStatus = getThreeStatus();
 		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
 		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1111]').length;
-
-		if (threeStatus === 0 && canUseStatus && canUseSkill)
+		if (threeStatus === 0 && canUseStatus && canUseSkill) {
 			$('.btn-ability-available>div[ability-id=555]').trigger('tap');
-		if (threeStatus === 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1 && canUseSkill)
-			$('.btn-ability-available>div[ability-id=3173]').trigger('tap');
-		if (threeStatus === 0 && $('.btn-ability-available>div[ability-id=2172]').length > 1 && canUseSkill)
-			$('.btn-ability-available>div[ability-id=2172]').trigger('tap');
-		if (threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length)
-			$('.btn-lock.lock1').trigger('tap');
-		if (threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length)
-			$('.btn-lock.lock0').trigger('tap');
-		// Ensure no delay for the operation
-		if ((threeStatus === 0 && canUseStatus && canUseSkill) ||
-			(threeStatus === 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1 && canUseSkill) ||
-			(threeStatus === 0 && $('.btn-ability-available>div[ability-id=2172]').length > 1 && canUseSkill) ||
-			(threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) ||
-			(threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length))
 			return false;
+		}
+		if (threeStatus === 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1 && canUseSkill) {
+			$('.btn-ability-available>div[ability-id=3173]').trigger('tap');
+			return false;
+		}
+		if (threeStatus === 0 && $('.btn-ability-available>div[ability-id=2172]').length > 1 && canUseSkill) {
+			$('.btn-ability-available>div[ability-id=2172]').trigger('tap');
+			return false;
+		}
+		if (threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) {
+			$('.btn-lock.lock1').trigger('tap');
+			return false;
+		}
+		if (threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length) {
+			$('.btn-lock.lock0').trigger('tap');
+			return false;
+		}
 	}
 	return true;
 }
