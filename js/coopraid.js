@@ -483,12 +483,13 @@ function raidMulti() {
 		setTimeout(analyzingURL, 1000);
 		return;
 	}
-	var hp = 0;
+	var numOfBossDead = 0;
 	for (var i = 0; i < stage.gGameStatus.boss.param.length; i++) {
 		if (stage.gGameStatus.boss.param[i].hp == '0') {
-			hp++;
+			numOfBossDead++;
 		}
-		if (hp >= stage.gGameStatus.boss.param.length) {
+		// Reload if all boss is dead
+		if (numOfBossDead >= stage.gGameStatus.boss.param.length) {
 			location.reload();
 			return;
 		}
@@ -496,17 +497,17 @@ function raidMulti() {
 	isMaxKatha('all');
 	if ($('div:not(:has(div>.prt-item-result>.txt-stamina-title:contains(エリクシール)))+.prt-popup-footer>.btn-usual-ok').is(':visible'))
 		$('.btn-usual-ok:visible').trigger('tap');
-	// Determine whether is a single person battle
-	if ($('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length) {
+	var isSingle = $('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length;
+	if (isSingle) {
 		stageMsg('==Raid Single Stage==');
 		raidSmartFighting();
 		return;
 	}
 	var isCoopraid = $('.value.num-info-slash + [class="max value"] + [class="max value num-info4"]').length;
-	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if (isCoopraid) {
 		// TODO: if number of person is 1/4, retreat
 		stageMsg('==Raid Coopraid Stage==');
+		var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 		if (enemyTotal >= 7000000) {
 			raidSmartFighting();
 			return;
@@ -530,13 +531,13 @@ function raidMulti() {
 	} else {
 		stageMsg('==Raid Multi Stage==');
 		var enemyNow = $('.hp-show:first>span').html().split('/')[0];
-		var MVP = $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible');
-		if (enemyNow <= 3000000 && !MVP) {
+		var isMVP = $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible');
+		if (enemyNow <= 3000000 && !isMVP) {
 			if (!simpleMasterYoda()) {
 				setTimeout(analyzingURL, 1000);
 				return;
 			}
-		} else if (enemyNow <= 100000000 && !MVP) {
+		} else if (enemyNow <= 100000000 && !isMVP) {
 			if (!masterYoda()) {
 				setTimeout(analyzingURL, 1000);
 				return;
@@ -571,7 +572,7 @@ function raidSmartFighting() {
 					$('.btn-usual-cancel').trigger('tap');
 					setTimeout(function () {
 						location.reload();
-					}, 500);
+					}, 300);
 				}, 1000);
 			}, 1000);
 			return;
