@@ -1049,34 +1049,10 @@ function assist() {
 			// You can see pic of summon at src/assist
 			if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2030002000_hell])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2030002000_hell]').trigger('tap');
-			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040002000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.img-raid-thumbnail[alt=2040002000_ex]').trigger('tap');
-			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040005000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.img-raid-thumbnail[alt=2040005000_ex]').trigger('tap');
-			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040007000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.img-raid-thumbnail[alt=2040007000_ex]').trigger('tap');
-			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040012000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.img-raid-thumbnail[alt=2040012000_ex]').trigger('tap');
-			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040023000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.img-raid-thumbnail[alt=2040023000_ex]').trigger('tap');
-			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040029000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.img-raid-thumbnail[alt=2040029000_ex]').trigger('tap');
-			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040042000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.img-raid-thumbnail[alt=2040042000_ex]').trigger('tap');
-			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040059000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.img-raid-thumbnail[alt=2040059000_ex]').trigger('tap');
-			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040063000_ex])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.img-raid-thumbnail[alt=2040063000_ex]').trigger('tap');
 			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2030002000])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2030002000]').trigger('tap');
-			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040008000])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.img-raid-thumbnail[alt=2040008000]').trigger('tap');
-			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040086000])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.img-raid-thumbnail[alt=2040086000]').trigger('tap');
-			/*
-			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt*=high])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt*=high])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').trigger('tap');
-			*/
+			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040128000_hell])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
+				$('.img-raid-thumbnail[alt=2040128000_hell]').trigger('tap');
 			else
 				return;
 			setTimeout(function () {
