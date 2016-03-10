@@ -1,3 +1,4 @@
+/*jshint scripturl:true*/
 (function () {
 	// Create stop script button
 	var stopBtn = document.createElement('div');
@@ -15,7 +16,7 @@
 			return;
 		}
 		if (!filename) filename = 'console.json';
-		if (typeof data === "object") {
+		if (typeof data === 'object') {
 			data = JSON.stringify(data, undefined, 4);
 		}
 		var blob = new Blob([data], {
@@ -483,11 +484,11 @@ function raidMulti() {
 		return;
 	}
 	var hp = 0;
-	for(var i = 0; i < stage.gGameStatus.boss.param.length; i++) {
-		if (stage.gGameStatus.boss.param[i].hp == 0) {
+	for (var i = 0; i < stage.gGameStatus.boss.param.length; i++) {
+		if (stage.gGameStatus.boss.param[i].hp == '0') {
 			hp++;
 		}
-		if(hp >= stage.gGameStatus.boss.param.length) {
+		if (hp >= stage.gGameStatus.boss.param.length) {
 			location.reload();
 			return;
 		}
@@ -769,7 +770,7 @@ function dropRateUpAttack() {
 			location.reload();
 		}, 500);
 		return;
-	} else if ($('.btn-attack-start.display-on').length && $('.btn-command-character.mask-black-fade').length == 0 && $('.btn-command-character.mask-black').length == 0) {
+	} else if ($('.btn-attack-start.display-on').length && !$('.btn-command-character.mask-black-fade').length && !$('.btn-command-character.mask-black').length) {
 		$('.btn-attack-start.display-on').trigger('tap');
 		setTimeout(function () {
 			if ($('.btn-attack-start.display-on').length)
@@ -985,7 +986,7 @@ function raid() {
 	}
 	var isRabbit = stage.pJsnData.boss.param.length == 3 && stage.pJsnData.boss.param[2].name == 'Lv12 ホワイトラビット' && stage.pJsnData.boss.param[2].hp != '0';
 	if (isRabbit) {
-		if(!$('.btn-targeting.enemy-3.lock-on').is(':visible') || $('.btn-targeting.enemy-3.invisible').length) {
+		if (!$('.btn-targeting.enemy-3.lock-on').is(':visible') || $('.btn-targeting.enemy-3.invisible').length) {
 			$('.btn-targeting.enemy-3.invisible').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
