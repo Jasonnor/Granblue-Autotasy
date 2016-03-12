@@ -133,24 +133,24 @@ function analyzingURL() {
 		offer();
 	else if (/coopraid\/room/i.test(hash))
 		room();
+	else if (/coopraid\/lineup/i.test(hash) || /casino\/exchange/i.test(hash))
+		exchange();
+	else if (/coopraid/i.test(hash))
+		coopraid();
 	else if (/supporter/i.test(hash))
 		supporter();
 	else if (/raid_multi/i.test(hash))
 		raidMulti();
-	else if (/coopraid/i.test(hash))
-		coopraid();
-	else if (/quest\/assist/i.test(hash))
-		assist();
-	else if (/quest\/stage/i.test(hash))
-		stageRolling();
 	else if (/raid/i.test(hash))
 		raid();
 	else if (/result_multi/i.test(hash) || /result/i.test(hash))
 		battleResult();
+	else if (/quest\/assist/i.test(hash))
+		assist();
+	else if (/quest\/stage/i.test(hash))
+		stageRolling();
 	else if (/quest\/index/i.test(hash))
 		questError();
-	else if (/casino\/exchange/i.test(hash))
-		exchange();
 	else {
 		runTimes--;
 		setTimeout(analyzingURL, 5000);
@@ -475,6 +475,8 @@ function selectTeam(n) {
 	}, 800);
 }
 
+var useMystery = true;
+
 // TODO: Add refresh button
 function raidMulti() {
 	if ($('.btn-result').is(':visible'))
@@ -498,7 +500,7 @@ function raidMulti() {
 			return;
 		}
 	}
-	isMaxKatha('all');
+	useMystery = true;
 	if ($('div:not(:has(div>.prt-item-result>.txt-stamina-title:contains(エリクシール)))+.prt-popup-footer>.btn-usual-ok').is(':visible'))
 		$('.btn-usual-ok:visible').trigger('tap');
 	var isSingle = $('[class="current value"] + [class="current value num-info1"] + .value.num-info-slash').length;
@@ -555,12 +557,21 @@ function raidMulti() {
 			return;
 		}
 	}
-	if ($('.btn-attack-start.display-on').length)
-		$('.btn-attack-start.display-on').trigger('tap');
+	checkMysteryThenAttack();
 	setTimeout(analyzingURL, 1000);
 }
 
+function checkMysteryThenAttack() {
+	if ($('.btn-lock.lock1').length && useMystery)
+		$('.btn-lock.lock1').trigger('tap');
+	if ($('.btn-lock.lock0').length && !useMystery)
+		$('.btn-lock.lock0').trigger('tap');
+	if ($('.btn-attack-start.display-on').length)
+		$('.btn-attack-start.display-on').trigger('tap');
+}
+
 function raidSmartFighting() {
+	isMaxMystery('all');
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if (enemyTotal > 1300000) {
 		// Check if skill is not ready and reload
@@ -657,41 +668,41 @@ function raidSmartFighting() {
 			return;
 		}
 		// Meru's claw
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040022000"])').length && $('.btn-ability-available>div[ability-id=4107]').length > 1 && !isMaxKatha('3040022000')) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040022000"])').length && $('.btn-ability-available>div[ability-id=4107]').length > 1 && !isMaxMystery('3040022000')) {
 			$('.btn-ability-available>div[ability-id=4107]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
-		} else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040022000"])').length && $('.btn-ability-available>div[ability-id=195]').length > 1 && !isMaxKatha('3040022000')) {
+		} else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040022000"])').length && $('.btn-ability-available>div[ability-id=195]').length > 1 && !isMaxMystery('3040022000')) {
 			$('.btn-ability-available>div[ability-id=195]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		// Yusutesu's Shoot
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040069000"])').length && $('.btn-ability-available>div[ability-id=2117]').length > 1 && !isMaxKatha('3040069000')) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040069000"])').length && $('.btn-ability-available>div[ability-id=2117]').length > 1 && !isMaxMystery('3040069000')) {
 			$('.btn-ability-available>div[ability-id=2117]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		// Katarina's Blade
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040054000"])').length && $('.btn-ability-available>div[ability-id=2133]').length > 1 && !isMaxKatha('3040054000')) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040054000"])').length && $('.btn-ability-available>div[ability-id=2133]').length > 1 && !isMaxMystery('3040054000')) {
 			$('.btn-ability-available>div[ability-id=2133]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		// Shiku's Blade
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030106000"])').length && $('.btn-ability-available>div[ability-id=4117]').length > 1 && !isMaxKatha('3030106000')) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030106000"])').length && $('.btn-ability-available>div[ability-id=4117]').length > 1 && !isMaxMystery('3030106000')) {
 			$('.btn-ability-available>div[ability-id=4117]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		// Lancelot's Buff
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030108000"])').length && $('.btn-ability-available>div[ability-id=408]').length > 1 && !isMaxKatha('3030108000')) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030108000"])').length && $('.btn-ability-available>div[ability-id=408]').length > 1 && !isMaxMystery('3030108000')) {
 			$('.btn-ability-available>div[ability-id=408]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		// Joke's Buff
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030014000"])').length && $('.btn-ability-available>div[ability-id=427]').length > 1 && !isMaxKatha('3030014000')) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030014000"])').length && $('.btn-ability-available>div[ability-id=427]').length > 1 && !isMaxMystery('3030014000')) {
 			$('.btn-ability-available>div[ability-id=427]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
@@ -715,8 +726,8 @@ function raidSmartFighting() {
 	dropRateUpAttack();
 }
 
-function isMaxKatha(target) {
-	// If char don't die and can use Katha
+function isMaxMystery(target) {
+	// If char don't die and can use Mystery
 	var char1 = ($('.lis-character0.btn-command-character.blank').length ||
 		$('.prt-member>.lis-character0.btn-command-character>.prt-gauge-special.character0>.prt-black-mask').is(':visible')) ? 0 : parseInt($('.lis-character0>.prt-percent>span:first').html());
 	var char2 = ($('.lis-character1.btn-command-character.blank').length ||
@@ -739,10 +750,10 @@ function isMaxKatha(target) {
 	if (target == 'all') {
 		var someoneMax = char1 >= 100 || char2 >= 100 || char3 >= 100 || char4 >= 100;
 		var someoneAlmost = (char1 >= 90 && char1 < 100) || (char2 >= 90 && char2 < 100) || (char3 >= 90 && char3 < 100) || (char4 >= 90 && char4 < 100);
-		if (someoneMax && someoneAlmost && $('.btn-lock.lock0').length)
-			$('.btn-lock.lock0').trigger('tap');
-		else if ((!someoneMax || !someoneAlmost) && $('.btn-lock.lock1').length)
-			$('.btn-lock.lock1').trigger('tap');
+		if (someoneMax && someoneAlmost)
+			useMystery = false;
+		else if (someoneMax && !someoneAlmost)
+			useMystery = true;
 	} else {
 		var position = $('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="' + target + '"])').attr('pos');
 		switch (position) {
@@ -785,14 +796,17 @@ function dropRateUpAttack() {
 		$('.btn-ability-available>div[ability-name=トレジャーハントII]').trigger('tap');
 	else if ($('.btn-ability-available>div[ability-id=6002]').length > 1 && canUseSkill)
 		$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
-	else if ($('.btn-attack-start.display-on').length && stage.pJsnData.boss.param[0].recast == 1 && stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ') {
-		$('.btn-attack-start.display-on').trigger('tap');
+	else if (stage.pJsnData.boss.param[0].recast == 1 && stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ') {
+		checkMysteryThenAttack();
 		setTimeout(function () {
 			location.reload();
 		}, 500);
 		return;
-	} else if ($('.btn-attack-start.display-on').length && !$('.btn-command-character.mask-black-fade').length && !$('.btn-command-character.mask-black').length) {
-		$('.btn-attack-start.display-on').trigger('tap');
+	}
+	// Don't attack when other action running
+	else if (!$('.btn-command-character.mask-black-fade').length && !$('.btn-command-character.mask-black').length) {
+		checkMysteryThenAttack();
+		// Prevent repeat attacks
 		setTimeout(function () {
 			if ($('.btn-attack-start.display-on').length)
 				location.reload();
@@ -865,7 +879,7 @@ function masterYoda() {
 			}, 500);
 			return false;
 		}
-		var maxKatha = isMaxKatha('3040064000');
+		var maxMystery = isMaxMystery('3040064000');
 		var threeStatus = getThreeStatus();
 		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
 		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1111]').length;
@@ -881,11 +895,11 @@ function masterYoda() {
 			$('.btn-ability-available>div[ability-id=2172]').trigger('tap');
 			return false;
 		}
-		if (threeStatus == 3 && maxKatha && $('.btn-lock.lock1').length) {
-			$('.btn-lock.lock1').trigger('tap');
+		if (threeStatus == 3 && maxMystery) {
+			useMystery = true;
 		}
-		if (threeStatus != 3 && maxKatha && $('.btn-lock.lock0').length) {
-			$('.btn-lock.lock0').trigger('tap');
+		if (threeStatus != 3 && maxMystery) {
+			useMystery = false;
 		}
 	}
 	return true;
@@ -976,13 +990,12 @@ function cureEveryone() {
 
 function simpleMasterYoda() {
 	if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src*="3040064000"])').length) {
-		var maxKatha = isMaxKatha('3040064000');
+		var maxMystery = isMaxMystery('3040064000');
 		var threeStatus = getThreeStatus();
 		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
 		var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1111]').length;
-		if (threeStatus != 3 && canUseStatus && canUseSkill && maxKatha) {
-			if ($('.btn-lock.lock1').length)
-				$('.btn-lock.lock1').trigger('tap');
+		useMystery = true;
+		if (threeStatus != 3 && canUseStatus && canUseSkill && maxMystery) {
 			$('.btn-ability-available>div[ability-id=555]').trigger('tap');
 			return false;
 		}
@@ -1029,8 +1042,7 @@ function raid() {
 			return;
 		}
 	}
-	if ($('.btn-lock.lock1').length)
-		$('.btn-lock.lock1').trigger('tap');
+	useMystery = true;
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if (enemyTotal >= 500000)
 		if (!simpleMasterYoda()) {
@@ -1043,7 +1055,6 @@ function raid() {
 			return;
 		}
 	else if (enemyTotal >= 1500000) {
-		isMaxKatha('all');
 		raidSmartFighting();
 		return;
 	}
@@ -1096,12 +1107,17 @@ function assist() {
 
 function exchange() {
 	stageMsg('==Exchange Stage==');
+	if ($('.frm-list-select').length) {
+		$('.frm-list-select').val(1);
+		$('.frm-list-select').trigger('change');
+	}
 	if ($('.btn-exchange').length)
 		$('.btn-exchange').trigger('tap');
 	setTimeout(function () {
-		// BUG: It doesn't work, try to fix it.
-		if ($('.num-set').length)
+		if ($('.num-set').length) {
 			$('.num-set').val($('.num-set>option:last-child').val());
+			$('.num-set').trigger('change');
+		}
 		setTimeout(function () {
 			if ($('.btn-usual-text.exchange').length)
 				$('.btn-usual-text.exchange').trigger('tap');
