@@ -122,7 +122,7 @@ function analyzingURL() {
 		stopScript();
 		return;
 	}
-	if (errorTimes > 15 || runTimes > 300) {
+	if (errorTimes > 20 || runTimes > 300) {
 		location.reload();
 		return;
 	}
@@ -807,10 +807,13 @@ function dropRateUpAttack() {
 	else if (!$('.btn-command-character.mask-black-fade').length && !$('.btn-command-character.mask-black').length) {
 		checkMysteryThenAttack();
 		// Prevent repeat attacks
-		setTimeout(function () {
-			if ($('.btn-attack-start.display-on').length)
-				location.reload();
-		}, 1200);
+		var enemyNow = $('.hp-show:first>span').html().split('/')[0];
+		if (enemyNow > 1300000) {
+			setTimeout(function () {
+				if ($('.btn-attack-start.display-on').length)
+					location.reload();
+			}, 1200);
+		}
 	}
 	setTimeout(analyzingURL, 1500);
 }
