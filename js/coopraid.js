@@ -151,19 +151,12 @@ function analyzingURL() {
 		stageRolling();
 	else if (/quest\/index/i.test(hash))
 		questError();
+	else if (/friend\/waiting/i.test(hash))
+		rejectFriend();
 	else {
 		runTimes--;
 		setTimeout(analyzingURL, 5000);
 	}
-}
-
-function questError() {
-	if ($('.pop-common-error.pop-show>.prt-popup-body>.txt-popup-body:contains(既にバトルは終了しました)').is(':visible')) {
-		console.log('==questError Stage==');
-		//TODO: detect where to go
-		//history.go(-1);
-	}
-	setTimeout(analyzingURL, 1000);
 }
 
 function coopraid() {
@@ -183,8 +176,9 @@ function offer() {
 }
 
 function offerFind() {
-	var $room = $('.txt-room-comment:not(:contains(順)):not(:contains(相互)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-1)');
-	var $room2 = $('.txt-room-comment:not(:contains(順)):not(:contains(相互)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-6)');
+	// Avoid entering bad room
+	var $room = $('.txt-room-comment:not(:contains(順)):not(:contains(貼)):not(:contains(相互)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-1)');
+	var $room2 = $('.txt-room-comment:not(:contains(順)):not(:contains(貼)):not(:contains(相互)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-6)');
 	if ($room.length)
 		$room.trigger('tap');
 	else if ($room2.length)
@@ -282,7 +276,7 @@ function supporter() {
 	var isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/500171/i.test(location.hash) || /supporter\/500731/i.test(location.hash) || /supporter\/500741/i.test(location.hash);
 	var isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || /supporter\/708651/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8100813]').length;
 	var isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101203]').length || $('.prt-raid-thumbnail>img[alt=8101213]').length;
-	var isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash);
+	var isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash) || /supporter\/500711/i.test(location.hash);
 	var isEventForLight = /supporter\/300281/i.test(location.hash);
 	var isEventForDark = /supporter\/300271/i.test(location.hash);
 	var isRabbit = /supporter\/101441/i.test(location.hash);
@@ -574,16 +568,6 @@ function raidSmartFighting() {
 	isMaxMystery('all');
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if (enemyTotal > 1300000) {
-		// Check if skill is not ready and reload
-		$('#mkt_ability_use_bar>.prt-ability-list>.lis-ability>div:first-child').each(function(){
-			var target = $(this).attr('class').split(/\s+/)[1].replace('ability-character-num-', '').split('-');
-			var targetChar = parseInt(target[0]) - 1;
-			var targetSkill = target[1];
-			var canTargetUse = $('.prt-member>.lis-character' + targetChar + '>.prt-ability-state>.ability' + targetSkill).attr('state') == 2;
-			var canSourceUse = $(this).parent().attr('class').split(/\s+/)[1] == 'btn-ability-available';
-			if (canTargetUse != canSourceUse)
-				location.reload();
-		});
 		var enemyHp = $('.hp-show:first>span').html().split('<br>')[1].replace('%', '');
 		// If enemy's HP is lower than 50%, send assist
 		if (enemyHp <= 50 && !$('.btn-assist.disable').length && /raid_multi/i.test(location.hash)) {
@@ -602,8 +586,18 @@ function raidSmartFighting() {
 			}, 1000);
 			return;
 		}
+		// Check if skill is not ready and reload
+		$('#mkt_ability_use_bar>.prt-ability-list>.lis-ability>div:first-child').each(function(){
+			var target = $(this).attr('class').split(/\s+/)[1].replace('ability-character-num-', '').split('-');
+			var targetChar = parseInt(target[0]) - 1;
+			var targetSkill = target[1];
+			var canTargetUse = $('.prt-member>.lis-character' + targetChar + '>.prt-ability-state>.ability' + targetSkill).attr('state') == 2;
+			var canSourceUse = $(this).parent().attr('class').split(/\s+/)[1] == 'btn-ability-available';
+			if (canTargetUse != canSourceUse)
+				location.reload();
+		});
 		// Gran's Buff Eliminate
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-name=ディスペル]').length > 1 && stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff !== null && stage.gGameStatus.boss.param[0].condition.buff.length > 0) {
+		if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-name=ディスペル]').length > 1 && stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff !== null && stage.gGameStatus.boss.param[0].condition.buff.length > 0) {
 			$('.btn-ability-available>div[ability-name=ディスペル]').trigger('tap');
 			stage.gGameStatus.boss.param[0].condition.buff = [];
 			setTimeout(analyzingURL, 1000);
@@ -1127,4 +1121,33 @@ function exchange() {
 			setTimeout(analyzingURL, 100);
 		}, 300);
 	}, 500);
+}
+
+function questError() {
+	if ($('.pop-common-error.pop-show>.prt-popup-body>.txt-popup-body:contains(既にバトルは終了しました)').is(':visible')) {
+		stageMsg('==questError Stage==');
+		//TODO: detect where to go
+		//history.go(-1);
+	}
+	setTimeout(analyzingURL, 1000);
+}
+
+function rejectFriend() {
+	if ($('#waiting_tabs.active').length) {
+		stageMsg('==rejectFriend Stage==');
+		$('#cnt-waiting>div>div>div>.prt-friend-detail>.prt-friend-name>.txt-rank').each(function(){
+			var rank = parseInt($(this).html().replace('Rank', ''));
+			if (rank < 90) {
+				if (!$('.pop-usual.pop-show').is(':visible'))
+					$(this).parent().parent().parent().children('.btn-friend-action').trigger('tap');
+				if ($('.prt-popup-body:has(.txt-popup-body:contains(フレンド申請がきています))>.prt-popup-subbody>.btn-usual-cancel').is(':visible'))
+					$('.prt-popup-body:has(.txt-popup-body:contains(フレンド申請がきています))>.prt-popup-subbody>.btn-usual-cancel').trigger('tap');
+				if ($('.prt-popup-body:has(.txt-popup-body:contains(フレンド申請を本当に却下しますか))+div>.btn-usual-ok').is(':visible'))
+					$('.prt-popup-body:has(.txt-popup-body:contains(フレンド申請を本当に却下しますか))+div>.btn-usual-ok').trigger('tap');
+				if ($('.prt-popup-body:has(.txt-popup-body:contains(フレンド申請を却下しました))+div>.btn-usual-ok').is(':visible'))
+					$('.prt-popup-body:has(.txt-popup-body:contains(フレンド申請を却下しました))+div>.btn-usual-ok').trigger('tap');
+			}
+		});
+	}
+	setTimeout(analyzingURL, 1000);
 }
