@@ -231,7 +231,7 @@ function room() {
 	else if ($('.btn-execute-ready.se-ok').length)
 		$('.btn-execute-ready.se-ok').trigger('tap');
 	// Send stamp for socially
-	else if (!$('.prt-member-balloon.btn-member-balloon:visible + div + .prt-member-name:contains(Jasonnor)').length)
+	else if (!$('.prt-member-balloon.btn-member-balloon:visible + div + .prt-member-name:contains(Jasonnor)').length && $('.prt-member-name:contains(Jasonnor)').is(':visible'))
 		sendRoomStamp();
 	setTimeout(analyzingURL, 1000);
 }
