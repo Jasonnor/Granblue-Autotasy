@@ -592,8 +592,9 @@ function raidSmartFighting() {
 			var targetChar = parseInt(target[0]) - 1;
 			var targetSkill = target[1];
 			var canTargetUse = $('.prt-member>.lis-character' + targetChar + '>.prt-ability-state>.ability' + targetSkill).attr('state') == 2;
+			var isTargetExist = $('.prt-member>.lis-character' + targetChar + '>.prt-ability-state>.ability' + targetSkill).attr('state') != 0;
 			var canSourceUse = $(this).parent().attr('class').split(/\s+/)[1] == 'btn-ability-available';
-			if (canTargetUse != canSourceUse)
+			if ((canTargetUse && !canSourceUse) || (!isTargetExist && canSourceUse))
 				location.reload();
 		});
 		// Gran's Buff Eliminate
