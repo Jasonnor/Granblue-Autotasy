@@ -233,6 +233,10 @@ function room() {
 	// Send stamp for socially
 	else if (!$('.prt-member-balloon.btn-member-balloon:visible + div + .prt-member-name:contains(Jasonnor)').length && $('.prt-member-name:contains(Jasonnor)').is(':visible'))
 		sendRoomStamp();
+	// If owner send thanks & time < 58 minutes, leave room
+	else if (($('.prt-member-balloon.btn-member-balloon:has(div>img[src*="stamp9"]:visible) + .prt-char-status>.ico-owner').length || $('.prt-member-balloon.btn-member-balloon:has(div>img[src*="stamp10"]:visible) + .prt-char-status>.ico-owner').length) && parseInt($('.txt-count-down').html().replace('残り ', '').replace('分', '')) < 58) {
+		sendRoomStamp('leave');
+	}
 	setTimeout(analyzingURL, 1000);
 }
 
@@ -253,15 +257,29 @@ function leaveRoom() {
 	}, 500);
 }
 
-function sendRoomStamp() {
+function sendRoomStamp(state) {
 	if ($('.btn-members-stamp').length)
 		$('.btn-members-stamp').trigger('tap');
-	setTimeout(function () {
-		if ($('.lis-stamp.selectable>img[data-stamp-id=4]').length)
-			$('.lis-stamp.selectable>img[data-stamp-id=4]').trigger('tap');
-		if ($('.btn-usual-cancel').length)
-			$('.btn-usual-cancel').trigger('tap');
-	}, 500);
+	if(state == 'leave') {
+		if(!$('.prt-member-balloon.btn-member-balloon:has(div>img[src*="stamp9"]:visible) + div + .prt-member-name:contains(Jasonnor)').length) {
+			setTimeout(function () {
+				if ($('.lis-stamp.selectable>img[data-stamp-id=9]').length)
+					$('.lis-stamp.selectable>img[data-stamp-id=9]').trigger('tap');
+				if ($('.btn-usual-cancel').length)
+					$('.btn-usual-cancel').trigger('tap');
+			}, 500);
+		}
+		else
+			leaveRoom();
+	}
+	else {
+		setTimeout(function () {
+			if ($('.lis-stamp.selectable>img[data-stamp-id=4]').length)
+				$('.lis-stamp.selectable>img[data-stamp-id=4]').trigger('tap');
+			if ($('.btn-usual-cancel').length)
+				$('.btn-usual-cancel').trigger('tap');
+		}, 500);
+	}
 }
 
 function supporter() {
@@ -422,10 +440,10 @@ function supporter() {
 	else if ($('.prt-summon-image[data-image=2040025000]').length)
 		$('.prt-summon-image[data-image=2040025000]').trigger('tap');
 	// Grande
-	/*else if ($('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').length)
+	else if ($('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').length)
 		$('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').trigger('tap');
 	else if ($('.prt-summon-image[data-image=2040065000]').length)
-		$('.prt-summon-image[data-image=2040065000]').trigger('tap');*/
+		$('.prt-summon-image[data-image=2040065000]').trigger('tap');
 	// 風80%
 	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').length)
 		$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').trigger('tap');
