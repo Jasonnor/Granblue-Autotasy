@@ -493,7 +493,7 @@ var useMystery = true;
 function raidMulti() {
 	if ($('.btn-result').is(':visible'))
 		$('.btn-result').trigger('tap');
-	if ($('.prt-error-infomation').length) {
+	if ($('.prt-error-infomation').is(':visible')) {
 		location.reload();
 		return;
 	}
