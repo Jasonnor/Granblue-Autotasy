@@ -151,7 +151,7 @@ function analyzingURL() {
 		stageRolling();
 	else if (/quest\/index/i.test(hash))
 		questError();
-	else if (/friend\/waiting/i.test(hash))
+	else if (/friend/i.test(hash))
 		rejectFriend();
 	else {
 		runTimes--;
@@ -293,7 +293,7 @@ function supporter() {
 	var isCoopraid = /supporter\/6\d{5}\/7/i.test(location.hash);
 	var isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/500171/i.test(location.hash) || /supporter\/500731/i.test(location.hash) || /supporter\/500741/i.test(location.hash);
 	var isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || /supporter\/708651/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8100813]').length;
-	var isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101203]').length || $('.prt-raid-thumbnail>img[alt=8101213]').length;
+	var isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101203]').length || $('.prt-raid-thumbnail>img[alt=8101213]').length ||  /supporter\/500211/i.test(location.hash);
 	var isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash) || /supporter\/500711/i.test(location.hash);
 	var isEventForLight = /supporter\/300281/i.test(location.hash);
 	var isEventForDark = /supporter\/300271/i.test(location.hash);
@@ -439,11 +439,11 @@ function supporter() {
 		$('.prt-summon-image[data-image=2040025000]+div>.bless-rank1-style').trigger('tap');
 	else if ($('.prt-summon-image[data-image=2040025000]').length)
 		$('.prt-summon-image[data-image=2040025000]').trigger('tap');
-	// Grande
+	/*// Grande
 	else if ($('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').length)
 		$('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').trigger('tap');
 	else if ($('.prt-summon-image[data-image=2040065000]').length)
-		$('.prt-summon-image[data-image=2040065000]').trigger('tap');
+		$('.prt-summon-image[data-image=2040065000]').trigger('tap');*/
 	// 風80%
 	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').length)
 		$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').trigger('tap');
@@ -599,7 +599,7 @@ function raidSmartFighting() {
 					$('.btn-usual-cancel').trigger('tap');
 					setTimeout(function () {
 						location.reload();
-					}, 300);
+					}, 100);
 				}, 1000);
 			}, 1000);
 			return;
@@ -633,7 +633,13 @@ function raidSmartFighting() {
 			return;
 		}
 		// Magisa's Summon Devil Buff
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length && $('.btn-ability-available>div[ability-id=510]').length > 1) {
+			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// Magisa's Summon Devil Attack
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && $('.hp-show:first>span').html().split('/')[0] <= 1200000 && $('.btn-ability-available>div[ability-id=510]').length > 1) {
 			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
@@ -662,12 +668,6 @@ function raidSmartFighting() {
 			return;
 		} else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201]):not([ability-id=2117]):not([ability-id=4107]):not([ability-id=2133]):not([ability-id=4117])').length) {
 			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201]):not([ability-id=2117]):not([ability-id=4107]):not([ability-id=2133]):not([ability-id=4117])').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-			return;
-		}
-		// Magisa's Summon Devil Attack
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && $('.hp-show:first>span').html().split('/')[0] <= 1000000 && $('.btn-ability-available>div[ability-id=510]').length > 1) {
-			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -1146,7 +1146,7 @@ function questError() {
 	if ($('.pop-common-error.pop-show>.prt-popup-body>.txt-popup-body:contains(既にバトルは終了しました)').is(':visible')) {
 		stageMsg('==questError Stage==');
 		//TODO: detect where to go
-		//history.go(-1);
+		history.go(-1);
 	}
 	setTimeout(analyzingURL, 1000);
 }
