@@ -13,6 +13,9 @@ chrome.storage.sync.get({
 			"	document.body.appendChild(script);" +
 			"}" +
 			"function init(){" +
+			"   if(window.$ && $('.txt-popup-body:contains(未確認バトルを確認して下さい。)').is(':visible')) {" + 
+			"	    $('.btn-usual-ok').trigger('tap');" + 
+			"	}" + 
 			"	if(window.$ && !$('#ready').is(':visible')) {" +
 			"		setTimeout(createScript, 1000);" +
 			"		console.log('Creating script ...');" +

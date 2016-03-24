@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Granblue Autotasy",
 	"description": "Granblue Fantasy Auto Coopraid Fight",
-	"version": "0.6",
+	"version": "0.7",
 	"icons": {
 		"16": "src/icon/icon16.png",
 		"48": "src/icon/icon48.png",
