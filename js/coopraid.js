@@ -856,42 +856,6 @@ function masterYoda() {
 		return false;
 	}
 	if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src*="3040064000"])').length) {
-		if (smallSolution == -1 || smallSolution === undefined || largeSolution == -1 || largeSolution === undefined) {
-			checkSolution();
-			return false;
-		}
-		var hp = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
-		if (hp <= 50 && (smallSolution > 0 || largeSolution > 0)) {
-			if (!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
-				$('.btn-temporary').trigger('tap');
-			setTimeout(function () {
-				smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
-				largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
-				console.log('Get solution : ' + smallSolution + ', ' + largeSolution);
-				if ($('.lis-item.item-small.btn-temporary-small:not(.disable)>img').length) {
-					$('.lis-item.item-small.btn-temporary-small>img').trigger('tap');
-					setTimeout(function () {
-						if ($('.lis-character3:first').length)
-							$('.lis-character3:first').trigger('tap');
-						if ($('.btn-usual-cancel').length)
-							$('.btn-usual-cancel').trigger('tap');
-					}, 500);
-				} else if ($('.lis-item.item-large.btn-temporary-large:not(.disable)>img').length) {
-					$('.lis-item.item-large.btn-temporary-large>img').trigger('tap');
-					setTimeout(function () {
-						if ($('.btn-usual-use').length)
-							$('.btn-usual-use').trigger('tap');
-						if ($('.btn-usual-cancel').length)
-							$('.btn-usual-cancel').trigger('tap');
-					}, 300);
-				} else if ($('.lis-item.item-small.btn-temporary-small.disable>img').length &&
-					$('.lis-item.item-large.btn-temporary-large.disable>img').length) {
-					if ($('.btn-usual-cancel').length)
-						$('.btn-usual-cancel').trigger('tap');
-				}
-			}, 500);
-			return false;
-		}
 		var maxMystery = isMaxMystery('3040064000');
 		var threeStatus = getThreeStatus();
 		var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
