@@ -22,3 +22,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 		});
 	});
 });
+chrome.extension.onMessage.addListener(function (message, sender, sendResponse) {
+	if (message.type == 'getTabId' )
+		sendResponse({ tabId: sender.tab.id });
+});

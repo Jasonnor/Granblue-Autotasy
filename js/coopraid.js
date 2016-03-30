@@ -129,6 +129,22 @@ function analyzingURL() {
 	runTimes++;
 	var hash = location.hash;
 	console.log('URL Hash : ' + hash);
+	// Always run at coopraid or assist function
+	if (localStorage.getItem('coopraid') !== null) {
+		var notCoopraid = !/coopraid/i.test(hash) && !/supporter/i.test(hash) && !/raid_multi/i.test(hash);
+		if (localStorage.coopraid == tabId && notCoopraid) {
+			location.href = 'http://gbf.game.mbga.jp/#coopraid';
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+	}
+	if (localStorage.getItem('assist') !== null) {
+		if (localStorage.assist == tabId && !/quest\/assist/i.test(hash)) {
+			location.href = 'http://gbf.game.mbga.jp/#quest/assist';
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+	}
 	if (/coopraid\/offer/i.test(hash))
 		offer();
 	else if (/coopraid\/room/i.test(hash))
