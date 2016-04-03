@@ -7,12 +7,12 @@ chrome.storage.sync.get({
 			var script = document.createElement('script');
 			// https://cdn.rawgit.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js
 			// https://rawgit.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js
-			var url = chrome.extension.getURL('js/coopraid.js');
 			var inner = "var tabId = " + tabId + ";" + 
+				"var alertUrl = '" + chrome.extension.getURL('src/alert_minions.mp3') + "';" + 
 				"function createScript() {" +
 				"	var script = document.createElement('script');" +
 				"	script.onerror = function(){location.reload()};" +
-				"	script.src = '" + url + "';" +
+				"	script.src = '" + chrome.extension.getURL('js/coopraid.js') + "';" +
 				"	document.body.appendChild(script);" +
 				"}" +
 				"function init(){" +

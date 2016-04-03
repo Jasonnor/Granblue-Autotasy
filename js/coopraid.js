@@ -3,7 +3,7 @@
 	// Create stop script button
 	var stopBtn = document.createElement('div');
 	stopBtn.style.cssText = 'text-align:center;margin:5px;font-size:8px';
-	stopBtn.innerHTML = '<button id="stopBtn" onclick="stopScript()" value="0" style="color:white;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(140, 220, 250, 0.8)), color-stop(0.4, rgba(75, 170, 190, 0.8)), color-stop(0.6, rgba(75, 170, 190, 0.8)), to(rgba(140, 220, 250, 0.8)));border:1px solid rgb(85, 102, 119);border-radius:5px;">Stop Script</button>';
+	stopBtn.innerHTML = '<button id="stopBtn" onclick="toggleScript()" value="0" style="color:white;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(140, 220, 250, 0.8)), color-stop(0.4, rgba(75, 170, 190, 0.8)), color-stop(0.6, rgba(75, 170, 190, 0.8)), to(rgba(140, 220, 250, 0.8)));border:1px solid rgb(85, 102, 119);border-radius:5px;">Stop Script</button>';
 	$('body').append(stopBtn);
 	analyzingURL();
 })();
@@ -53,7 +53,7 @@ Game.reportError = function (msg, url, line, column, err, callback) {
 		min = min.length > 1 ? min : '0' + min;
 		sec = sec.length > 1 ? sec : '0' + sec;
 		var datetime = year + '-' + month + '-' + day + ' ' + hour + '-' + min + '-' + sec;
-		console.save(recordLog, 'errorRecord-' + datetime + '.log');
+		//console.save(recordLog, 'errorRecord-' + datetime + '.log');
 	}
 };
 
@@ -73,7 +73,7 @@ function stageMsg(msg) {
 	console.log('%c' + msg, 'color: #30aeff');
 }
 
-function stopScript() {
+function toggleScript() {
 	if ($('#stopBtn').val() == 1) {
 		console.log('Starting Script ...');
 		$('#stopBtn').val(0);
@@ -107,19 +107,19 @@ function analyzingURL() {
 	// Set event button as stop script button
 	if ($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
 		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('href', 'javascript:void(0)');
-		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('onclick', 'stopScript()');
+		$('#mkt_menu_mainsection>div:eq(4)>a:first').attr('onclick', 'toggleScript()');
 	}
 	// Set voice button as stop script button
 	if ($('.btn-switch-sound.btn-bgm-change').length)
-		$('.btn-switch-sound.btn-bgm-change').attr('onclick', 'stopScript()');
+		$('.btn-switch-sound.btn-bgm-change').attr('onclick', 'toggleScript()');
 	if ($('.bgm-change').length)
-		$('.bgm-change').attr('onclick', 'stopScript()');
+		$('.bgm-change').attr('onclick', 'toggleScript()');
 	if ($('#stopBtn').val() == 1)
 		return;
 	if ($('#pop-captcha>div>.prt-popup-header:contains(認証)').is(':visible')) {
-		var audio = new Audio('https://cdn.rawgit.com/Jasonnor/Granblue-Autotasy/master/js/alert_minions.mp3');
+		var audio = new Audio(alertUrl);
 		audio.play();
-		stopScript();
+		toggleScript();
 		return;
 	}
 	if (errorTimes > 20 || runTimes > 300) {
@@ -129,19 +129,24 @@ function analyzingURL() {
 	runTimes++;
 	var hash = location.hash;
 	console.log('URL Hash : ' + hash);
-	// Always run at coopraid or assist function
+	// Tab workflow for coopraid & assist
 	if (localStorage.getItem('coopraid') !== null) {
-		var notCoopraid = !/coopraid/i.test(hash) && !/supporter/i.test(hash) && !/raid_multi/i.test(hash);
+		var notCoopraid = !/coopraid/i.test(hash) && !/supporter/i.test(hash) && !/raid_multi/i.test(hash) && !/quest\/assist\/unclaimed/i.test(hash);
 		if (localStorage.coopraid == tabId && notCoopraid) {
-			location.href = 'http://gbf.game.mbga.jp/#coopraid';
-			setTimeout(analyzingURL, 1000);
+			setTimeout(function () {
+				location.href = 'http://gbf.game.mbga.jp/#coopraid';
+				analyzingURL();
+			}, 1000);
 			return;
 		}
 	}
 	if (localStorage.getItem('assist') !== null) {
-		if (localStorage.assist == tabId && !/quest\/assist/i.test(hash)) {
-			location.href = 'http://gbf.game.mbga.jp/#quest/assist';
-			setTimeout(analyzingURL, 1000);
+		var notAssist = !/quest\/assist/i.test(hash) && !/supporter/i.test(hash) && !/raid_multi/i.test(hash) && !/quest\/assist\/unclaimed/i.test(hash);
+		if (localStorage.assist == tabId && notAssist) {
+			setTimeout(function () {
+				location.href = 'http://gbf.game.mbga.jp/#quest/assist';
+				analyzingURL();
+			}, 1000);
 			return;
 		}
 	}
@@ -312,8 +317,8 @@ function supporter() {
 	var isCoopraid = /supporter\/6\d{5}\/7/i.test(location.hash);
 	var isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/500171/i.test(location.hash) || /supporter\/500731/i.test(location.hash) || /supporter\/500741/i.test(location.hash);
 	var isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || /supporter\/708651/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8100813]').length;
-	var isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101203]').length || $('.prt-raid-thumbnail>img[alt=8101213]').length || /supporter\/500211/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8100053]').length;
-	var isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash) || /supporter\/500711/i.test(location.hash) ||  /supporter\/599811/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=1300023]').length || /supporter\/708941/i.test(location.hash) || /supporter\/708951/i.test(location.hash) || /supporter\/708961/i.test(location.hash) || /supporter\/708971/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=5100233]').length;
+	var isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101203]').length || $('.prt-raid-thumbnail>img[alt=8101213]').length || /supporter\/500211/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8100053]').length || $('.prt-raid-thumbnail>img[alt=8101223]').length/*Grandin*/;
+	var isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash) || /supporter\/500711/i.test(location.hash) ||  /supporter\/599811/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=1300023]').length || /supporter\/708941/i.test(location.hash) || /supporter\/708951/i.test(location.hash) || /supporter\/708961/i.test(location.hash) || /supporter\/708971/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=5100233]').length || /supporter\/709201/i.test(location.hash) || /supporter\/709211/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=4200133]').length;
 	var isEventForLight = /supporter\/300281/i.test(location.hash);
 	var isEventForDark = /supporter\/300271/i.test(location.hash);
 	var isRabbit = /supporter\/101441/i.test(location.hash);
@@ -351,7 +356,7 @@ function supporter() {
 		// 風50%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」))').trigger('tap');
-	} else if (isEventForFire) {
+	} else if (isEventForFire || isEventForLight || isEventForDark) {
 		// 火80%
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').trigger('tap');
@@ -383,7 +388,7 @@ function supporter() {
 		// 水100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').trigger('tap');
-	} else if (isEventForLight) {
+	} else if (false) {
 		// 光120%
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(光):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(光):not(:contains(「雷電」))').trigger('tap');
@@ -414,7 +419,7 @@ function supporter() {
 		// 光100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(騎解方陣):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(騎解方陣):not(:contains(「雷電」))').trigger('tap');
-	} else if (isEventForDark) {
+	} else if (false) {
 		// 闇120%
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(闇):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(闇):not(:contains(「憎悪」))').trigger('tap');
@@ -483,24 +488,31 @@ function supporter() {
 		$('.prt-supporter-detail').trigger('tap');
 	setTimeout(function () {
 		if (isEventForEarth)
-			selectTeam(2);
+			selectTeam('1-2');
 		else if (isEventForWind)
-			selectTeam(3);
+			selectTeam('1-3');
 		else if (isEventForFire)
-			selectTeam(4);
+			selectTeam('1-4');
 		else if (isEventForWater)
-			selectTeam(1);
+			selectTeam('1-1');
 		else if (isRabbit)
-			selectTeam(5);
+			selectTeam('1-5');
+		else if (isEventForDark)
+			selectTeam('2-2');
 		else
-			selectTeam(0);
+			selectTeam('1-0');
 	}, 200);
 }
 
 function selectTeam(n) {
-	$('.flex-control-nav>li:eq(' + n + ')>a').click();
+	// pos[0] = Slot 1 ~ 7, pos[1] = Team 0 ~ 5
+	var pos = n.split('-');
+	if (!$('.btn-select-group[data-id=' + pos[0] + '].selected').length)
+		$('.btn-select-group[data-id=' + pos[0] + ']').trigger('tap')
+	if ($('.btn-select-group[data-id=' + pos[0] + '].selected').length && !$('.flex-control-nav>li:eq(' + n + ')>a.flex-active').length)
+		$('.flex-control-nav>li:eq(' + pos[1] + ')>a').click();
 	setTimeout(function () {
-		if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(' + n + ')>a.flex-active').length)
+		if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(' + pos[1] + ')>a.flex-active').length && $('.btn-select-group[data-id=' + pos[0] + '].selected').length)
 			$('.btn-usual-ok').trigger('tap');
 		setTimeout(analyzingURL, 300);
 	}, 800);
@@ -532,6 +544,11 @@ function raidMulti() {
 			return;
 		}
 	}
+	// Reload if boss is dead
+	if ($('.prt-popup-header:contains(このバトルは終了しました)').is(':visible')) {
+		location.reload();
+		return;
+	}
 	useMystery = true;
 	if ($('div:not(:has(div>.prt-item-result>.txt-stamina-title:contains(エリクシール)))+.prt-popup-footer>.btn-usual-ok').is(':visible'))
 		$('.btn-usual-ok:visible').trigger('tap');
@@ -546,6 +563,21 @@ function raidMulti() {
 		// TODO: if number of person is 1/4, retreat
 		stageMsg('==Raid Coopraid Stage==');
 		enterCoopraid = true;
+		if ($('.lis-user').length == 1) {
+			if (!$('.prt-popup-header:contains(バトルメニュー)').is(':visible')) {
+				$('.btn-raid-menu.menu').trigger('tap');
+				setTimeout(analyzingURL, 1000);
+				return;
+			} else if ($('.btn-withdrow.breakaway').is(':visible')) {
+				$('.btn-withdrow.breakaway').trigger('tap');
+				setTimeout(analyzingURL, 1000);
+				return;
+			} else if ($('.btn-withdraw:contains(離脱する)').is(':visible')) {
+				$('.btn-withdraw:contains(離脱する)').trigger('tap');
+				setTimeout(analyzingURL, 1000);
+				return;
+			}
+		}
 		var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 		if (enemyTotal >= 7000000) {
 			raidSmartFighting();
@@ -608,20 +640,24 @@ function raidSmartFighting() {
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
 	if (enemyTotal > 1300000) {
 		var enemyHp = $('.hp-show:first>span').html().split('<br>')[1].replace('%', '');
-		// If enemy's HP is lower than 50% and is MVP and all died, send assist
-		if (enemyHp <= 50 && !$('.btn-assist.disable').length && /raid_multi/i.test(location.hash) && $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible') && $('.prt-member>.btn-command-character.blank').length == 4) {
+		// If enemy's HP is lower than 50% and is MVP /*and all died*/, send assist
+		if (enemyHp <= 50 && !$('.btn-assist.disable').length && /raid_multi/i.test(location.hash) && $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible')/* && $('.prt-member>.btn-command-character.blank').length == 4*/) {
 			$('.btn-assist').trigger('tap');
 			setTimeout(function () {
-				if ($('.btn-usual-text:contains(救援依頼)').length)
-					$('.btn-usual-text:contains(救援依頼)').trigger('tap');
-				setTimeout(function () {
-					if ($('.btn-usual-ok').length)
-						$('.btn-usual-ok').trigger('tap');
-					$('.btn-usual-cancel').trigger('tap');
+				if ($('.prt-popup-header:contains(救援依頼)').is(':visible')) {
+					if ($('.btn-usual-text:contains(救援依頼)').length)
+						$('.btn-usual-text:contains(救援依頼)').trigger('tap');
 					setTimeout(function () {
-						location.reload();
-					}, 100);
-				}, 1000);
+						if ($('.txt-popup-body:contains(救援依頼を送りました)').is(':visible'))
+							setTimeout(function () {
+								location.reload();
+							}, 100);
+						else
+							setTimeout(analyzingURL, 1000);
+					}, 1000);
+				}
+				else
+					setTimeout(analyzingURL, 1000);
 			}, 1000);
 			return;
 		}
@@ -637,7 +673,7 @@ function raidSmartFighting() {
 				location.reload();
 		});
 		// Gran's Buff Eliminate
-		if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-name=ディスペル]').length > 1 && stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff !== null && stage.gGameStatus.boss.param[0].condition.buff.length > 0) {
+		if ($('.btn-ability-available>div[ability-name=ディスペル]').length > 1 && stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff !== null && stage.gGameStatus.boss.param[0].condition.buff.length > 0) {
 			$('.btn-ability-available>div[ability-name=ディスペル]').trigger('tap');
 			stage.gGameStatus.boss.param[0].condition.buff = [];
 			setTimeout(analyzingURL, 1000);
@@ -666,11 +702,11 @@ function raidSmartFighting() {
 			return;
 		}
 		// Use all skill, order : yellow(3) > green(2) > blue(4) > red(1)
-		// Expect list: Yusutesu(5322-3, 2117-1), Yoda(2172-1, 3173-3, 555-2), Magisa(510-3), Darkfencer(1201-1), Gran(ディスペル-4), Sara(352-3, 294-3), Meru(4107-1, 195-3), Katarina(2133-1), Shiku(4117-1), Lancelot(408-3), Joke(427-3)
+		// Expect list: Yusutesu(5322-3, 2117-1), Yoda(2172-1, 3173-3, 555-2), Magisa(510-3), Darkfencer(1201-1), Gran(ディスペル-4), Sara(352-3, 294-3), Meru(4107-1, 195-3), Katarina(2133-1), Shiku(4117-1), Lancelot(408-3), Joke(427-3), SuperStar(266-3)
 		// BUG: If can not use skill, will stop here
 		// TODO: var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
-		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195]):not([ability-id=408]):not([ability-id=427])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195]):not([ability-id=408]):not([ability-id=427])').trigger('tap');
+		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195]):not([ability-id=408]):not([ability-id=427]):not([ability-id=266])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195]):not([ability-id=408]):not([ability-id=427]):not([ability-id=266])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		} else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([ability-id=555])').length) {
@@ -720,6 +756,12 @@ function raidSmartFighting() {
 		// Shiku's Blade
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030106000"])').length && $('.btn-ability-available>div[ability-id=4117]').length > 1 && !isMaxMystery('3030106000')) {
 			$('.btn-ability-available>div[ability-id=4117]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// SuperStar's Buff
+		else if ($('.btn-ability-available>div[ability-id=266]').length > 1 && isMaxMystery('numbers') < 2) {
+			$('.btn-ability-available>div[ability-id=266]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -782,7 +824,16 @@ function isMaxMystery(target) {
 			useMystery = false;
 		else if (someoneMax && !someoneAlmost)
 			useMystery = true;
-	} else {
+	}
+	else if(target == 'numbers') {
+		var numbers = 0;
+		if (char1 >= 100) numbers++;
+		if (char2 >= 100) numbers++;
+		if (char3 >= 100) numbers++;
+		if (char4 >= 100) numbers++;
+		return numbers;
+	}
+	else {
 		var position = $('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="' + target + '"])').attr('pos');
 		switch (position) {
 			case '0':
@@ -801,9 +852,11 @@ function isMaxMystery(target) {
 
 function summonByCode(code) {
 	var parameter = (code == 'all') ? '' : '[summon-code=' + code + ']';
-	$('.summon-on').trigger('tap');
+	if(!$('.prt-command-summon.summon-show').length)
+		$('.summon-on').trigger('tap');
 	setTimeout(function () {
-		$('.btn-summon-available' + parameter).trigger('tap');
+		if (!$('.prt-popup-header:contains(星晶獣情報)').is(':visible'))
+			$('.btn-summon-available' + parameter).trigger('tap');
 		setTimeout(function () {
 			if ($('.btn-usual-ok.btn-summon-use').length)
 				$('.btn-usual-ok.btn-summon-use').trigger('tap');
@@ -931,7 +984,7 @@ function cureEveryone() {
 
 function masterYoda() {
 	// Send stamp to get large-solution
-	/*if ($('.btn-chat:not(.comment)>.ico-attention').is(':visible') && /raid_multi/i.test(location.hash)) {
+	if ($('.btn-chat:not(.comment)>.ico-attention').is(':visible') && /raid_multi/i.test(location.hash)) {
 		$('.btn-chat:not(.comment)>.ico-attention').trigger('tap');
 		setTimeout(function () {
 			if ($('.lis-stamp[chatid=19]').length)
@@ -940,7 +993,7 @@ function masterYoda() {
 				$('.btn-usual-close').trigger('tap');
 		}, 1000);
 		return false;
-	}*/
+	}
 	if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src*="3040064000"])').length) {
 		var maxMystery = isMaxMystery('3040064000');
 		var threeStatus = getThreeStatus();
@@ -1083,6 +1136,8 @@ function assist() {
 				$('.img-raid-thumbnail[alt=2030002000]').trigger('tap');
 			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040128000_hell])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040128000_hell]').trigger('tap');
+			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040065000_hell])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
+				$('.img-raid-thumbnail[alt=2040065000_hell]').trigger('tap');
 			else
 				return;
 			setTimeout(function () {
@@ -1093,7 +1148,7 @@ function assist() {
 	} else if ($('#tab-event.active').length) {
 		$('#tab-event.active').trigger('tap');
 	}
-	if ($('.prt-user-bp-value').attr('title') >= 2)
+	if ($('.prt-user-bp-value').attr('title') == 5)
 		$('.prt-use-ap[data-ap=2]').trigger('tap')
 	setTimeout(analyzingURL, 3000);
 }
@@ -1129,7 +1184,7 @@ function unclaimed() {
 }
 
 function questError() {
-	if ($('.pop-common-error.pop-show>.prt-popup-body>.txt-popup-body:contains(既にバトルは終了しました)').is(':visible')) {
+	if ($('.pop-common-error.pop-show>.prt-popup-body>.txt-popup-body:contains(既にバトルは終了しました)').is(':visible') || $('.txt-popup-body:contains(未確認バトル)').is(':visible')) {
 		stageMsg('==questError Stage==');
 		$('.btn-usual-ok').trigger('tap');
 		if (enterCoopraid)
