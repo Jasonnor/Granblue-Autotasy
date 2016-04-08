@@ -682,6 +682,7 @@ function raidSmartFighting() {
 				var statusTemp = parseInt(stage.gGameStatus.boss.param[0].condition.buff[i].status);
 				if (statusTemp >= 1013 && statusTemp <= 1019) {
 					useSkill = false;
+					useMystery = false;
 					break;
 				}
 			}
