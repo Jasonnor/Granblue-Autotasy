@@ -636,15 +636,6 @@ function raidMulti() {
 	setTimeout(analyzingURL, 1000);
 }
 
-function checkMysteryThenAttack() {
-	if ($('.btn-lock.lock1').length && useMystery)
-		$('.btn-lock.lock1').trigger('tap');
-	if ($('.btn-lock.lock0').length && !useMystery)
-		$('.btn-lock.lock0').trigger('tap');
-	if ($('.btn-attack-start.display-on').length)
-		$('.btn-attack-start.display-on').trigger('tap');
-}
-
 function raidSmartFighting() {
 	isMaxMystery('all');
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
@@ -927,6 +918,15 @@ function summonByCode(code) {
 	}, 500);
 }
 
+function checkMysteryThenAttack() {
+	if ($('.btn-lock.lock1').length && useMystery)
+		$('.btn-lock.lock1').trigger('tap');
+	if ($('.btn-lock.lock0').length && !useMystery)
+		$('.btn-lock.lock0').trigger('tap');
+	if ($('.btn-attack-start.display-on').length)
+		$('.btn-attack-start.display-on').trigger('tap');
+}
+
 // Use summon & skill rise drop rate then attack
 function dropRateUpAttack() {
 	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
@@ -964,26 +964,9 @@ function dropRateUpAttack() {
 	setTimeout(analyzingURL, 1500);
 }
 
-var smallSolution = -1;
-var largeSolution = -1;
-
-function checkSolution() {
-	if (!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
-		$('.btn-temporary').trigger('tap');
-	setTimeout(function () {
-		smallSolution = $('.lis-item.item-small.btn-temporary-small>img+div+.txt-having>.having-num').html();
-		largeSolution = $('.lis-item.item-large.btn-temporary-large>img+div+.txt-having>.having-num').html();
-		console.log('Get solution : ' + smallSolution + ', ' + largeSolution);
-		if ($('.btn-usual-cancel').length)
-			$('.btn-usual-cancel').trigger('tap');
-	}, 1000);
-}
-
 function cureEveryone() {
-	if (smallSolution == -1 || smallSolution === undefined || largeSolution == -1 || largeSolution === undefined) {
-		checkSolution();
-		return false;
-	}
+	var smallSolution = parseInt(stage.gGameStatus.temporary.small);
+	var largeSolution = parseInt(stage.gGameStatus.temporary.large);
 	var cureIndex = 0;
 	var hp1 = 100 * parseFloat($('.lis-character0>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character0>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
 	if (hp1 <= 70 && hp1 !== 0) cureIndex++;
