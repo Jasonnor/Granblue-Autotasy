@@ -665,6 +665,12 @@ function raidSmartFighting() {
 			}, 1000);
 			return;
 		}
+		// Don't attack when other action running
+		if (stage.gGameStatus.attacking == 1) {
+			console.log('Other action running ... ');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
 		// Check if skill is not ready and reload
 		$('#mkt_ability_use_bar>.prt-ability-list>.lis-ability>div:first-child').each(function(){
 			var target = $(this).attr('class').split(/\s+/)[1].replace('ability-character-num-', '').split('-');
@@ -958,7 +964,10 @@ function checkMysteryThenAttack() {
 // Use summon & skill rise drop rate then attack
 function dropRateUpAttack() {
 	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
-	if ($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length)
+	// Don't attack when other action running
+	if (stage.gGameStatus.attacking == 1)
+		console.log('Other action running ... ');
+	else if ($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length)
 		summonByCode('2030026000');
 	else if ($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length)
 		summonByCode('2040025000');
@@ -966,8 +975,7 @@ function dropRateUpAttack() {
 		$('.btn-ability-available>div[ability-name=トレジャーハントII]').trigger('tap');
 	else if ($('.btn-ability-available>div[ability-name=トレジャーハントIII]').length > 1 && canUseSkill)
 		$('.btn-ability-available>div[ability-name=トレジャーハントIII]').trigger('tap');
-	// Don't attack when other action running
-	else if (!$('.btn-command-character.mask-black-fade').length && !$('.btn-command-character.mask-black').length) {
+	else {
 		checkMysteryThenAttack();
 		var reload = false;
 		var enemyHasBuff = stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff !== null && stage.gGameStatus.boss.param[0].condition.buff.length > 0;
