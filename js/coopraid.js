@@ -715,14 +715,14 @@ function raidSmartFighting() {
 		if (!useSkill) {
 			console.log('Not using skill this turn ...');
 			useSkill = true;
-		} else if (!masterYoda()) {
-			setTimeout(analyzingURL, 1000);
-			return;
 		} else if (!cureEveryone()) {
 			setTimeout(analyzingURL, 1000);
 			return;
 		} else if ($('.summon-on').length) {
 			summonByCode('all');
+			setTimeout(analyzingURL, 1000);
+			return;
+		} else if (!masterYoda()) {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -757,8 +757,8 @@ function raidSmartFighting() {
 		** Gran(ディスペル-4), 
 		** Darkfencer(1201-1), 
 		** Katarina(2133-1), 
-		** Shiku(4117-1), 
-		*/
+		** Shiku(4117-1) */
+
 		// Yellow Skills
 		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195]):not([ability-id=408]):not([ability-id=427]):not([ability-id=266]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575])').length) {
 			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195]):not([ability-id=408]):not([ability-id=427]):not([ability-id=266]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575])').trigger('tap');
