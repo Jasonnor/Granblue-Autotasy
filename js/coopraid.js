@@ -524,11 +524,12 @@ function selectTeam(n) {
 		$('.btn-select-group[data-id=' + pos[0] + ']').trigger('tap')
 	if ($('.btn-select-group[data-id=' + pos[0] + '].selected').length && !$('.flex-control-nav>li:eq(' + n + ')>a.flex-active').length)
 		$('.flex-control-nav>li:eq(' + pos[1] + ')>a').click();
-	setTimeout(function () {
-		if ($('.btn-usual-ok').length && $('.flex-control-nav>li:eq(' + pos[1] + ')>a.flex-active').length && $('.btn-select-group[data-id=' + pos[0] + '].selected').length)
+	if ($('.btn-usual-ok').length && $('.btn-select-group[data-id=' + pos[0] + '].selected').length && $('.flex-control-nav>li:eq(' + pos[1] + ')>a.flex-active').length) {
+		setTimeout(function () {
 			$('.btn-usual-ok').trigger('tap');
-		setTimeout(analyzingURL, 300);
-	}, 800);
+		}, 800);
+	}
+	setTimeout(analyzingURL, 300);
 }
 
 var useMystery = true;
@@ -537,14 +538,14 @@ var enterCoopraid = false;
 function raidMulti() {
 	if ($('.btn-result').is(':visible'))
 		$('.btn-result').trigger('tap');
-	// Reload if error occurs or boss-dead message shown
-	if ($('.prt-error-infomation').is(':visible') || $('.prt-popup-header:contains(このバトルは終了しました)').is(':visible')) {
-		location.reload();
-		return;
-	}
 	// Wait for loading
 	if (!$('.value.num-info-slash').is(':visible') || !$('#mkt_ability_use_bar>.prt-ability-list>.lis-ability').is(':visible')) {
 		setTimeout(analyzingURL, 1000);
+		return;
+	}
+	// Reload if error occurs or boss-dead message shown
+	if ($('.prt-error-infomation').is(':visible') || $('.prt-popup-header:contains(このバトルは終了しました)').is(':visible')) {
+		location.reload();
 		return;
 	}
 	// Reload if all boss is dead (Must after loading)
@@ -688,7 +689,7 @@ function raidSmartFighting() {
 		if (enemyHasBuff) {
 			for(var i = 0; i < stage.gGameStatus.boss.param[0].condition.buff.length; i++) {
 				var statusTemp = parseInt(stage.gGameStatus.boss.param[0].condition.buff[i].status);
-				if (statusTemp >= 1013 && statusTemp <= 1019) {
+				if ((statusTemp >= 1013 && statusTemp <= 1019) || statusTemp == 1313) {
 					useSkill = false;
 					useMystery = false;
 					break;
@@ -983,7 +984,7 @@ function dropRateUpAttack() {
 		if (enemyHasBuff) {
 			for(var i = 0; i < stage.gGameStatus.boss.param[0].condition.buff.length; i++) {
 				var statusTemp = parseInt(stage.gGameStatus.boss.param[0].condition.buff[i].status);
-				if (statusTemp >= 1013 && statusTemp <= 1019) {
+				if ((statusTemp >= 1013 && statusTemp <= 1019) || statusTemp == 1313) {
 					reload = true;
 					break;
 				}
@@ -1020,11 +1021,11 @@ function cureEveryone() {
 	var $undebuffSkill = $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2][text-data*=弱体効果を1つ回復]');
 	var $healingSkill = $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2][text-data*=全体のHP], #mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2][text-data*=参戦者のHP]');
 	// undebuffSkill
-	if (cureIndex > 3 && $undebuffSkill.length && $('.prt-status>.img-ico-status-s[data-status=1033]').length > 2 && ($healingSkill.length || largeSolution > 0)) {
+	if (cureIndex > 3 && $undebuffSkill.length && $('.prt-status>.img-ico-status-s[data-status=1033],.prt-status>.img-ico-status-s[data-status=1012]').length > 2 && ($healingSkill.length || largeSolution > 0)) {
 		$undebuffSkill.trigger('tap');
 		return false;
 	}
-	else if (cureIndex > 3 && $('.prt-status>.img-ico-status-s[data-status=1033]').length > 2)
+	else if (cureIndex > 3 && $('.prt-status>.img-ico-status-s[data-status=1033],prt-status>.img-ico-status-s[data-status=1012]').length > 2)
 		cureIndex = 0;
 	// healingSkill
 	if (cureIndex > 3 && $healingSkill.length) {
@@ -1053,10 +1054,10 @@ function cureEveryone() {
 		}, 500);
 		return false;
 	}
-	if ($('.lis-character0>.prt-status>.img-ico-status-s[data-status=1033]').length) hp1 = 100;
-	if ($('.lis-character1>.prt-status>.img-ico-status-s[data-status=1033]').length) hp2 = 100;
-	if ($('.lis-character2>.prt-status>.img-ico-status-s[data-status=1033]').length) hp3 = 100;
-	if ($('.lis-character3>.prt-status>.img-ico-status-s[data-status=1033]').length) hp4 = 100;
+	if ($('.lis-character0>.prt-status>.img-ico-status-s[data-status=1033],.lis-character0>.prt-status>.img-ico-status-s[data-status=1012]').length) hp1 = 100;
+	if ($('.lis-character1>.prt-status>.img-ico-status-s[data-status=1033],.lis-character1>.prt-status>.img-ico-status-s[data-status=1012]').length) hp2 = 100;
+	if ($('.lis-character2>.prt-status>.img-ico-status-s[data-status=1033],.lis-character2>.prt-status>.img-ico-status-s[data-status=1012]').length) hp3 = 100;
+	if ($('.lis-character3>.prt-status>.img-ico-status-s[data-status=1033],.lis-character3>.prt-status>.img-ico-status-s[data-status=1012]').length) hp4 = 100;
 	var someoneDanger = (hp1 <= 50 && hp1 > 0) || (hp2 <= 50 && hp2 > 0) || (hp3 <= 50 && hp3 > 0) || (hp4 <= 50 && hp4 > 0);
 	if (smallSolution > 0 && someoneDanger) {
 		if (!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
