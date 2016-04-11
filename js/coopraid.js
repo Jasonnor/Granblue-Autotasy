@@ -527,7 +527,7 @@ function selectTeam(n) {
 	if ($('.btn-usual-ok').length && $('.btn-select-group[data-id=' + pos[0] + '].selected').length && $('.flex-control-nav>li:eq(' + pos[1] + ')>a.flex-active').length) {
 		setTimeout(function () {
 			$('.btn-usual-ok').trigger('tap');
-		}, 800);
+		}, 1500);
 	}
 	setTimeout(analyzingURL, 300);
 }
@@ -649,20 +649,9 @@ function raidSmartFighting() {
 		if (assistBlackList && !$('.btn-assist.disable').length && /raid_multi/i.test(location.hash) && ((enemyHp <= 50 && $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible')) || ($('.lis-user').length == 1 && $('.prt-member>.btn-command-character.blank').length == 4))) {
 			$('.btn-assist').trigger('tap');
 			setTimeout(function () {
-				if ($('.prt-popup-header:contains(救援依頼)').is(':visible')) {
-					if ($('.btn-usual-text:contains(救援依頼)').length)
-						$('.btn-usual-text:contains(救援依頼)').trigger('tap');
-					setTimeout(function () {
-						if ($('.txt-popup-body:contains(救援依頼を送りました)').is(':visible'))
-							setTimeout(function () {
-								location.reload();
-							}, 100);
-						else
-							setTimeout(analyzingURL, 1000);
-					}, 1000);
-				}
-				else
-					setTimeout(analyzingURL, 1000);
+				if ($('.prt-popup-header:contains(救援依頼)').is(':visible') && $('.btn-usual-text:contains(救援依頼)').length)
+					$('.btn-usual-text:contains(救援依頼)').trigger('tap');
+				setTimeout(analyzingURL, 1000);
 			}, 1000);
 			return;
 		}
@@ -685,14 +674,19 @@ function raidSmartFighting() {
 		});
 		var useSkill = true;
 		var enemyHasBuff = stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff !== null && stage.gGameStatus.boss.param[0].condition.buff.length > 0;
-		// If enemy has deffense up, don't use skills
 		if (enemyHasBuff) {
 			for(var i = 0; i < stage.gGameStatus.boss.param[0].condition.buff.length; i++) {
 				var statusTemp = parseInt(stage.gGameStatus.boss.param[0].condition.buff[i].status);
-				if ((statusTemp >= 1013 && statusTemp <= 1019) || statusTemp == 1313) {
+				// If Light Boss has deffense up, don't use skills
+				if (statusTemp >= 1013 && statusTemp <= 1019 && stage.gGameStatus.boss.param[0].name == 'Lv75 シュヴァリエ・マグナ') {
 					useSkill = false;
 					useMystery = false;
 					break;
+				}
+				// If Grande has phantom, waiting
+				else if (statusTemp == 1313) {
+					setTimeout(analyzingURL, 1000);
+					return;
 				}
 			}
 		}
@@ -732,6 +726,12 @@ function raidSmartFighting() {
 			location.reload();
 			return;
 		}
+		// Kurarisu's Atomic Resolution
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040046000"])').length && $('.btn-ability-available>div[ability-id=2300]').length > 1) {
+			$('.btn-ability-available>div[ability-id=2300]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
 		// Magisa's Summon Devil Buff
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length && $('.btn-ability-available>div[ability-id=510]').length > 1) {
 			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
@@ -746,41 +746,103 @@ function raidSmartFighting() {
 		}
 		// Use all skill, order : Yellow(3) > Green(2) > Blue(4) > Red(1)
 		/* Expect list: 
-		** Yoda(2172-1, 3173-3, 555-2), 
-		** Yusutesu(5322-3, 2117-1), 
-		** Lancelot(408-3), 
-		** Joke(427-3), 
-		** SuperStar(266-3), 
-		** Magisa(510-3), 
-		** Sara(352-3, 294-3), 
+		** OverDrive(オーバードライブ, モードゲージ - 1,3,4)
+		** Break(ブレイク - 1,3,4)
+		** Double/Triple Attack(アタック, 連続攻撃 - 1,3)
+		** Mystery Rise(奥義ゲージ - 1,3)
+		** Healing(参戦者のHP, 全体のHP - 2)
+		** Resurrection(復活 - 2)
+		** Weakened Released(弱体効果を1つ回復 - 2)
+		** Percival(1961-2)
+		** Yoda(2172-1, 3173-3, 555-2)
+		** Magisa(510-3)
+		** Sara(352-3, 294-3)
 		** Beatorikusu(579-3, 580-3, 575-3)
-		** Meru(4107-1, 195-3), 
-		** Gran(ディスペル-4), 
-		** Darkfencer(1201-1), 
-		** Katarina(2133-1), 
-		** Shiku(4117-1) */
-
+		** Gran(ディスペル-4)
+		** Darkfencer(1201-1) */
 		// Yellow Skills
-		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195]):not([ability-id=408]):not([ability-id=427]):not([ability-id=266]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([ability-id=5322]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=195]):not([ability-id=408]):not([ability-id=427]):not([ability-id=266]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575])').trigger('tap');
+		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		// Green Skills
-		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([ability-id=555]):not([text-data*=全体のHP]):not([text-data*=参戦者のHP]):not([text-data*=復活]):not([text-data*=弱体効果を1つ回復])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([ability-id=555]):not([text-data*=全体のHP]):not([text-data*=参戦者のHP]):not([text-data*=復活]):not([text-data*=弱体効果を1つ回復])').trigger('tap');
+		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([text-data*=全体のHP]):not([text-data*=参戦者のHP]):not([text-data*=復活]):not([text-data*=弱体効果を1つ回復]):not([ability-id=555])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([text-data*=全体のHP]):not([text-data*=参戦者のHP]):not([text-data*=復活]):not([text-data*=弱体効果を1つ回復]):not([ability-id=555])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		// Blue Skills
-		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([ability-name=ディスペル])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([ability-name=ディスペル])').trigger('tap');
+		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([ability-name=ディスペル]):not([ability-id=1961])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([ability-name=ディスペル]):not([ability-id=1961])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		// Red Skills
-		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201]):not([ability-id=2117]):not([ability-id=4107]):not([ability-id=2133]):not([ability-id=4117])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172]):not([ability-id=1201]):not([ability-id=2117]):not([ability-id=4107]):not([ability-id=2133]):not([ability-id=4117])').trigger('tap');
+		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=2172]):not([ability-id=1201])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=2172]):not([ability-id=1201])').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// OverDrive
+		else if (stage.gGameStatus.bossmode.looks.mode == 2 && $('.btn-ability-available>div[text-data*=オーバードライブ]').length > 1) {
+			$('.btn-ability-available>div[text-data*=オーバードライブ]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// OverDrive attack
+		else if (stage.gGameStatus.bossmode.looks.mode == 2 && 
+			$('.btn-ability-available>div').filter(function() {
+				if ($(this).attr('text-data'))
+					return $(this).attr('text-data').match(/^((?!ブレイク).)*モードゲージ.*$/);
+			}).length > 1) {
+				$('.btn-ability-available>div').filter(function() {
+					if ($(this).attr('text-data'))
+						return $(this).attr('text-data').match(/^((?!ブレイク).)*モードゲージ.*$/);
+				}).trigger('tap');
+				setTimeout(analyzingURL, 1000);
+				return;
+		}
+		// Break
+		else if (stage.gGameStatus.bossmode.looks.mode == 3 && $('.btn-ability-available>div[text-data*=ブレイク]').length > 1) {
+			$('.btn-ability-available>div[text-data*=ブレイク]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// Double/Triple Attack For All Team
+		else if (isMaxMystery('numbers') < 2 && 
+			$('.btn-ability-available>div').filter(function() {
+				if ($(this).attr('text-data'))
+					return $(this).attr('text-data').match(/(全体の|全員)+((?!自分).)*(アタック|連続攻撃)+/g);
+			}).length > 1) {
+				$('.btn-ability-available>div').filter(function() {
+					if ($(this).attr('text-data'))
+						return $(this).attr('text-data').match(/(全体の|全員)+((?!自分).)*(アタック|連続攻撃)+/g);
+				}).trigger('tap');
+				setTimeout(analyzingURL, 1000);
+				return;
+		}
+		// Mystery Rise For All Team
+		else if (isMaxMystery('numbers') < 2 && 
+			$('.btn-ability-available>div').filter(function() {
+				if ($(this).attr('text-data'))
+					return $(this).attr('text-data').match(/味方全体((?!HP|自分).)*(奥義ゲージ)+/g);
+			}).length > 1) {
+				$('.btn-ability-available>div').filter(function() {
+					if ($(this).attr('text-data'))
+						return $(this).attr('text-data').match(/味方全体((?!HP|自分).)*(奥義ゲージ)+/g);
+				}).trigger('tap');
+				setTimeout(analyzingURL, 1000);
+				return;
+		}
+		// Some skills using at single
+		else if (!usingSpecialSkill()) {
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// Rakamu's shoot (Shoot it anyway if is Dark Boss)
+		else if ($('.btn-ability-available>div[ability-id=2461]').length > 1 && (!isMaxMystery('3040059000') || stage.gGameStatus.boss.param[0].name == 'Lv75 セレスト・マグナ')) {
+			$('.btn-ability-available>div[ability-id=2461]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -796,62 +858,14 @@ function raidSmartFighting() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		// Meru's claw
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040022000"])').length && $('.btn-ability-available>div[ability-id=4107]').length > 1 && !isMaxMystery('3040022000')) {
-			$('.btn-ability-available>div[ability-id=4107]').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-			return;
-		}
-		// Meru's Buff
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040022000"])').length && $('.btn-ability-available>div[ability-id=195]').length > 1 && !isMaxMystery('3040022000')) {
-			$('.btn-ability-available>div[ability-id=195]').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-			return;
-		}
-		// Yusutesu's Shoot
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040069000"])').length && $('.btn-ability-available>div[ability-id=2117]').length > 1 && !isMaxMystery('3040069000')) {
-			$('.btn-ability-available>div[ability-id=2117]').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-			return;
-		}
-		// Katarina's Blade
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040054000"])').length && $('.btn-ability-available>div[ability-id=2133]').length > 1 && !isMaxMystery('3040054000')) {
-			$('.btn-ability-available>div[ability-id=2133]').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-			return;
-		}
-		// Shiku's Blade
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030106000"])').length && $('.btn-ability-available>div[ability-id=4117]').length > 1 && !isMaxMystery('3030106000')) {
-			$('.btn-ability-available>div[ability-id=4117]').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-			return;
-		}
-		// SuperStar's Buff
-		else if ($('.btn-ability-available>div[ability-id=266]').length > 1 && isMaxMystery('numbers') < 2) {
-			$('.btn-ability-available>div[ability-id=266]').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-			return;
-		}
-		// Lancelot's Buff
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030108000"])').length && $('.btn-ability-available>div[ability-id=408]').length > 1 && !isMaxMystery('3030108000')) {
-			$('.btn-ability-available>div[ability-id=408]').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-			return;
-		}
-		// Joke's Buff
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030014000"])').length && $('.btn-ability-available>div[ability-id=427]').length > 1 && !isMaxMystery('3030014000')) {
-			$('.btn-ability-available>div[ability-id=427]').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-			return;
-		}
 		// Sara's Protect
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000"])').length && $('.btn-ability-available>div[ability-id=352]').length > 1 && stage.pJsnData.boss.param[0].recast == 1) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000"])').length && $('.btn-ability-available>div[ability-id=352]').length > 1 && stage.pJsnData.boss.param[0].recast == 1 && stage.gGameStatus.bossmode.looks.mode != 3) {
 			$('.btn-ability-available>div[ability-id=352]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		// Sara's Defense
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000"])').length && $('.btn-ability-available>div[ability-id=294]').length > 1 && stage.pJsnData.boss.param[0].recast == 1) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000"])').length && $('.btn-ability-available>div[ability-id=294]').length > 1 && stage.pJsnData.boss.param[0].recast == 1 && stage.gGameStatus.bossmode.looks.mode != 3) {
 			$('.btn-ability-available>div[ability-id=294]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
@@ -868,9 +882,15 @@ function raidSmartFighting() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		// Beatorikusu's Time-Jump For 4 o'clock
+		/*// Beatorikusu's Time-Jump For 4 o'clock
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040070000"])>.prt-status>.img-ico-status-s:last[data-status=14702]').length && $('.btn-ability-available>div[ability-id=575]').length > 1) {
 			$('.btn-ability-available>div[ability-id=575]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}*/
+		// Percival's Fear (Must be the last one to use)
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040050000"])').length && $('.btn-ability-available>div[ability-id=1961]').length > 1) {
+			$('.btn-ability-available>div[ability-id=1961]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -881,6 +901,39 @@ function raidSmartFighting() {
 		}
 	}
 	dropRateUpAttack();
+}
+
+function usingSpecialSkill() {
+	var done = true;
+	// Double/Triple Attack For Single
+	$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div').filter(function() {
+		if ($(this).attr('text-data'))
+			return $(this).attr('text-data').match(/(自分|効果中|次の攻撃)+.*(?:全体)*.*(アタック|連続攻撃)+/g);
+	}).each(function(){
+		var targetCharPos = parseInt($(this).attr('class').split('num-')[1].split('-')[0]) - 1;
+		var targetChar = $('.prt-member>.btn-command-character:not(.blank)[pos=' + targetCharPos + ']>img').attr('src').split('/').pop().split('_')[0];
+		if(!isMaxMystery(targetChar)) {
+			$(this).trigger('tap');
+			done = false;
+			return;
+		}
+	});
+	// Mystery Rise For Single
+	if (done) {
+		$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div').filter(function() {
+			if ($(this).attr('text-data'))
+				return $(this).attr('text-data').match(/^((?!味方全体).)*(奥義ゲージ)+((?!消費|変換).)*$/);
+		}).each(function(){
+			var targetCharPos = parseInt($(this).attr('class').split('num-')[1].split('-')[0]) - 1;
+			var targetChar = $('.prt-member>.btn-command-character:not(.blank)[pos=' + targetCharPos + ']>img').attr('src').split('/').pop().split('_')[0];
+			if(!isMaxMystery(targetChar)) {
+				$(this).trigger('tap');
+				done = false;
+				return;
+			}
+		});
+	}
+	return done;
 }
 
 function isMaxMystery(target) {
@@ -980,13 +1033,18 @@ function dropRateUpAttack() {
 		checkMysteryThenAttack();
 		var reload = false;
 		var enemyHasBuff = stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff !== null && stage.gGameStatus.boss.param[0].condition.buff.length > 0;
-		// If enemy has deffense up, reload after attack
 		if (enemyHasBuff) {
 			for(var i = 0; i < stage.gGameStatus.boss.param[0].condition.buff.length; i++) {
 				var statusTemp = parseInt(stage.gGameStatus.boss.param[0].condition.buff[i].status);
-				if ((statusTemp >= 1013 && statusTemp <= 1019) || statusTemp == 1313) {
+				// If Light Boss has deffense up, reload after attack
+				if (statusTemp >= 1013 && statusTemp <= 1019 && stage.gGameStatus.boss.param[0].name == 'Lv75 シュヴァリエ・マグナ') {
 					reload = true;
 					break;
+				}
+				// If Grande has phantom, waiting
+				else if (statusTemp == 1313) {
+					setTimeout(analyzingURL, 1000);
+					return;
 				}
 			}
 		}
