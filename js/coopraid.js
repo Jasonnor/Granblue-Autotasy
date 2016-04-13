@@ -101,6 +101,9 @@ function toggleScript() {
 	}
 }
 
+var autoEventUrl = 'advent008';
+var autoEventUseAP = true;
+
 function analyzingURL() {
 	// Set event button as stop script button
 	if ($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
@@ -129,7 +132,7 @@ function analyzingURL() {
 	runTimes++;
 	var hash = location.hash;
 	console.log('URL Hash : ' + hash);
-	// Tab workflow for coopraid & assist
+	// Tab workflow for coopraid & assist & autoEvent
 	if (localStorage.getItem('coopraid') !== null) {
 		var notCoopraid = !/coopraid/i.test(hash) && !/supporter/i.test(hash) && !/raid_multi/i.test(hash) && !/quest\/assist\/unclaimed/i.test(hash);
 		if (localStorage.coopraid == tabId && notCoopraid) {
@@ -145,6 +148,17 @@ function analyzingURL() {
 		if (localStorage.assist == tabId && notAssist) {
 			setTimeout(function () {
 				location.href = 'http://gbf.game.mbga.jp/#quest/assist';
+				analyzingURL();
+			}, 1000);
+			return;
+		}
+	}
+	var autoEventRegex = new RegExp('event\/' + autoEventUrl, 'i');
+	if (localStorage.getItem('autoEvent') !== null) {
+		var notAutoEvent = !autoEventRegex.test(hash) && !/supporter/i.test(hash) && !/raid_multi/i.test(hash) && !/result_multi/i.test(hash);
+		if (localStorage.autoEvent == tabId && notAutoEvent) {
+			setTimeout(function () {
+				location.href = 'http://gbf.game.mbga.jp/#event/' + autoEventUrl;
 				analyzingURL();
 			}, 1000);
 			return;
@@ -178,6 +192,8 @@ function analyzingURL() {
 		questError();
 	else if (/friend/i.test(hash))
 		rejectFriend();
+	else if (autoEventRegex.test(hash))
+		autoEvent();
 	else {
 		runTimes--;
 		setTimeout(analyzingURL, 5000);
@@ -261,6 +277,9 @@ function room() {
 	// If others(more than two) send stamp, to do so for polite
 	else if (!$('.prt-member-balloon.btn-member-balloon:visible + div + .prt-member-name:contains(Jasonnor)').length && $('.prt-member-name:contains(Jasonnor)').is(':visible') && $('.txt-room-comment:not(:contains(挨拶)):not(:contains(無言))').length && $('.prt-member-balloon.btn-member-balloon:visible:not(:has(div>img[src*="stamp9"])):not(:has(div>img[src*="stamp10"]))').length > 1)
 		sendRoomStamp();
+	// If this room freeze, leave room
+	else if (runTimes > 280 && parseInt($('.txt-count-down').html().replace('残り ', '').replace('分', '')) < 55)
+		sendRoomStamp('leave');
 	setTimeout(analyzingURL, 1000);
 }
 
@@ -338,8 +357,8 @@ function supporter() {
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(土):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(土):not(:contains(「大地」))').trigger('tap');
 		// 土50%
-		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」))').trigger('tap');
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」)):not(:contains(チェインバースト))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(土):not(:contains(「大地」)):not(:contains(チェインバースト))').trigger('tap');
 		// 土100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').trigger('tap');
@@ -357,8 +376,8 @@ function supporter() {
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(風):not(:contains(「竜巻」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(風):not(:contains(「竜巻」))').trigger('tap');
 		// 風50%
-		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」))').trigger('tap');
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」)):not(:contains(チェインバースト))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」)):not(:contains(チェインバースト))').trigger('tap');
 	} else if (isEventForFire || isEventForLight) {
 		// 火80%
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').length)
@@ -370,8 +389,8 @@ function supporter() {
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(火):not(:contains(「業火」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(火):not(:contains(「業火」))').trigger('tap');
 		// 火50%
-		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」))').trigger('tap');
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」)):not(:contains(チェインバースト))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」)):not(:contains(チェインバースト))').trigger('tap');
 		// 火100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').trigger('tap');
@@ -389,15 +408,15 @@ function supporter() {
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').trigger('tap');
 		// 水50%
-		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」))').trigger('tap');
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」)):not(:contains(チェインバースト))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」)):not(:contains(チェインバースト))').trigger('tap');
 		// 水100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').trigger('tap');
 	} else if (false) {
 		// 光120%
-		if ($('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(光):not(:contains(「雷電」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(光):not(:contains(「雷電」))').trigger('tap');
+		if ($('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(光):not(:contains(「雷電」)):not(:contains(チェインバースト))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(光):not(:contains(「雷電」)):not(:contains(チェインバースト))').trigger('tap');
 		// 光100%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(光):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(光):not(:contains(「雷電」))').trigger('tap');
@@ -420,8 +439,8 @@ function supporter() {
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(光):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(光):not(:contains(「雷電」))').trigger('tap');
 		// 光50%
-		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(光):not(:contains(「雷電」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(光):not(:contains(「雷電」))').trigger('tap');
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(光):not(:contains(「雷電」)):not(:contains(チェインバースト))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(光):not(:contains(「雷電」)):not(:contains(チェインバースト))').trigger('tap');
 		// 光100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(騎解方陣):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(騎解方陣):not(:contains(「雷電」))').trigger('tap');
@@ -430,8 +449,8 @@ function supporter() {
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(HP):contains(闇):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(HP):contains(闇):not(:contains(「憎悪」))').trigger('tap');
 		// 闇120%
-		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(闇):not(:contains(「憎悪」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(闇):not(:contains(「憎悪」))').trigger('tap');
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(闇):not(:contains(「憎悪」)):not(:contains(チェインバースト))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(闇):not(:contains(「憎悪」)):not(:contains(チェインバースト))').trigger('tap');
 		// 闇100%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(闇):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(闇):not(:contains(「憎悪」))').trigger('tap');
@@ -451,8 +470,8 @@ function supporter() {
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(闇):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(闇):not(:contains(「憎悪」))').trigger('tap');
 		// 闇50%
-		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(闇):not(:contains(「憎悪」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(闇):not(:contains(「憎悪」))').trigger('tap');
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(闇):not(:contains(「憎悪」)):not(:contains(チェインバースト))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(闇):not(:contains(「憎悪」)):not(:contains(チェインバースト))').trigger('tap');
 		// 闇100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(黒霧方陣):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(黒霧方陣):not(:contains(「憎悪」))').trigger('tap');
@@ -480,18 +499,18 @@ function supporter() {
 	// 風80%
 	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').length)
 		$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').trigger('tap');
-	// 風100% Anima
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').trigger('tap');
 	// 風70%
 	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(風):not(:contains(「竜巻」))').length)
 		$('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(風):not(:contains(「竜巻」))').trigger('tap');
+	// 風100% Anima
+	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').trigger('tap');
 	// 風60%
 	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(風):not(:contains(「竜巻」))').length)
 		$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(風):not(:contains(「竜巻」))').trigger('tap');
 	// 風50%
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」))').trigger('tap');
+	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」)):not(:contains(チェインバースト))').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」)):not(:contains(チェインバースト))').trigger('tap');
 	// Others
 	else if ($('.prt-supporter-detail').length)
 		$('.prt-supporter-detail').trigger('tap');
@@ -644,7 +663,8 @@ function raidSmartFighting() {
 		enemyNow += parseInt(stage.gGameStatus.boss.param[i].hp);
 	if (enemyNow > 1400000) {
 		var enemyHp = $('.hp-show:first>span').html().split('<br>')[1].replace('%', '');
-		var assistBlackList = stage.gGameStatus.boss.param[0].name != 'Lv60 朱雀';
+		var bossName = stage.gGameStatus.boss.param[0].name;
+		var assistBlackList = bossName != 'Lv60 朱雀' && bossName != 'Lv50 セレスト';
 		// If enemy's HP is lower than 50% and is MVP or all dead and only one player, send assist
 		if (assistBlackList && !$('.btn-assist.disable').length && /raid_multi/i.test(location.hash) && ((enemyHp <= 50 && $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible')) || ($('.lis-user').length == 1 && $('.prt-member>.btn-command-character.blank').length == 4))) {
 			$('.btn-assist').trigger('tap');
@@ -871,13 +891,13 @@ function raidSmartFighting() {
 			return;
 		}
 		// Beatorikusu's Time-Increase For 8 o'clock
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040070000"])>.prt-status>.img-ico-status-s:last[data-status=14703]').length && $('.btn-ability-available>div[ability-id=579]').length > 1) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040070000"])>.prt-status>.img-ico-status-s[data-status=14703]').length && $('.btn-ability-available>div[ability-id=579]').length > 1) {
 			$('.btn-ability-available>div[ability-id=579]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 		// Beatorikusu's Time-Stop For 12 o'clock & Has 8 o'clock status
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040070000"])>.prt-status>.img-ico-status-s:last[data-status=14701]').length && $('.btn-command-character:not(.blank)>.prt-status>.img-ico-status-s[data-status=14703]').length && $('.btn-ability-available>div[ability-id=580]').length > 1) {
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040070000"])>.prt-status>.img-ico-status-s[data-status=14701]').length && $('.btn-command-character:not(.blank)>.prt-status>.img-ico-status-s[data-status=14703]').length && $('.btn-ability-available>div[ability-id=580]').length > 1) {
 			$('.btn-ability-available>div[ability-id=580]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
@@ -908,7 +928,7 @@ function usingSpecialSkill() {
 	// Double/Triple Attack For Single
 	$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div').filter(function() {
 		if ($(this).attr('text-data'))
-			return $(this).attr('text-data').match(/(自分|効果中|次の攻撃)+.*(?:全体)*.*(アタック|連続攻撃)+/g);
+			return $(this).attr('text-data').match(/^(自分|効果中|次の攻撃)*((?!全体).)*(アタック|連続攻撃)+/g);
 	}).each(function(){
 		var targetCharPos = parseInt($(this).attr('class').split('num-')[1].split('-')[0]) - 1;
 		var targetChar = $('.prt-member>.btn-command-character:not(.blank)[pos=' + targetCharPos + ']>img').attr('src').split('/').pop().split('_')[0];
@@ -1392,5 +1412,18 @@ function gacha() {
 	}
 	if ($('.txt-available-times10').length && localStorage.gachaShowHand)
 		$('.txt-available-times10').trigger('tap');
+	setTimeout(analyzingURL, 1000);
+}
+
+function autoEvent() {
+	stageMsg('==Auto Event Stage==');
+	if (localStorage.autoEvent == tabId) {
+		if ($('.prt-popup-header:contains(アイテム使用完了)').is(':visible') && autoEventUseAP)
+			$('.btn-usual-ok').trigger('tap');
+		else if ($('.prt-popup-header:contains(APが足りません)').is(':visible') && autoEventUseAP)
+			$('.btn-use-full.index-1').trigger('tap');
+		else if ($('.btn-event-raid.multi').length)
+			$('.btn-event-raid.multi:first').trigger('tap');
+	}
 	setTimeout(analyzingURL, 1000);
 }

@@ -44,6 +44,7 @@ chrome.contextMenus.onClicked.addListener(onClickHandler);
 chrome.runtime.onInstalled.addListener(function() {
 	chrome.contextMenus.create({'title': 'Set as Coopraid Workflow', 'id': 'coopraid'});
 	chrome.contextMenus.create({'title': 'Set as Assist Workflow', 'id': 'assist'});
+	chrome.contextMenus.create({'title': 'Set as Auto Event Workflow', 'id': 'autoEvent'});
 	chrome.contextMenus.create({'title': 'Toggle Script On/Off in this tab', 'id': 'toggle'});
 	chrome.contextMenus.create({'title': 'Clear Workflow', 'id': 'clear'});
 });
