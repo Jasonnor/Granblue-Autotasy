@@ -33,6 +33,14 @@ function onClickHandler(info, tab) {
 	if (info.menuItemId == 'toggle')
 		code = 'toggleScript()';
 	else if(info.menuItemId == 'clear') {
+		code = 'if(localStorage.coopraid == ' + tab.id + ') localStorage.removeItem("coopraid");';
+		code += 'if(localStorage.assist == ' + tab.id + ') localStorage.removeItem("assist");';
+		code += 'if(localStorage.autoEvent == ' + tab.id + ') localStorage.removeItem("autoEvent");';
+		code += 'if(localStorage.autoExtraEvent == ' + tab.id + ') localStorage.removeItem("autoExtraEvent");';
+		code += 'if(localStorage.autoExtra == ' + tab.id + ') localStorage.removeItem("autoExtra");';
+		code += 'if(localStorage.magna == ' + tab.id + ') localStorage.removeItem("magna");';
+	}
+	else if(info.menuItemId == 'clearAll') {
 		code = 'localStorage.removeItem("coopraid");';
 		code += 'localStorage.removeItem("assist");';
 		code += 'localStorage.removeItem("autoEvent");';
@@ -40,8 +48,15 @@ function onClickHandler(info, tab) {
 		code += 'localStorage.removeItem("autoExtra");';
 		code += 'localStorage.removeItem("magna");';
 	}
-	else 
-		code = 'localStorage.setItem(\'' + info.menuItemId + '\', ' + tab.id + ')';
+	else {
+		code = 'if(localStorage.coopraid == ' + tab.id + ') localStorage.removeItem("coopraid");';
+		code += 'if(localStorage.assist == ' + tab.id + ') localStorage.removeItem("assist");';
+		code += 'if(localStorage.autoEvent == ' + tab.id + ') localStorage.removeItem("autoEvent");';
+		code += 'if(localStorage.autoExtraEvent == ' + tab.id + ') localStorage.removeItem("autoExtraEvent");';
+		code += 'if(localStorage.autoExtra == ' + tab.id + ') localStorage.removeItem("autoExtra");';
+		code += 'if(localStorage.magna == ' + tab.id + ') localStorage.removeItem("magna");';
+		code += 'localStorage.setItem(\'' + info.menuItemId + '\', ' + tab.id + ')';
+	}
 	chrome.tabs.executeScript(tab.id, {code: code});
 };
 
@@ -55,5 +70,6 @@ chrome.runtime.onInstalled.addListener(function() {
 	chrome.contextMenus.create({'title': 'Set as Auto Extra Workflow', 'id': 'autoExtra', 'contexts': ['all']});
 	chrome.contextMenus.create({'title': 'Set as Magna Workflow', 'id': 'magna', 'contexts': ['all']});
 	chrome.contextMenus.create({'title': 'Toggle Script On/Off in this tab', 'id': 'toggle', 'contexts': ['all']});
-	chrome.contextMenus.create({'title': 'Clear Workflow', 'id': 'clear', 'contexts': ['all']});
+	chrome.contextMenus.create({'title': 'Clear Workflow of this tab', 'id': 'clear', 'contexts': ['all']});
+	chrome.contextMenus.create({'title': 'Clear Workflow of all tab', 'id': 'clearAll', 'contexts': ['all']});
 });
