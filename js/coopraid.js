@@ -38,12 +38,13 @@ window.alert = function(msg) {
 	};
 })(console);
 
+var ignoreError = false;
 Game.reportError = function (msg, url, line, column, err, callback) {
 	var recordLog = 'Message: ' + msg + '\r\nUrl: ' + url + '\r\nLine: ' + line + '\r\nColumn: ' + column + '\r\nError: ' + err + '\r\nCallback: ' + callback;
 	errorMsg(recordLog);
 	// msg.indexOf("Script error") > -1
-	var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'3' of undefined") > -1 || msg.indexOf("'4' of undefined") > -1 || msg.indexOf("'5' of undefined") > -1 || msg.indexOf("'6' of undefined") > -1 || msg.indexOf("'7' of undefined") > -1 || msg.indexOf("'8' of undefined") > -1 || msg.indexOf("'9' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1;
-	if (needReload) {
+	var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'3' of undefined") > -1 || msg.indexOf("'4' of undefined") > -1 || msg.indexOf("'5' of undefined") > -1 || msg.indexOf("'6' of undefined") > -1 || msg.indexOf("'7' of undefined") > -1 || msg.indexOf("'8' of undefined") > -1 || msg.indexOf("'9' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1 || msg.indexOf("'level' of undefined") > -1 || msg.indexOf("'item' of undefined") > -1;
+	if (needReload && !ignoreError) {
 		location.reload();
 	} else {
 		var currentdate = new Date();
@@ -136,8 +137,7 @@ function toggleScript() {
 	}
 }
 
-var autoEventUrl = 'advent008';
-var autoEventUseAP = true;
+var autoEventUrl = 'teamraid020';
 
 function analyzingURL() {
 	// Set event button as stop script button
@@ -167,8 +167,8 @@ function analyzingURL() {
 	runTimes++;
 	var hash = location.hash;
 	console.log('URL Hash : ' + hash);
-	var notBattle = !/supporter/i.test(hash) && !/raid_multi/i.test(hash) && !/result_multi/i.test(hash);
-	// Tab workflow for coopraid & assist & autoEvent & dailyMagna
+	var notBattle = !/supporter/i.test(hash) && !/raid_multi/i.test(hash) && !/result_multi/i.test(hash) && !/raid/i.test(hash);
+	// Tab workflow for coopraid & assist & autoExtraEvent & autoEvent & dailyMagna
 	if (localStorage.getItem('coopraid') !== null) {
 		var notCoopraid = !/coopraid/i.test(hash) && !/supporter/i.test(hash) && !/raid_multi/i.test(hash) && !/quest\/assist\/unclaimed/i.test(hash);
 		if (localStorage.coopraid == tabId && notCoopraid) {
@@ -184,6 +184,24 @@ function analyzingURL() {
 		if (localStorage.assist == tabId && notAssist) {
 			setTimeout(function () {
 				location.href = 'http://gbf.game.mbga.jp/#quest/assist';
+				analyzingURL();
+			}, 1000);
+			return;
+		}
+	}
+	if (localStorage.getItem('autoExtraEvent') !== null) {
+		if (localStorage.autoExtraEvent == tabId && notBattle && !/quest\/extra\/event/i.test(hash)) {
+			setTimeout(function () {
+				location.href = 'http://gbf.game.mbga.jp/#quest/extra/event';
+				analyzingURL();
+			}, 1000);
+			return;
+		}
+	}
+	if (localStorage.getItem('autoExtra') !== null) {
+		if (localStorage.autoExtra == tabId && notBattle && !/quest\/extra/i.test(hash)) {
+			setTimeout(function () {
+				location.href = 'http://gbf.game.mbga.jp/#quest/extra';
 				analyzingURL();
 			}, 1000);
 			return;
@@ -268,6 +286,8 @@ function analyzingURL() {
 		supporter();
 	else if (/gacha/i.test(hash))
 		gacha();
+	else if (autoEventRegex.test(hash))
+		autoEvent();
 	else if (/raid_multi/i.test(hash))
 		raidMulti();
 	else if (/raid/i.test(hash))
@@ -284,18 +304,39 @@ function analyzingURL() {
 		questError();
 	else if (/friend/i.test(hash))
 		rejectFriend();
-	else if (autoEventRegex.test(hash))
-		autoEvent();
+	else if (/quest\/extra\/event/i.test(hash))
+		autoExtraEvent();
+	else if (/quest\/extra/i.test(hash))
+		autoExtra();
+	else if (/event/i.test(hash))
+		eventReopen();
+	else if (/sell/i.test(hash))
+		sellNormalWeapon();
 	else {
 		runTimes--;
 		setTimeout(analyzingURL, 5000);
 	}
 }
 
+function sellNormalWeapon() {
+	stageMsg('==Sell Normal Weapon Stage==');
+	if ($('.prt-popup-header:contains(売却確認)').is(':visible'))
+		$('.btn-usual-text:contains(売却)').trigger('tap');
+	else if ($('.prt-popup-header:contains(売却結果)').is(':visible'))
+		$('.btn-usual-ok').trigger('tap');
+	else if ($('.btn-item:not(.selected)[data-rarity=1]').length && parseInt($('.selected-num').html()) < 20)
+		$('.btn-item:not(.selected)[data-rarity=1]').trigger('tap');
+	else if ($('.btn-settle[disable=false]').length)
+		$('.btn-settle[disable=false]').trigger('tap');
+	setTimeout(analyzingURL, 500);
+}
+
 function coopraid() {
 	stageMsg('==Coopraid Stage==');
 	if ($('.btn-join').length)
 		$('.btn-join').trigger('tap');
+	else if ($('.txt-popup-body:contains(未確認バトル)').is(':visible'))
+		$('.btn-usual-ok').trigger('tap');
 	setTimeout(analyzingURL, 1000);
 }
 
@@ -359,6 +400,8 @@ function room() {
 		sendStamp.innerHTML = '<button id="sendStamp" onclick="sendRoomStamp()" style="color:white;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(140, 220, 250, 0.8)), color-stop(0.4, rgba(75, 170, 190, 0.8)), color-stop(0.6, rgba(75, 170, 190, 0.8)), to(rgba(140, 220, 250, 0.8)));border:1px solid rgb(85, 102, 119);border-radius:5px;">Stamp</button>';
 		$('.prt-chat-button').before(sendStamp);
 	}
+	if ($('.txt-popup-body:contains(未確認バトル)').is(':visible'))
+		$('.btn-usual-ok').trigger('tap');
 	if ($('.btn-make-ready-large.not-ready').length)
 		$('.btn-make-ready-large.not-ready').trigger('tap');
 	else if ($('.btn-execute-ready.se-ok').length)
@@ -429,16 +472,18 @@ function supporter() {
 	var isOrdealEvent = /supporter\/4\d{5}\/4/i.test(location.hash) || /supporter\/5\d{5}\/5/i.test(location.hash);
 	var isCoopraid = /supporter\/6\d{5}\/7/i.test(location.hash);
 	var isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/500171/i.test(location.hash) || /supporter\/500731/i.test(location.hash) || /supporter\/500741/i.test(location.hash);
-	var isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || /supporter\/708651/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8100813]').length;
+	var isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || /supporter\/708651/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8100813]').length || /supporter\/709951/i.test(location.hash) || /supporter\/709971/i.test(location.hash) || /supporter\/709571/i.test(location.hash) || /supporter\/709591/i.test(location.hash) || /supporter\/709361/i.test(location.hash);
 	var isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101203]').length || $('.prt-raid-thumbnail>img[alt=8101213]').length || /supporter\/500211/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8100053]').length || $('.prt-raid-thumbnail>img[alt=8101223]').length/*Grandin*/;
 	var isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash) || /supporter\/500711/i.test(location.hash) ||  /supporter\/599811/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=1300023]').length || /supporter\/708941/i.test(location.hash) || /supporter\/708951/i.test(location.hash) || /supporter\/708961/i.test(location.hash) || /supporter\/708971/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=5100233]').length || /supporter\/709201/i.test(location.hash) || /supporter\/709211/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=4200133]').length || $('.prt-raid-thumbnail>img[alt=8100873]').length || $('.prt-raid-thumbnail>img[alt=8100861]').length || /supporter\/709441/i.test(location.hash) || /supporter\/709451/i.test(location.hash);
 	var isEventForLight = /supporter\/300281/i.test(location.hash);
-	var isEventForDark = /supporter\/300271/i.test(location.hash);
+	var isEventForDark = /supporter\/300271/i.test(location.hash) || /supporter\/709801/i.test(location.hash) || /supporter\/709811/i.test(location.hash);
 	var isRabbit = /supporter\/101441/i.test(location.hash);
 	var isROnlyForWind = /supporter\/101121/i.test(location.hash);
+	var isEventForFighter = /supporter\/709621/i.test(location.hash) || /supporter\/709631/i.test(location.hash) || /supporter\/706821/i.test(location.hash) || /supporter\/706831/i.test(location.hash);
+	var isEventForFireSolo =  /supporter\/709961/i.test(location.hash) || /supporter\/709981/i.test(location.hash) || /supporter\/709601/i.test(location.hash);
 	if ($('.prt-deck-select').is(':visible'))
 		console.log('Team selected.');
-	else if (isEventForEarth) {
+	else if (isEventForEarth || isEventForFighter) {
 		// 土80% + 20%hp
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(土):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(土):not(:contains(「大地」))').trigger('tap');
@@ -470,7 +515,7 @@ function supporter() {
 		// 風50%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」)):not(:contains(チェインバースト))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」)):not(:contains(チェインバースト))').trigger('tap');
-	} else if (isEventForFire || isEventForLight) {
+	} else if (isEventForFire || isEventForLight || isEventForFireSolo) {
 		// 火80%
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').trigger('tap');
@@ -623,6 +668,10 @@ function supporter() {
 			selectTeam('2-3');
 		else if (isROnlyForWind)
 			selectTeam('2-4');
+		else if (isEventForFighter)
+			selectTeam('2-5');
+		else if (isEventForFireSolo)
+			selectTeam('2-2');
 		else
 			selectTeam('1-0');
 	}, 200);
@@ -644,7 +693,6 @@ function selectTeam(n) {
 }
 
 var useMystery = true;
-var enterCoopraid = false;
 
 function raidMulti() {
 	if ($('.btn-result').is(':visible'))
@@ -683,7 +731,6 @@ function raidMulti() {
 	var isCoopraid = $('.value.num-info-slash + [class="max value"] + [class="max value num-info4"]').length;
 	if (isCoopraid) {
 		stageMsg('==Raid Coopraid Stage==');
-		enterCoopraid = true;
 		// If no other persons, withdraw
 		if ($('.lis-user').length == 1) {
 			if ($('.btn-withdraw:contains(離脱する)').is(':visible')) {
@@ -785,12 +832,12 @@ function raidSmartFighting() {
 			break;
 		}
 	}
-	if (enemyHpNow > 1400000) {
-		var weaknessEnemyHpPercent = $('.hp-show:eq(' + weaknessEnemy + ')>span').html().split('<br>')[1].replace('%', '');
+	if (enemyHpNow > 1200000 || (($('.txt-battle.round').length || $('.txt-battle.stage').length) && enemyHpNow > 150000)) {
+		var enemyHpPercent = $('.hp-show:eq(0)>span').html().split('<br>')[1].replace('%', '');
 		var bossName = stage.gGameStatus.boss.param[bossEnemy].name;
-		var assistBlackList = bossName != 'Lv60 朱雀' && bossName != 'Lv50 セレスト';
+		var assistBlackList = bossName == 'Lv60 朱雀' || bossName == 'Lv75 ティラノス' ||enemyHpNow < 7000000;
 		// If enemy's HP is lower than 50% and is MVP or all dead and only one player, send assist
-		if (assistBlackList && !$('.btn-assist.disable').length && /raid_multi/i.test(location.hash) && ((weaknessEnemyHpPercent <= 50 && $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible')) || ($('.lis-user').length == 1 && $('.prt-member>.btn-command-character.blank').length == 4))) {
+		if (!assistBlackList && stage.pJsnData.assist[3].is_enable && /raid_multi/i.test(location.hash) && ((enemyHpPercent <= 50 && $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible')) || ($('.lis-user').length == 1 && $('.prt-member>.btn-command-character.blank').length == 4))) {
 			$('.btn-assist').trigger('tap');
 			setTimeout(function () {
 				if ($('.prt-popup-header:contains(救援依頼)').is(':visible') && $('.btn-usual-text:contains(救援依頼)').length)
@@ -816,7 +863,34 @@ function raidSmartFighting() {
 			if ((canTargetUse && !canSourceUse) || (!isTargetExist && canSourceUse))
 				location.reload();
 		});
+		var someoneDead = false;
+		for (var i = 0; i < stage.pJsnData.player.param.length; i++)
+			if (stage.pJsnData.player.param[i].hp == 0) {
+				someoneDead = true;
+				break;
+			}
+		if (someoneDead && $('.btn-ability-available>div[text-data*=味方単体を復活]').length > 1) {
+			$('.btn-ability-available>div[text-data*=味方単体を復活]').trigger('tap');
+			if ($('.effect:contains(味方単体を復活)').is(':visible') && $('.prt-character>.btn-command-character:not(.mask-black)').length)
+				$('.prt-character>.btn-command-character:not(.mask-black)').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		if ($('.btn-ability-available>div[text-data*=味方単体に幻影効果]').length > 1) {
+			$('.btn-ability-available>div[text-data*=味方単体に幻影効果]').trigger('tap');
+			if ($('.effect:contains(味方単体に幻影効果)').is(':visible') && $('.prt-character>.lis-character0.btn-command-character:not(.mask-black)').length)
+				$('.prt-character>.lis-character0.btn-command-character:not(.mask-black)').trigger('tap');
+			else if ($('.effect:contains(味方単体に幻影効果)').is(':visible') && $('.prt-character>.btn-command-character:not(.mask-black)').length)
+				$('.prt-character>.btn-command-character:not(.mask-black)').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
 		var useSkill = true;
+		// If Light Boss has full react and not at break mode, don't use skills
+		if (stage.gGameStatus.boss.param[bossEnemy].name == 'Lv75 シュヴァリエ・マグナ' && stage.pJsnData.boss.param[bossEnemy].recast == 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] != 3) {
+			useSkill = false;
+			useMystery = false;
+		}
 		var enemyHasBuff = stage.gGameStatus.boss.param[bossEnemy].condition.buff !== undefined && stage.gGameStatus.boss.param[bossEnemy].condition.buff !== null && stage.gGameStatus.boss.param[bossEnemy].condition.buff.length > 0;
 		if (enemyHasBuff) {
 			for(var i = 0; i < stage.gGameStatus.boss.param[bossEnemy].condition.buff.length; i++) {
@@ -858,11 +932,11 @@ function raidSmartFighting() {
 		if (!useSkill) {
 			console.log('Not using skill this turn ...');
 			useSkill = true;
-		} else if (!cureEveryone()) {
-			setTimeout(analyzingURL, 1000);
-			return;
 		} else if ($('.summon-on').length) {
 			summonByCode('all');
+			setTimeout(analyzingURL, 1000);
+			return;
+		} else if (!cureEveryone()) {
 			setTimeout(analyzingURL, 1000);
 			return;
 		} else if (!masterYoda(weaknessEnemy)) {
@@ -890,7 +964,7 @@ function raidSmartFighting() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		// Magisa's Summon Devil Attack
+		/*// Magisa's Summon Devil Attack
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && $('.hp-show:eq(' + weaknessEnemy + ')>span').html().split('/')[0] <= 1200000 && $('.btn-ability-available>div[ability-id=510]').length > 1) {
 			if (!lockEnemy(weaknessEnemy)) {
 				setTimeout(analyzingURL, 500);
@@ -899,7 +973,7 @@ function raidSmartFighting() {
 			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
-		}
+		}*/
 		// Use all skill, order : Yellow(3) > Green(2) > Blue(4) > Red(1)
 		/* Expect list: 
 		** OverDrive(オーバードライブ, モードゲージ - 1,3,4)
@@ -914,11 +988,12 @@ function raidSmartFighting() {
 		** Magisa(510-3)
 		** Sara(352-3, 294-3)
 		** Beatorikusu(579-3, 580-3, 575-3)
+		** Ninja(7030-3)
 		** Gran(ディスペル-4)
 		** Darkfencer(1201-1, 1500-4) */
 		// Yellow Skills
-		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575])').trigger('tap');
+		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -929,8 +1004,8 @@ function raidSmartFighting() {
 			return;
 		}
 		// Blue Skills
-		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([ability-name=ディスペル]):not([ability-id=1961]):not([ability-id=1500])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([ability-name=ディスペル]):not([ability-id=1961]):not([ability-id=1500])').trigger('tap');
+		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([ability-name=ディスペル]):not([ability-id=1961]):not([ability-id=1500]):not([ability-id=2328])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([ability-name=ディスペル]):not([ability-id=1961]):not([ability-id=1500]):not([ability-id=2328])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -1004,6 +1079,29 @@ function raidSmartFighting() {
 			}
 			$('.btn-ability-available>div[text-data*=ブレイク]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// 's V-type
+		else if (parseInt($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030126000"])>.prt-percent>span').html()) > 50 && $('.btn-ability-available>div[ability-id=2328]').length > 1) {
+			if (!lockEnemy(bossEnemy)) {
+				setTimeout(analyzingURL, 500);
+				return;
+			}
+			$('.btn-ability-available>div[ability-id=2328]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// Ninja's Ninjutsu
+		else if (!isMaxMystery('210201_') && $('.btn-ability-available>div[ability-id=7030]').length > 1) {
+			if (!$('.name:contains(忍術)').is(':visible'))
+				$('.btn-ability-available>div[ability-id=7030]').trigger('tap');
+			else if (!$('.ico-ninja-mark1.active').length)
+				$('.ico-ninja-mark1').trigger('tap');
+			else if (!$('.ico-ninja-mark4.active').length && $('.ico-ninja-mark1.active').length)
+				$('.ico-ninja-mark4').trigger('tap');
+			else if ($('.ico-ninja-mark4.active').length && $('.ico-ninja-mark1.active').length)
+				$('.btn-usual-text:contains(忍術発動)').trigger('tap');
+			setTimeout(analyzingURL, 500);
 			return;
 		}
 		// Double/Triple Attack For All Team
@@ -1100,7 +1198,7 @@ function raidSmartFighting() {
 			return;
 		}*/
 		// Percival's Fear (Must be the last one to use)
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040050000"])').length && $('.btn-ability-available>div[ability-id=1961]').length > 1) {
+		else if (stage.pJsnData.boss.param[bossEnemy].recast != 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] != 3 && $('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040050000"])').length && $('.btn-ability-available>div[ability-id=1961]').length > 1) {
 			if (!lockEnemy(bossEnemy)) {
 				setTimeout(analyzingURL, 500);
 				return;
@@ -1116,6 +1214,17 @@ function raidSmartFighting() {
 		}
 	} else {
 		if (!simpleMasterYoda()) {
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		if ($('.summon-on').length) {
+			summonByCode('all');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		var canUseSkill = !$('.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.prt-status>.img-ico-status-s[data-status=1111]').length;
+		if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length && canUseSkill) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -1237,6 +1346,8 @@ function checkMysteryThenAttack() {
 		$('.btn-attack-start.display-on').trigger('tap');
 }
 
+var reload = false;
+
 // Use summon & skill rise drop rate then attack
 function dropRateUpAttack() {
 	var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
@@ -1247,13 +1358,10 @@ function dropRateUpAttack() {
 		summonByCode('2030026000');
 	else if ($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length)
 		summonByCode('2040025000');
-	else if ($('.btn-ability-available>div[ability-name=トレジャーハントII]').length > 1 && canUseSkill)
-		$('.btn-ability-available>div[ability-name=トレジャーハントII]').trigger('tap');
-	else if ($('.btn-ability-available>div[ability-name=トレジャーハントIII]').length > 1 && canUseSkill)
-		$('.btn-ability-available>div[ability-name=トレジャーハントIII]').trigger('tap');
+	else if ($('.btn-ability-available>div[text-data*=アイテムドロップ]').length > 1 && canUseSkill)
+		$('.btn-ability-available>div[text-data*=アイテムドロップ]').trigger('tap');
 	else {
 		checkMysteryThenAttack();
-		var reload = false;
 		var enemyHasBuff = stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff !== null && stage.gGameStatus.boss.param[0].condition.buff.length > 0;
 		if (enemyHasBuff) {
 			for(var i = 0; i < stage.gGameStatus.boss.param[0].condition.buff.length; i++) {
@@ -1286,17 +1394,17 @@ function cureEveryone() {
 	var largeSolution = parseInt(stage.gGameStatus.temporary.large);
 	var cureIndex = 0;
 	var hp1 = 100 * parseFloat($('.lis-character0>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character0>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
-	if (hp1 <= 70 && hp1 !== 0) cureIndex++;
-	if (hp1 <= 50 && hp1 !== 0) cureIndex++;
+	if (hp1 <= 60 && hp1 !== 0) cureIndex++;
+	if (hp1 <= 40 && hp1 !== 0) cureIndex++;
 	var hp2 = 100 * parseFloat($('.lis-character1>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character1>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
-	if (hp2 <= 70 && hp2 !== 0) cureIndex++;
-	if (hp2 <= 50 && hp2 !== 0) cureIndex++;
+	if (hp2 <= 60 && hp2 !== 0) cureIndex++;
+	if (hp2 <= 40 && hp2 !== 0) cureIndex++;
 	var hp3 = 100 * parseFloat($('.lis-character2>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character2>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
-	if (hp3 <= 70 && hp3 !== 0) cureIndex++;
-	if (hp3 <= 50 && hp3 !== 0) cureIndex++;
+	if (hp3 <= 60 && hp3 !== 0) cureIndex++;
+	if (hp3 <= 40 && hp3 !== 0) cureIndex++;
 	var hp4 = 100 * parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').css('width')) / parseFloat($('.lis-character3>.prt-gauge-hp>.prt-gauge-hp-inner:first').parent().css('width'));
-	if (hp4 <= 70 && hp4 !== 0) cureIndex++;
-	if (hp4 <= 50 && hp4 !== 0) cureIndex++;
+	if (hp4 <= 60 && hp4 !== 0) cureIndex++;
+	if (hp4 <= 40 && hp4 !== 0) cureIndex++;
 	
 	var $undebuffSkill = $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2][text-data*=弱体効果を1つ回復]');
 	var $healingSkill = $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2][text-data*=全体のHP], #mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2][text-data*=参戦者のHP]');
@@ -1338,7 +1446,7 @@ function cureEveryone() {
 	if ($('.lis-character1>.prt-status>.img-ico-status-s[data-status=1033],.lis-character1>.prt-status>.img-ico-status-s[data-status=1012]').length) hp2 = 100;
 	if ($('.lis-character2>.prt-status>.img-ico-status-s[data-status=1033],.lis-character2>.prt-status>.img-ico-status-s[data-status=1012]').length) hp3 = 100;
 	if ($('.lis-character3>.prt-status>.img-ico-status-s[data-status=1033],.lis-character3>.prt-status>.img-ico-status-s[data-status=1012]').length) hp4 = 100;
-	var someoneDanger = (hp1 <= 50 && hp1 > 0) || (hp2 <= 50 && hp2 > 0) || (hp3 <= 50 && hp3 > 0) || (hp4 <= 50 && hp4 > 0);
+	var someoneDanger = (hp1 < 50 && hp1 > 0) || (hp2 < 50 && hp2 > 0) || (hp3 < 50 && hp3 > 0) || (hp4 < 50 && hp4 > 0);
 	if (smallSolution > 0 && someoneDanger) {
 		if (!$('.pop-usual.pop-raid-item.pop-show>.prt-popup-header:contains(アイテムを使用)').is(':visible'))
 			$('.btn-temporary').trigger('tap');
@@ -1349,13 +1457,13 @@ function cureEveryone() {
 			if ($('.lis-item.item-small.btn-temporary-small:not(.disable)>img').length) {
 				$('.lis-item.item-small.btn-temporary-small>img').trigger('tap');
 				setTimeout(function () {
-					if (hp1 <= 50 && hp1 > 0 && $('.lis-character0:first').length)
+					if (hp1 < 50 && hp1 > 0 && $('.lis-character0:first').length)
 						$('.lis-character0:first').trigger('tap');
-					else if (hp2 <= 50 && hp2 > 0 && $('.lis-character1:first').length)
+					else if (hp2 < 50 && hp2 > 0 && $('.lis-character1:first').length)
 						$('.lis-character1:first').trigger('tap');
-					else if (hp3 <= 50 && hp3 > 0 && $('.lis-character2:first').length)
+					else if (hp3 < 50 && hp3 > 0 && $('.lis-character2:first').length)
 						$('.lis-character2:first').trigger('tap');
-					else if (hp4 <= 50 && hp4 > 0 && $('.lis-character3:first').length)
+					else if (hp4 < 50 && hp4 > 0 && $('.lis-character3:first').length)
 						$('.lis-character3:first').trigger('tap');
 					if ($('.btn-usual-cancel').length)
 						$('.btn-usual-cancel').trigger('tap');
@@ -1403,6 +1511,11 @@ function masterYoda(weaknessEnemy) {
 		}
 		if (threeStatus == 3 && maxMystery) {
 			useMystery = true;
+			var enemyHpNow = 0;
+			for (var i = 0; i < stage.gGameStatus.boss.param.length; i++)
+				enemyHpNow += parseInt(stage.gGameStatus.boss.param[i].hp);
+			if (enemyHpNow < 1200000)
+				reload = true;
 		}
 		if (threeStatus != 3 && maxMystery) {
 			useMystery = false;
@@ -1433,6 +1546,13 @@ function simpleMasterYoda() {
 			$('.btn-ability-available>div[ability-id=555]').trigger('tap');
 			return false;
 		}
+		if (threeStatus == 3 && maxMystery) {
+			var enemyHpNow = 0;
+			for (var i = 0; i < stage.gGameStatus.boss.param.length; i++)
+				enemyHpNow += parseInt(stage.gGameStatus.boss.param[i].hp);
+			if (enemyHpNow < 1200000)
+				reload = true;
+		}
 	}
 	return true;
 }
@@ -1452,6 +1572,20 @@ function raid() {
 		setTimeout(analyzingURL, 1000);
 		return;
 	}
+	if ($('.prt-popup-header:contains(バトルサービス)').is(':visible') && !$('.btn-battle-service.disable').length) {
+		var score = parseInt($('.txt-point-before').html());
+		if (score < 560)
+			$('.txt-service-name:contains(サービスを受けない)').trigger('tap');
+		else
+			$('.txt-service-name:contains(スコアチャンス)').trigger('tap');
+		setTimeout(analyzingURL, 1000);
+		return;
+	}
+	else if ($('.prt-popup-header:contains(バトルサービス)').is(':visible') && $('.btn-battle-service.disable').length) {
+		$('.btn-usual-ok').trigger('tap');
+		setTimeout(analyzingURL, 1000);
+		return;
+	}
 	var isRabbit = stage.pJsnData.boss.param.length == 3 && stage.pJsnData.boss.param[2].name == 'Lv12 ホワイトラビット' && stage.pJsnData.boss.param[2].hp != '0';
 	if (isRabbit) {
 		if (!$('.btn-targeting.enemy-3.lock-on').is(':visible') || $('.btn-targeting.enemy-3.invisible').length) {
@@ -1466,19 +1600,15 @@ function raid() {
 			summonByCode('2040025000');
 			setTimeout(analyzingURL, 1000);
 			return;
-		} else if ($('.btn-ability-available>div[ability-name=トレジャーハントII]').length > 1) {
-			$('.btn-ability-available>div[ability-name=トレジャーハントII]').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-			return;
-		} else if ($('.btn-ability-available>div[ability-id=6002]').length > 1) {
-			$('.btn-ability-available>div[ability-id=6002]').trigger('tap');
+		} else if ($('.btn-ability-available>div[text-data*=アイテムドロップ]').length > 1) {
+			$('.btn-ability-available>div[text-data*=アイテムドロップ]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
 	}
 	useMystery = true;
 	var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
-	if (enemyTotal >= 1500000) {
+	if (enemyTotal >= 1500000 || $('.txt-battle.round').length || $('.txt-battle.stage').length) {
 		raidSmartFighting();
 		return;
 	}
@@ -1516,6 +1646,8 @@ function battleResult() {
 
 function assist() {
 	stageMsg('==Assist Stage==');
+	if($('.ico-receive-reward').is(':visible'))
+		$('.btn-usual-text').trigger('tap');
 	if ($('#tab-multi.active').length) {
 		$('#tab-multi.active').trigger('tap');
 		setTimeout(function () {
@@ -1539,7 +1671,7 @@ function assist() {
 		$('#tab-event.active').trigger('tap');
 	}
 	if ($('.prt-user-bp-value').attr('title') == 5)
-		$('.prt-use-ap[data-ap=5]').trigger('tap')
+		$('.prt-use-ap[data-ap=5]').trigger('tap');
 	setTimeout(analyzingURL, 3000);
 }
 
@@ -1568,8 +1700,8 @@ function unclaimed() {
 	stageMsg('==Unclaimed Stage==');
 	if (!$('#prt-unclaimed-list>div.txt-no-list').length)
 		$('#prt-unclaimed-list>div:first').trigger('tap');
-	else if (enterCoopraid)
-		location.href = 'http://gbf.game.mbga.jp/#coopraid';
+	else if ($('#prt-unclaimed-list>div.txt-no-list').is(':visible'))
+		history.go(-1);
 	setTimeout(analyzingURL, 1000);
 }
 
@@ -1577,8 +1709,6 @@ function questError() {
 	if ($('.pop-common-error.pop-show>.prt-popup-body>.txt-popup-body:contains(既にバトルは終了しました)').is(':visible') || $('.txt-popup-body:contains(未確認バトル)').is(':visible')) {
 		stageMsg('==questError Stage==');
 		$('.btn-usual-ok').trigger('tap');
-		if (enterCoopraid)
-			location.href = 'http://gbf.game.mbga.jp/#coopraid';
 	}
 	setTimeout(analyzingURL, 1000);
 }
@@ -1588,7 +1718,7 @@ function rejectFriend() {
 		stageMsg('==rejectFriend Stage==');
 		$('#cnt-waiting>div>div>div>.prt-friend-detail>.prt-friend-name>.txt-rank').each(function(){
 			var rank = parseInt($(this).html().replace('Rank', ''));
-			if (rank < 90) {
+			if (rank < 100) {
 				if (!$('.pop-usual.pop-show').is(':visible'))
 					$(this).parent().parent().parent().children('.btn-friend-action').trigger('tap');
 				if ($('.prt-popup-body:has(.txt-popup-body:contains(フレンド申請がきています))>.prt-popup-subbody>.btn-usual-cancel').is(':visible'))
@@ -1619,16 +1749,89 @@ function gacha() {
 	setTimeout(analyzingURL, 1000);
 }
 
+var enableUsingAP = true;
+
 function autoEvent() {
 	stageMsg('==Auto Event Stage==');
 	if (localStorage.autoEvent == tabId) {
-		if ($('.prt-popup-header:contains(アイテム使用完了)').is(':visible') && autoEventUseAP)
+		var costAP = 50;
+		var canEnter = enableUsingAP || (!enableUsingAP && parseInt($('.txt-stamina-value').attr('title').split('/')[0]) >= costAP);
+		if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
 			$('.btn-usual-ok').trigger('tap');
-		else if ($('.prt-popup-header:contains(APが足りません)').is(':visible') && autoEventUseAP)
+		else if ($('.prt-popup-header:contains(アイテム使用完了)').is(':visible') && enableUsingAP)
+			$('.btn-usual-ok').trigger('tap');
+		else if ($('.prt-popup-header:contains(APが足りません)').is(':visible') && enableUsingAP)
 			$('.btn-use-full.index-1').trigger('tap');
-		else if ($('.btn-event-raid.multi').length)
+		// Ancient Battlefield - Meat
+		else if ($('.prt-popup-header:contains(古戦場の魔物に挑戦)').is(':visible'))
+			$('.btn-multi-battle.ico-clear:last').trigger('tap');
+		else if ($('#enemy_1').length && canEnter)
+			$('#enemy_1').trigger('tap');
+		/*// Ancient Battlefield - Boss
+		else if ($('.btn-offer:last').is(':visible'))
+			$('.btn-offer:last').trigger('tap');
+		else if ($('#enemy_0').length && canEnter)
+			$('#enemy_0').trigger('tap');*/
+		/*
+		// Normal Event
+		else if ($('.prt-popup-header:contains(サバイバルモード)').is(':visible'))
+			$('.btn-boss-battle.clear:last').trigger('tap');
+		else if ($('.btn-event-raid.multi').length && canEnter)
 			$('.btn-event-raid.multi:first').trigger('tap');
+		// Cooperation Event
+		else if ($('.btn-boss-detail').length && canEnter)
+			$('.btn-boss-detail').trigger('tap');
+		*/
 	}
+	setTimeout(analyzingURL, 1000);
+}
+
+function autoExtraEvent() {
+	stageMsg('==Auto Extra Event Stage==');
+	if (localStorage.autoExtraEvent == tabId) {
+		var targetEvent = 4;
+		var targetLevel = 2;
+		var costAP = 30;
+		var canEnter = enableUsingAP || (!enableUsingAP && parseInt($('.txt-stamina-value').attr('title').split('/')[0]) >= costAP);
+		if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
+			$('.btn-usual-ok').trigger('tap');
+		else if ($('.prt-popup-header:contains(アイテム使用完了)').is(':visible') && enableUsingAP)
+			$('.btn-usual-ok').trigger('tap');
+		else if ($('.prt-popup-header:contains(APが足りません)').is(':visible') && enableUsingAP)
+			$('.btn-use-full.index-1').trigger('tap');
+		else if ($('.btn-set-quest:eq(' + targetLevel + ')').length)
+			$('.btn-set-quest:eq(' + targetLevel + ')').trigger('tap');
+		else if ($('.btn-stage-detail:eq(' + targetEvent + ')').length && canEnter)
+			$('.btn-stage-detail:eq(' + targetEvent + ')').trigger('tap');
+	}
+	setTimeout(analyzingURL, 1000);
+}
+
+function autoExtra() {
+	stageMsg('==Auto Extra Stage==');
+	if (localStorage.autoExtra == tabId) {
+		var targetEvent = 3;
+		var targetLevel = 1;
+		var costAP = 20;
+		var canEnter = enableUsingAP || (!enableUsingAP && parseInt($('.txt-stamina-value').attr('title').split('/')[0]) >= costAP);
+		if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
+			$('.btn-usual-ok').trigger('tap');
+		else if ($('.prt-popup-header:contains(アイテム使用完了)').is(':visible') && enableUsingAP)
+			$('.btn-usual-ok').trigger('tap');
+		else if ($('.prt-popup-header:contains(APが足りません)').is(':visible') && enableUsingAP)
+			$('.btn-use-full.index-1').trigger('tap');
+		else if ($('.btn-set-quest:eq(' + targetLevel + ')').length)
+			$('.btn-set-quest:eq(' + targetLevel + ')').trigger('tap');
+		else if ($('.btn-stage-detail:eq(' + targetEvent + ')').length && canEnter)
+			$('.btn-stage-detail:eq(' + targetEvent + ')').trigger('tap');
+	}
+	setTimeout(analyzingURL, 1000);
+}
+
+function eventReopen() {
+	stageMsg('==Event Reopen Stage==');
+	if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
+		$('.btn-usual-ok').trigger('tap');
 	setTimeout(analyzingURL, 1000);
 }
 
