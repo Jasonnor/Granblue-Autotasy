@@ -43,7 +43,7 @@ Game.reportError = function (msg, url, line, column, err, callback) {
 	var recordLog = 'Message: ' + msg + '\r\nUrl: ' + url + '\r\nLine: ' + line + '\r\nColumn: ' + column + '\r\nError: ' + err + '\r\nCallback: ' + callback;
 	errorMsg(recordLog);
 	// msg.indexOf("Script error") > -1
-	var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'3' of undefined") > -1 || msg.indexOf("'4' of undefined") > -1 || msg.indexOf("'5' of undefined") > -1 || msg.indexOf("'6' of undefined") > -1 || msg.indexOf("'7' of undefined") > -1 || msg.indexOf("'8' of undefined") > -1 || msg.indexOf("'9' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1 || msg.indexOf("'level' of undefined") > -1 || msg.indexOf("'item' of undefined") > -1;
+	var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'3' of undefined") > -1 || msg.indexOf("'4' of undefined") > -1 || msg.indexOf("'5' of undefined") > -1 || msg.indexOf("'6' of undefined") > -1 || msg.indexOf("'7' of undefined") > -1 || msg.indexOf("'8' of undefined") > -1 || msg.indexOf("'9' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1 || msg.indexOf("'level' of undefined") > -1 || msg.indexOf("'item' of undefined") > -1 || msg.indexOf("indexOf") > -1;
 	if (needReload && !ignoreError) {
 		location.reload();
 	} else {
@@ -136,8 +136,6 @@ function toggleScript() {
 		}
 	}
 }
-
-var autoEventUrl = 'biography007';
 
 function analyzingURL() {
 	// Set event button as stop script button
@@ -272,6 +270,8 @@ function analyzingURL() {
 				}, 1000);
 				return;
 			}
+			else
+				localStorage.removeItem('magna');
 		}
 	}
 	if (/coopraid\/offer/i.test(hash))
@@ -312,6 +312,8 @@ function analyzingURL() {
 		eventReopen();
 	else if (/sell/i.test(hash))
 		sellNormalWeapon();
+	else if (/list\/detail_weapon/i.test(hash))
+		detailWeapon();
 	else {
 		runTimes--;
 		setTimeout(analyzingURL, 5000);
@@ -338,8 +340,8 @@ function offer() {
 
 function offerFind() {
 	// Avoid entering bad room
-	var $room = $('.txt-room-comment:not(:contains(禁)):not(:contains(初心)):not(:contains(順)):not(:contains(貼)):not(:contains(相互)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-1)');
-	var $room2 = $('.txt-room-comment:not(:contains(禁)):not(:contains(初心)):not(:contains(順)):not(:contains(貼)):not(:contains(相互)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-6)');
+	var $room = $('.txt-room-comment:not(:contains(募)):not(:contains(BOT)):not(:contains(ＢＯＴ)):not(:contains(禁)):not(:contains(初心)):not(:contains(順)):not(:contains(貼)):not(:contains(相互)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-1)');
+	var $room2 = $('.txt-room-comment:not(:contains(募)):not(:contains(BOT)):not(:contains(ＢＯＴ)):not(:contains(禁)):not(:contains(初心)):not(:contains(順)):not(:contains(貼)):not(:contains(相互)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-6)');
 	if ($room.length)
 		$room.trigger('tap');
 	else if ($room2.length)
@@ -387,20 +389,20 @@ function room() {
 		sendStamp.innerHTML = '<button id="sendStamp" onclick="sendRoomStamp()" style="color:white;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(140, 220, 250, 0.8)), color-stop(0.4, rgba(75, 170, 190, 0.8)), color-stop(0.6, rgba(75, 170, 190, 0.8)), to(rgba(140, 220, 250, 0.8)));border:1px solid rgb(85, 102, 119);border-radius:5px;">Stamp</button>';
 		$('.prt-chat-button').before(sendStamp);
 	}
-	if ($('.txt-popup-body:contains(未確認バトル)').is(':visible'))
+	if ($('.txt-popup-body:contains(未確認バトル)').is(':visible') && $('.btn-usual-ok').length)
 		$('.btn-usual-ok').trigger('tap');
 	if ($('.btn-make-ready-large.not-ready').length)
 		$('.btn-make-ready-large.not-ready').trigger('tap');
 	else if ($('.btn-execute-ready.se-ok').length)
 		$('.btn-execute-ready.se-ok').trigger('tap');
 	// If owner send thanks & time < 58 minutes, leave room
-	else if (($('.prt-member-balloon.btn-member-balloon:has(div>img[src*="stamp9"]:visible) + .prt-char-status>.ico-owner').length || $('.prt-member-balloon.btn-member-balloon:has(div>img[src*="stamp10"]:visible) + .prt-char-status>.ico-owner').length) && parseInt($('.txt-count-down').html().replace('残り ', '').replace('分', '')) < 58)
+	else if (($('.prt-member-balloon.btn-member-balloon:has(div>img[src*="stamp9"]:visible) + .prt-char-status>.ico-owner').length || $('.prt-member-balloon.btn-member-balloon:has(div>img[src*="stamp10"]:visible) + .prt-char-status>.ico-owner').length) && $('.txt-count-down').length && parseInt($('.txt-count-down').html().replace('残り ', '').replace('分', '')) < 58)
 		sendRoomStamp('leave');
 	// If others(more than two) send stamp, to do so for polite
 	else if (!$('.prt-member-balloon.btn-member-balloon:visible + div + .prt-member-name:contains(Jasonnor)').length && $('.prt-member-name:contains(Jasonnor)').is(':visible') && $('.txt-room-comment:not(:contains(挨拶)):not(:contains(無言))').length && $('.prt-member-balloon.btn-member-balloon:visible:not(:has(div>img[src*="stamp9"])):not(:has(div>img[src*="stamp10"]))').length > 1)
 		sendRoomStamp();
 	// If this room freeze, leave room
-	else if (runTimes > 240 && parseInt($('.txt-count-down').html().replace('残り ', '').replace('分', '')) < 55)
+	else if (runTimes > 240 && $('.txt-count-down').length && parseInt($('.txt-count-down').html().replace('残り ', '').replace('分', '')) < 55)
 		sendRoomStamp('leave');
 	setTimeout(analyzingURL, 1000);
 }
@@ -461,7 +463,7 @@ function supporter() {
 	var isRabbit = /supporter\/101441/i.test(location.hash);
 	var isROnlyForWind = /supporter\/101121/i.test(location.hash);
 	var isEventForFighter = /supporter\/709621/i.test(location.hash) || /supporter\/709631/i.test(location.hash) || /supporter\/706821/i.test(location.hash) || /supporter\/706831/i.test(location.hash);
-	var isEventForFireSolo =  /supporter\/709961/i.test(location.hash) || /supporter\/709981/i.test(location.hash) || /supporter\/709601/i.test(location.hash);
+	var isEventForFireSolo =  /supporter\/709961/i.test(location.hash) || /supporter\/709981/i.test(location.hash) || /supporter\/709601/i.test(location.hash) || /supporter\/710171/i.test(location.hash) || /supporter\/710661/i.test(location.hash) || /supporter\/710891/i.test(location.hash);
 	var isEventForEarth = false;
 	var isEventForWind = false;
 	var isEventForFire = false;
@@ -492,17 +494,17 @@ function supporter() {
 		}
 	}
 	else {
-		isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/500171/i.test(location.hash) || /supporter\/500731/i.test(location.hash) || /supporter\/500741/i.test(location.hash);
+		isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/500171/i.test(location.hash) || /supporter\/500731/i.test(location.hash) || /supporter\/500741/i.test(location.hash) || /supporter\/710351/i.test(location.hash) || /supporter\/710361/i.test(location.hash) || /supporter\/710501/i.test(location.hash) || /supporter\/710511/i.test(location.hash) || /supporter\/711041/i.test(location.hash) || /supporter\/711051/i.test(location.hash);
 		
-		isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || /supporter\/708651/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8100813]').length || /supporter\/709951/i.test(location.hash) || /supporter\/709971/i.test(location.hash) || /supporter\/709571/i.test(location.hash) || /supporter\/709591/i.test(location.hash) || /supporter\/709361/i.test(location.hash) || /supporter\/710091/i.test(location.hash);
+		isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || /supporter\/708651/i.test(location.hash) || /supporter\/709951/i.test(location.hash) || /supporter\/709971/i.test(location.hash) || /supporter\/709571/i.test(location.hash) || /supporter\/709591/i.test(location.hash) || /supporter\/709361/i.test(location.hash) || /supporter\/710091/i.test(location.hash) || /supporter\/711141/i.test(location.hash) || /supporter\/711151/i.test(location.hash);
 		
-		isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101203]').length || $('.prt-raid-thumbnail>img[alt=8101213]').length || /supporter\/500211/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8100053]').length || $('.prt-raid-thumbnail>img[alt=8101223]').length/*Grandin*/;
+		isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || /supporter\/500211/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101223]').length/*Grandin*/ || /supporter\/711091/i.test(location.hash) || /supporter\/711101/i.test(location.hash);
 		
-		isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash) || /supporter\/500711/i.test(location.hash) ||  /supporter\/599811/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=1300023]').length || /supporter\/708941/i.test(location.hash) || /supporter\/708951/i.test(location.hash) || /supporter\/708961/i.test(location.hash) || /supporter\/708971/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=5100233]').length || /supporter\/709201/i.test(location.hash) || /supporter\/709211/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=4200133]').length || $('.prt-raid-thumbnail>img[alt=8100873]').length || $('.prt-raid-thumbnail>img[alt=8100861]').length || /supporter\/709441/i.test(location.hash) || /supporter\/709451/i.test(location.hash);
+		isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash) || /supporter\/500711/i.test(location.hash) ||  /supporter\/599811/i.test(location.hash) || /supporter\/708941/i.test(location.hash) || /supporter\/708951/i.test(location.hash) || /supporter\/708961/i.test(location.hash) || /supporter\/708971/i.test(location.hash) || /supporter\/709201/i.test(location.hash) || /supporter\/709211/i.test(location.hash) || /supporter\/709441/i.test(location.hash) || /supporter\/709451/i.test(location.hash) || /supporter\/711191/i.test(location.hash) || /supporter\/711201/i.test(location.hash);
 		
-		isEventForLight = /supporter\/300281/i.test(location.hash);
+		isEventForLight = /supporter\/300281/i.test(location.hash) || /supporter\/710131/i.test(location.hash) || /supporter\/710741/i.test(location.hash) || /supporter\/710931/i.test(location.hash) || /supporter\/711601/i.test(location.hash) || /supporter\/711611/i.test(location.hash) || /supporter\/711401/i.test(location.hash) || /supporter\/711411/i.test(location.hash) || /supporter\/711901/i.test(location.hash) || /supporter\/711911/i.test(location.hash);
 		
-		isEventForDark = /supporter\/300271/i.test(location.hash) || /supporter\/709801/i.test(location.hash) || /supporter\/709811/i.test(location.hash);
+		isEventForDark = /supporter\/300271/i.test(location.hash) || /supporter\/709801/i.test(location.hash) || /supporter\/709811/i.test(location.hash) || /supporter\/300561/i.test(location.hash) || /supporter\/710701/i.test(location.hash) || /supporter\/710971/i.test(location.hash);
 	}
 	
 	if ($('.prt-deck-select').is(':visible'))
@@ -523,6 +525,12 @@ function supporter() {
 		// 土100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(創樹方陣):not(:contains(「大地」))').trigger('tap');
+		// 土
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(土)').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(土)').trigger('tap');
+		// Others
+		else if ($('.prt-supporter-detail').length)
+			$('.prt-supporter-detail').trigger('tap');
 	} else if (isEventForWind || isROnlyForWind) {
 		// 風100% Anima
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').length)
@@ -539,9 +547,18 @@ function supporter() {
 		// 風50%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」)):not(:contains(チェインバースト))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」)):not(:contains(チェインバースト))').trigger('tap');
-	} else if (isEventForFire || isEventForLight || isEventForFireSolo) {
+		// 風
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(風)').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(風)').trigger('tap');
+		// Others
+		else if ($('.prt-supporter-detail').length)
+			$('.prt-supporter-detail').trigger('tap');
+	} else if (isEventForFire || isEventForFireSolo) {
+		// 火100% Anima
+		if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').trigger('tap');
 		// 火80%
-		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').length)
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').trigger('tap');
 		// 火70%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(火):not(:contains(「業火」))').length)
@@ -552,9 +569,12 @@ function supporter() {
 		// 火50%
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」)):not(:contains(チェインバースト))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」)):not(:contains(チェインバースト))').trigger('tap');
-		// 火100% Anima
-		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').length)
-			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').trigger('tap');
+		// 火
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(火)').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(火)').trigger('tap');
+		// Others
+		else if ($('.prt-supporter-detail').length)
+			$('.prt-supporter-detail').trigger('tap');
 	} else if (isEventForWater) {
 		// 水80% + 20%hp
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').length)
@@ -574,7 +594,13 @@ function supporter() {
 		// 水100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').trigger('tap');
-	} else if (false) {
+		// 水
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(水)').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(水)').trigger('tap');
+		// Others
+		else if ($('.prt-supporter-detail').length)
+			$('.prt-supporter-detail').trigger('tap');
+	} else if (isEventForLight) {
 		// 光120%
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(光):not(:contains(「雷電」)):not(:contains(チェインバースト))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(120):contains(光):not(:contains(「雷電」)):not(:contains(チェインバースト))').trigger('tap');
@@ -605,6 +631,12 @@ function supporter() {
 		// 光100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(騎解方陣):not(:contains(「雷電」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(騎解方陣):not(:contains(「雷電」))').trigger('tap');
+		// 光
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(光)').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(光)').trigger('tap');
+		// Others
+		else if ($('.prt-supporter-detail').length)
+			$('.prt-supporter-detail').trigger('tap');
 	} else if (isEventForDark) {
 		// 闇キャラ60% + 40%hp
 		if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(HP):contains(闇):not(:contains(「憎悪」))').length)
@@ -636,6 +668,12 @@ function supporter() {
 		// 闇100% Anima
 		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(黒霧方陣):not(:contains(「憎悪」))').length)
 			$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(黒霧方陣):not(:contains(「憎悪」))').trigger('tap');
+		// 闇
+		else if ($('.prt-supporter-detail>.prt-summon-skill:contains(闇)').length)
+			$('.prt-supporter-detail>.prt-summon-skill:contains(闇)').trigger('tap');
+		// Others
+		else if ($('.prt-supporter-detail').length)
+			$('.prt-supporter-detail').trigger('tap');
 	}
 	// Rabbit Exp & Treasure
 	else if ($('.prt-summon-image[data-image=2030026000]+div>.bless-rank1-style').length)
@@ -689,13 +727,13 @@ function supporter() {
 		else if (isEventForDark)
 			selectTeam('2-0');
 		else if (isEventForLight)
-			selectTeam('2-3');
+			selectTeam('2-1');
+		else if (isEventForFireSolo)
+			selectTeam('2-2');
 		else if (isROnlyForWind)
 			selectTeam('2-4');
 		else if (isEventForFighter)
 			selectTeam('2-5');
-		else if (isEventForFireSolo)
-			selectTeam('2-2');
 		else
 			selectTeam('1-0');
 	}, 200);
@@ -841,7 +879,7 @@ function raidSmartFighting() {
 	for (var i = 0; i < stage.gGameStatus.boss.param.length; i++) {
 		var hpNow = parseInt(stage.gGameStatus.boss.param[i].hp);
 		var hpMax = parseInt(stage.gGameStatus.boss.param[i].hpmax);
-		var enemyName = stage.gGameStatus.boss.param[i].name;
+		var enemyName = stage.gGameStatus.boss.param[i].name.ja;
 		enemyHpNow += hpNow;
 		if (hpNow < min && hpNow != 0) {
 			min = hpNow;
@@ -852,7 +890,7 @@ function raidSmartFighting() {
 			bossEnemy = i;
 		}
 		// Some special boss
-		if (enemyName == 'Lv100 ジ・オーダー・グランデ' || enemyName == 'Lv100 調停の翼') {
+		if (enemyName == 'Lv100 ジ・オーダー・グランデ' || enemyName == 'Lv100 調停の翼' || enemyName == 'Lv100 ティアマト・マグナ＝エア') {
 			weaknessEnemy = i;
 			bossEnemy = i;
 			break;
@@ -872,8 +910,8 @@ function raidSmartFighting() {
 			return;
 		}
 		var enemyHpPercent = $('.hp-show:eq(0)>span').html().split('<br>')[1].replace('%', '');
-		var bossName = stage.gGameStatus.boss.param[bossEnemy].name;
-		var assistBlackList = bossName == 'Lv60 朱雀' || bossName == 'Lv75 ティラノス' ||enemyHpNow < 7000000;
+		var bossName = stage.gGameStatus.boss.param[bossEnemy].name.ja;
+		var assistBlackList = bossName == 'Lv60 朱雀' || bossName == 'Lv75 ティラノス' || bossName == 'Lv75 ビザールビースト' ||enemyHpNow < 7000000;
 		// If enemy's HP is lower than 50% and is MVP or all dead and only one player, send assist
 		if (!assistBlackList && /raid_multi/i.test(location.hash) && stage.pJsnData.assist[3].is_enable && ((enemyHpPercent <= 50 && $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible')) || ($('.lis-user').length == 1 && $('.prt-member>.btn-command-character.blank').length == 4))) {
 			$('.btn-assist').trigger('tap');
@@ -907,9 +945,9 @@ function raidSmartFighting() {
 				someoneDead = true;
 				break;
 			}
-		if (someoneDead && $('.btn-ability-available>div[text-data*=味方単体を復活]').length > 1) {
-			$('.btn-ability-available>div[text-data*=味方単体を復活]').trigger('tap');
-			if ($('.effect:contains(味方単体を復活)').is(':visible') && $('.prt-character>.btn-command-character:not(.mask-black)').length)
+		if (someoneDead && $('.btn-ability-available>div[text-data*=復活]').length > 1) {
+			$('.btn-ability-available>div[text-data*=復活]').trigger('tap');
+			if ($('.effect:contains(復活)').is(':visible') && $('.prt-character>.btn-command-character:not(.mask-black)').length)
 				$('.prt-character>.btn-command-character:not(.mask-black)').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
@@ -928,7 +966,7 @@ function raidSmartFighting() {
 		}
 		var useSkill = true;
 		// If Light Boss has full react and not at break mode, don't use skills
-		if (stage.gGameStatus.boss.param[bossEnemy].name == 'Lv75 シュヴァリエ・マグナ' && stage.pJsnData.boss.param[bossEnemy].recast == 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] != 3) {
+		if (stage.gGameStatus.boss.param[bossEnemy].name.ja == 'Lv75 シュヴァリエ・マグナ' && stage.pJsnData.boss.param[bossEnemy].recast == 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] != 3) {
 			useSkill = false;
 			useMystery = false;
 		}
@@ -942,7 +980,7 @@ function raidSmartFighting() {
 					break;
 				}
 				// If Light Boss has deffense up, don't use skills
-				else if (statusTemp >= 1013 && statusTemp <= 1019 && stage.gGameStatus.boss.param[bossEnemy].name == 'Lv75 シュヴァリエ・マグナ') {
+				else if (statusTemp >= 1013 && statusTemp <= 1019 && stage.gGameStatus.boss.param[bossEnemy].name.ja == 'Lv75 シュヴァリエ・マグナ') {
 					useSkill = false;
 					useMystery = false;
 					break;
@@ -954,8 +992,13 @@ function raidSmartFighting() {
 				}
 			}
 		}
+		// If can't use skill, just attack
+		if ($('.prt-popup-header:contains(アビリティ使用)+div+div:contains(アビリティ使用不可状態のため)').is(':visible')) {
+			$('.btn-usual-close').trigger('tap');
+			setTimeout(dropRateUpAttack, 1000);
+		}
 		// Gran's Buff Eliminate
-		if (stage.gGameStatus.boss.param[bossEnemy].name != 'Lv75 シュヴァリエ・マグナ' && $('.btn-ability-available>div[ability-name=ディスペル]').length > 1 && enemyHasBuff) {
+		if (stage.gGameStatus.boss.param[bossEnemy].name.ja != 'Lv75 シュヴァリエ・マグナ' && $('.btn-ability-available>div[ability-name=ディスペル]').length > 1 && enemyHasBuff) {
 			if (!lockEnemy(bossEnemy)) {
 				setTimeout(analyzingURL, 500);
 				return;
@@ -966,7 +1009,7 @@ function raidSmartFighting() {
 			return;
 		}
 		// For Light Boss, use it only if has 1003 status
-		else if (stage.gGameStatus.boss.param[bossEnemy].name == 'Lv75 シュヴァリエ・マグナ' && $('.btn-ability-available>div[ability-name=ディスペル]').length > 1 && enemyHasBuff) {
+		else if (stage.gGameStatus.boss.param[bossEnemy].name.ja == 'Lv75 シュヴァリエ・マグナ' && $('.btn-ability-available>div[ability-name=ディスペル]').length > 1 && enemyHasBuff) {
 			for(var i = 0; i < stage.gGameStatus.boss.param[bossEnemy].condition.buff.length; i++) {
 				if (stage.gGameStatus.boss.param[bossEnemy].condition.buff[i].status == '1003') {
 					$('.btn-ability-available>div[ability-name=ディスペル]').trigger('tap');
@@ -1029,6 +1072,7 @@ function raidSmartFighting() {
 		** Healing(参戦者のHP, 全体のHP - 2)
 		** Resurrection(復活 - 2)
 		** Weakened Released(弱体効果を1つ回復 - 2)
+		** Slow(スロウ-1)
 		** Percival(1961-2)
 		** Yoda(2172-1, 3173-3, 555-2)
 		** Magisa(510-3)
@@ -1036,11 +1080,12 @@ function raidSmartFighting() {
 		** Beatorikusu(579-3, 580-3, 575-3)
 		** Ninja(7030-3)
 		** Siete(5128-3)
+		** Aruberu(164-3)
 		** Gran(ディスペル-4, アイテムドロップ-4)
 		** Darkfencer(1201-1, 1500-4) */
 		// Yellow Skills
-		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030]):not([ability-id=5128])').length) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030]):not([ability-id=5128])').trigger('tap');
+		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030]):not([ability-id=5128]):not([ability-id=164])').length) {
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030]):not([ability-id=5128]):not([ability-id=164])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -1057,12 +1102,12 @@ function raidSmartFighting() {
 			return;
 		}
 		// Red Skills
-		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=2172]):not([ability-id=1201])').length) {
+		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([text-data*=スロウ]):not([ability-id=2172])').length) {
 			if (!lockEnemy(weaknessEnemy)) {
 				setTimeout(analyzingURL, 500);
 				return;
 			}
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=2172]):not([ability-id=1201])').trigger('tap');
+			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([text-data*=スロウ]):not([ability-id=2172])').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -1072,7 +1117,7 @@ function raidSmartFighting() {
 			return;
 		}
 		// Rakamu's shoot (Shoot it anyway if is Dark Boss)
-		else if ($('.btn-ability-available>div[ability-id=2461]').length > 1 && (!isMaxMystery('3040059000') || stage.gGameStatus.boss.param[bossEnemy].name == 'Lv75 セレスト・マグナ')) {
+		else if ($('.btn-ability-available>div[ability-id=2461]').length > 1 && (!isMaxMystery('3040059000') || stage.gGameStatus.boss.param[bossEnemy].name.ja == 'Lv75 セレスト・マグナ')) {
 			if (!lockEnemy(weaknessEnemy)) {
 				setTimeout(analyzingURL, 500);
 				return;
@@ -1177,13 +1222,13 @@ function raidSmartFighting() {
 				setTimeout(analyzingURL, 1000);
 				return;
 		}
-		// DarkFencer's Slow
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-id=1201]').length > 1 && stage.pJsnData.boss.param[bossEnemy].recast < stage.pJsnData.boss.param[bossEnemy].recastmax) {
+		// Slow Attack
+		else if ($('.btn-ability-available>div[text-data*=スロウ]').length > 1 && stage.pJsnData.boss.param[bossEnemy].recast < stage.pJsnData.boss.param[bossEnemy].recastmax) {
 			if (!lockEnemy(bossEnemy)) {
 				setTimeout(analyzingURL, 500);
 				return;
 			}
-			$('.btn-ability-available>div[ability-id=1201]').trigger('tap');
+			$('.btn-ability-available>div[text-data*=スロウ]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -1244,9 +1289,21 @@ function raidSmartFighting() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}*/
+		// Serueru's Buff
+		else if ($('.btn-ability-available>div[ability-id=137]').length > 1) {
+			$('.btn-ability-available>div[ability-id=137]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
 		// Siete's MaxMystery
 		else if ($('.btn-command-character>.prt-status>.img-ico-status-s[data-status=8029]').length && $('.btn-ability-available>div[ability-id=5128]').length > 1 && isMaxMystery('numbers') == 0) {
 			$('.btn-ability-available>div[ability-id=5128]').trigger('tap');
+			setTimeout(analyzingURL, 1000);
+			return;
+		}
+		// Aruberu's Thunder
+		else if ($('.btn-ability-available>div[ability-id=164]').length > 1 && !isMaxMystery(3040045000)) {
+			$('.btn-ability-available>div[ability-id=164]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
@@ -1425,7 +1482,7 @@ function dropRateUpAttack() {
 			for(var i = 0; i < stage.gGameStatus.boss.param[0].condition.buff.length; i++) {
 				var statusTemp = parseInt(stage.gGameStatus.boss.param[0].condition.buff[i].status);
 				// If Light Boss has deffense up, reload after attack
-				if (statusTemp >= 1013 && statusTemp <= 1019 && stage.gGameStatus.boss.param[0].name == 'Lv75 シュヴァリエ・マグナ') {
+				if (statusTemp >= 1013 && statusTemp <= 1019 && stage.gGameStatus.boss.param[0].name.ja == 'Lv75 シュヴァリエ・マグナ') {
 					reload = true;
 					break;
 				}
@@ -1437,10 +1494,13 @@ function dropRateUpAttack() {
 			}
 		}
 		// For refresh Water boss's buff, and Light Boss if trun < 2
-		if (reload || (stage.pJsnData.boss.param[0].recast == 1 && (stage.pJsnData.boss.param[0].name == 'Lv60 リヴァイアサン・マグナ' || stage.pJsnData.boss.param[0].name == 'Lv75 シュヴァリエ・マグナ')) || (stage.pJsnData.boss.param[0].name == 'Lv75 シュヴァリエ・マグナ' && stage.gGameStatus.turn < 2)) {
+		if (reload || (stage.pJsnData.boss.param[0].recast == 1 && (stage.pJsnData.boss.param[0].name.ja == 'Lv60 リヴァイアサン・マグナ' || stage.pJsnData.boss.param[0].name.ja == 'Lv75 シュヴァリエ・マグナ')) || (stage.pJsnData.boss.param[0].name.ja == 'Lv75 シュヴァリエ・マグナ' && stage.gGameStatus.turn < 2)) {
 			setTimeout(function () {
-				location.reload();
-			}, 500);
+				if (stage.gGameStatus.attacking == 1)
+					location.reload();
+				else
+					analyzingURL();
+			}, 1000);
 			return;
 		}
 	}
@@ -1633,7 +1693,7 @@ function raid() {
 		setTimeout(analyzingURL, 1000);
 		return;
 	}
-	var isRabbit = stage.pJsnData.boss.param.length == 3 && stage.pJsnData.boss.param[2].name == 'Lv12 ホワイトラビット' && stage.pJsnData.boss.param[2].hp != '0';
+	var isRabbit = stage.pJsnData.boss.param.length == 3 && stage.pJsnData.boss.param[2].name.ja == 'Lv12 ホワイトラビット' && stage.pJsnData.boss.param[2].hp != '0';
 	if (isRabbit) {
 		if (!$('.btn-targeting.enemy-3.lock-on').is(':visible') || $('.btn-targeting.enemy-3.invisible').length) {
 			$('.btn-targeting.enemy-3.invisible').trigger('tap');
@@ -1692,10 +1752,12 @@ function battleResult() {
 }
 
 var enableUsingBP = false;
-var bpMinValue = 2;
+var bpMinValue = 5;
 
 function assist() {
 	stageMsg('==Assist Stage==');
+	if ($('.txt-popup-body:contains(未確認バトル)').is(':visible'))
+		$('.btn-usual-ok').trigger('tap');
 	if($('.ico-receive-reward').is(':visible'))
 		$('.btn-usual-text').trigger('tap');
 	if ($('#tab-multi.active').length) {
@@ -1706,8 +1768,6 @@ function assist() {
 				$('.img-raid-thumbnail[alt=2030002000_hell]').trigger('tap');
 			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2030002000])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2030002000]').trigger('tap');
-			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040128000_hell])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
-				$('.img-raid-thumbnail[alt=2040128000_hell]').trigger('tap');
 			else if ($('.prt-raid-thumbnail:has(.img-raid-thumbnail[alt=2040065000_hell])+.prt-raid-info>.prt-raid-status:has(.prt-use-ap)').length)
 				$('.img-raid-thumbnail[alt=2040065000_hell]').trigger('tap');
 			else
@@ -1725,11 +1785,12 @@ function assist() {
 	else if ($('.prt-popup-header:contains(BPが足りません)').is(':visible') && enableUsingBP)
 		$('.btn-use-full.index-3').trigger('tap');
 	else if (parseInt($('.prt-user-bp-value').attr('title')) >= bpMinValue || enableUsingBP) {
-		var targetHpPercentMax = 75;
+		var targetHpPercentMax = parseInt($('.prt-user-bp-value').attr('title')) == 5 ? 0 : 75;
 		var $targetMutiBattle = false;
 		$('.prt-raid-gauge:has(+.prt-use-ap[data-ap=' + bpMinValue + '])').children().each(function(){
+			var targetBlackList = $(this).parent().parent().parent().parent().children('.prt-raid-thumbnail').children('img').attr('alt').indexOf('_high') > -1;
 			var targetHpPercent = parseInt($(this).css('width').replace('px', ''));
-			if (targetHpPercent > targetHpPercentMax) {
+			if (targetHpPercent > targetHpPercentMax && !targetBlackList) {
 				targetHpPercentMax = targetHpPercent;
 				$targetMutiBattle = $(this);
 			}
@@ -1809,17 +1870,20 @@ function gacha() {
 			$('.prt-gacha-infomation>button').html('Show Hand');
 		$('.prt-gacha-infomation>button').attr('onclick', 'javascript:localStorage.gachaShowHand = !JSON.parse(localStorage.gachaShowHand)');
 	}
-	if ($('.txt-available-times10').length && localStorage.gachaShowHand)
+	if ($('.txt-available-times').length && localStorage.gachaShowHand)
+		$('.txt-available-times').trigger('tap');
+	else if ($('.txt-available-times10').length && localStorage.gachaShowHand)
 		$('.txt-available-times10').trigger('tap');
 	setTimeout(analyzingURL, 1000);
 }
 
 var enableUsingAP = true;
+var autoEventUrl = 'treasureraid041';
 
 function autoEvent() {
 	stageMsg('==Auto Event Stage==');
 	if (localStorage.autoEvent == tabId) {
-		var costAP = 50;
+		var costAP = 20;
 		var canEnter = enableUsingAP || (!enableUsingAP && parseInt($('.txt-stamina-value').attr('title').split('/')[0]) >= costAP);
 		if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
 			$('.btn-usual-ok').trigger('tap');
@@ -1837,14 +1901,21 @@ function autoEvent() {
 			$('.btn-offer:last').trigger('tap');
 		else if ($('#enemy_0').length && canEnter)
 			$('#enemy_0').trigger('tap');*/
-		/*// Normal Event
+		/*// Four Elements Befall
+		else if ($('.prt-popup-header:contains(四象に挑戦)').is(':visible') && $('.prt-icon-bonus').length)
+            $('.prt-icon-bonus').trigger('tap');
+        else if ($('.img-raid-boss').length && canEnter && parseInt($('.prt-point').html().split('/')[0]) < 30000)
+            $('.img-raid-boss').trigger('tap');
+        else if ($('.btn-select-multi').length && canEnter && parseInt($('.prt-point').html().split('/')[0]) < 30000)
+            $('.btn-select-multi').trigger('tap');*/
+        // Normal Event
 		else if ($('.prt-popup-header:contains(サバイバルモード)').is(':visible'))
 			$('.btn-boss-battle.clear:last').trigger('tap');
 		else if ($('.btn-event-raid.multi').length && canEnter)
 			$('.btn-event-raid.multi:first').trigger('tap');
 		// Cooperation Event
 		else if ($('.btn-boss-detail').length && canEnter)
-			$('.btn-boss-detail').trigger('tap');*/
+			$('.btn-boss-detail').trigger('tap');
 	}
 	setTimeout(analyzingURL, 1000);
 }
@@ -1852,7 +1923,7 @@ function autoEvent() {
 function autoExtraEvent() {
 	stageMsg('==Auto Extra Event Stage==');
 	if (localStorage.autoExtraEvent == tabId) {
-		var targetEvent = 4;
+		var targetEvent = 1;
 		var targetLevel = 2;
 		var costAP = 30;
 		var canEnter = enableUsingAP || (!enableUsingAP && parseInt($('.txt-stamina-value').attr('title').split('/')[0]) >= costAP);
@@ -1893,7 +1964,7 @@ function autoExtra() {
 
 function eventReopen() {
 	stageMsg('==Event Reopen Stage==');
-	if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
+	if ($('.prt-popup-header:contains(クエスト再開)').is(':visible') && localStorage.autoEvent == tabId)
 		$('.btn-usual-ok').trigger('tap');
 	setTimeout(analyzingURL, 1000);
 }
@@ -1906,7 +1977,7 @@ function sellNormalWeapon() {
 		$('.btn-usual-ok').trigger('tap');
 	else if ($('.btn-item:not(.selected)[data-rarity=1]:not(:has(.prt-quality))').length && parseInt($('.selected-num').html()) < 20)
 		$('.btn-item:not(.selected)[data-rarity=1]:not(:has(.prt-quality))').trigger('tap');
-	else if ($('.btn-settle[disable=false]').length)
+	else if ($('.btn-settle[disable=false]').length && parseInt($('.selected-num').html()) > 0)
 		$('.btn-settle[disable=false]').trigger('tap');
 	setTimeout(analyzingURL, 400);
 }
@@ -1922,4 +1993,52 @@ function sellSliverCoin() {
 	else if ($('.btn-sell-article[data-item-id=20002]').length)
 		$('.btn-sell-article[data-item-id=20002]').trigger('tap');
 	setTimeout(sellSliverCoin, 500);
+}
+
+function unlimitedEnhancement() {
+	stageMsg('==Unlimited Enhancement Stage==');
+	if ($('.btn-follow-again').is(':visible'))
+		$('.btn-follow-again').trigger('tap');
+	else if ($('.prt-popup-header:contains(素材確認)').is(':visible') && $('.btn-usual-ok').length)
+		$('.btn-usual-ok').trigger('tap');
+	else if ($('.btn-synthesis').is(':visible'))
+		$('.btn-synthesis').trigger('tap');
+	else if ($('.btn-recommend').is(':visible'))
+		$('.btn-recommend').trigger('tap');
+	setTimeout(unlimitedEnhancement, 1500);
+}
+
+var decomposeFinish = false;
+var decomposeInterval;
+
+function detailWeapon() {
+	stageMsg('==Detail Weapon Stage==');
+	if ($('.prt-enhance-button').length && !$('#decomposeBtn').length) {
+		var decomposeBtn = document.createElement('div');
+		decomposeBtn.style.cssText = 'background: url("http://gbf.game-a.mbga.jp/assets/img_light/sp/ui/button-sb0b05c8227.png") no-repeat 0 -1790px;background-size: 223px 2789px;width: 141px;height: 36px;display: inline-block;padding-top: 10px;box-sizing: border-box;color: #f2eee2;text-shadow: 0 0 1px #253544,0 0 1px #253544,0 0 1px #253544,0 0 1px #253544,0 0 2px #253544,0 0 2px #253544,0 0 2px #253544,0 0 2px #253544;font-size: 12px;text-align: center;text-decoration: none;line-height: 1;';
+		decomposeBtn.setAttribute('id', 'decomposeBtn');
+		decomposeBtn.innerHTML = '高速エレメント化';
+		decomposeBtn.onclick = function() {
+			decomposeFinish = false;
+			decomposeInterval = setInterval(decompose, 1000);
+		};
+		$('.prt-enhance-button').append(decomposeBtn);
+	}
+	setTimeout(analyzingURL, 1000);
+}
+
+function decompose() {
+	stageMsg('==Decompose Stage==');
+	if (decomposeFinish)
+		clearInterval(decomposeInterval);
+	else if ($('.prt-decompose-button').is(':visible'))
+		$('.btn-decompose').trigger('tap');
+	else if ($('.prt-popup-header:contains(エレメント化結果)').is(':visible') && $('.btn-usual-ok').length) {
+		$('.btn-usual-ok').trigger('tap');
+		decomposeFinish = true;
+	}
+	else if ($('.prt-popup-header:contains(エレメント化確認)').is(':visible') && $('.btn-decompose').length)
+		$('.btn-decompose').trigger('tap');
+	else if ($('.btn-decompose-confirm').is(':visible'))
+		$('.btn-decompose-confirm').trigger('tap');
 }

@@ -70,6 +70,6 @@ chrome.runtime.onInstalled.addListener(function() {
 	chrome.contextMenus.create({'title': 'Set as Auto Extra Workflow', 'id': 'autoExtra', 'contexts': ['all']});
 	chrome.contextMenus.create({'title': 'Set as Magna Workflow', 'id': 'magna', 'contexts': ['all']});
 	chrome.contextMenus.create({'title': 'Toggle Script On/Off in this tab', 'id': 'toggle', 'contexts': ['all']});
-	chrome.contextMenus.create({'title': 'Clear Workflow of this tab', 'id': 'clear', 'contexts': ['all']});
-	chrome.contextMenus.create({'title': 'Clear Workflow of all tab', 'id': 'clearAll', 'contexts': ['all']});
+	chrome.contextMenus.create({'title': 'Clear Workflow of ALL tab', 'id': 'clearAll', 'contexts': ['all']});
+	chrome.contextMenus.create({'title': 'Clear Workflow of THIS tab', 'id': 'clear', 'contexts': ['all']});
 });
