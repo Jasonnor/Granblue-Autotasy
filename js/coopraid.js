@@ -1,5 +1,6 @@
 /*jshint scripturl:true*/
 (function () {
+	//delete console.log;
 	// Create stop script button
 	var stopBtn = document.createElement('div');
 	stopBtn.style.cssText = 'text-align:center;margin:5px;font-size:8px';
@@ -14,6 +15,7 @@ window.alert = function(msg) {
 	location.reload();
 };
 
+/*
 // Save console error message
 (function (console) {
 	console.save = function (data, filename) {
@@ -37,6 +39,7 @@ window.alert = function(msg) {
 		a.dispatchEvent(e);
 	};
 })(console);
+*/
 
 var ignoreError = false;
 Game.reportError = function (msg, url, line, column, err, callback) {
@@ -346,31 +349,31 @@ function offerFind() {
 		$room.trigger('tap');
 	else if ($room2.length)
 		$room2.trigger('tap');
-	setTimeout(offerJoin, 100);
+	setTimeout(offerJoin, 500);
 }
 
 function offerJoin() {
 	if ($('.btn-usual-join').length)
 		$('.btn-usual-join').trigger('tap');
-	setTimeout(offerOK, 100);
+	setTimeout(offerOK, 500);
 }
 
 function offerOK() {
 	if ($('.btn-usual-ok').length)
 		$('.btn-usual-ok').trigger('tap');
-	setTimeout(offerRefresh, 100);
+	setTimeout(offerRefresh, 500);
 }
 
 function offerRefresh() {
 	if ($('.btn-refresh-list').length)
 		$('.btn-refresh-list').trigger('tap');
-	setTimeout(offerCancel, 100);
+	setTimeout(offerCancel, 500);
 }
 
 function offerCancel() {
 	if ($('.btn-usual-cancel').length)
 		$('.btn-usual-cancel').trigger('tap');
-	setTimeout(analyzingURL, 100);
+	setTimeout(analyzingURL, 500);
 }
 
 function room() {
@@ -463,7 +466,7 @@ function supporter() {
 	var isRabbit = /supporter\/101441/i.test(location.hash);
 	var isROnlyForWind = /supporter\/101121/i.test(location.hash);
 	var isEventForFighter = /supporter\/709621/i.test(location.hash) || /supporter\/709631/i.test(location.hash) || /supporter\/706821/i.test(location.hash) || /supporter\/706831/i.test(location.hash);
-	var isEventForFireSolo =  /supporter\/709961/i.test(location.hash) || /supporter\/709981/i.test(location.hash) || /supporter\/709601/i.test(location.hash) || /supporter\/710171/i.test(location.hash) || /supporter\/710661/i.test(location.hash) || /supporter\/710891/i.test(location.hash);
+	var isEventForFireSolo =  /supporter\/709961/i.test(location.hash) || /supporter\/709981/i.test(location.hash) || /supporter\/709601/i.test(location.hash) || /supporter\/710171/i.test(location.hash) || /supporter\/710661/i.test(location.hash) || /supporter\/710891/i.test(location.hash) || /supporter\/711751/i.test(location.hash) || /supporter\/711761/i.test(location.hash);
 	var isEventForEarth = false;
 	var isEventForWind = false;
 	var isEventForFire = false;
@@ -494,17 +497,17 @@ function supporter() {
 		}
 	}
 	else {
-		isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/500171/i.test(location.hash) || /supporter\/500731/i.test(location.hash) || /supporter\/500741/i.test(location.hash) || /supporter\/710351/i.test(location.hash) || /supporter\/710361/i.test(location.hash) || /supporter\/710501/i.test(location.hash) || /supporter\/710511/i.test(location.hash) || /supporter\/711041/i.test(location.hash) || /supporter\/711051/i.test(location.hash);
+		isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/500171/i.test(location.hash) || /supporter\/500731/i.test(location.hash) || /supporter\/500741/i.test(location.hash) || /supporter\/710351/i.test(location.hash) || /supporter\/710361/i.test(location.hash) || /supporter\/710501/i.test(location.hash) || /supporter\/710511/i.test(location.hash) || /supporter\/711041/i.test(location.hash) || /supporter\/711051/i.test(location.hash) || /supporter\/712101/i.test(location.hash) || /supporter\/712111/i.test(location.hash) || /supporter\/500621/i.test(location.hash);
 		
-		isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || /supporter\/708651/i.test(location.hash) || /supporter\/709951/i.test(location.hash) || /supporter\/709971/i.test(location.hash) || /supporter\/709571/i.test(location.hash) || /supporter\/709591/i.test(location.hash) || /supporter\/709361/i.test(location.hash) || /supporter\/710091/i.test(location.hash) || /supporter\/711141/i.test(location.hash) || /supporter\/711151/i.test(location.hash);
+		isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || /supporter\/708651/i.test(location.hash) || /supporter\/709951/i.test(location.hash) || /supporter\/709971/i.test(location.hash) || /supporter\/709571/i.test(location.hash) || /supporter\/709591/i.test(location.hash) || /supporter\/709361/i.test(location.hash) || /supporter\/710091/i.test(location.hash) || /supporter\/711141/i.test(location.hash) || /supporter\/711151/i.test(location.hash) || /supporter\/500631/i.test(location.hash) || /supporter\/712301/i.test(location.hash) || /supporter\/712311/i.test(location.hash);
 		
-		isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || /supporter\/500211/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101223]').length/*Grandin*/ || /supporter\/711091/i.test(location.hash) || /supporter\/711101/i.test(location.hash);
+		isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || /supporter\/500211/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101223]').length/*Grandin*/ || /supporter\/711091/i.test(location.hash) || /supporter\/711101/i.test(location.hash) || /supporter\/500641/i.test(location.hash);
 		
-		isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash) || /supporter\/500711/i.test(location.hash) ||  /supporter\/599811/i.test(location.hash) || /supporter\/708941/i.test(location.hash) || /supporter\/708951/i.test(location.hash) || /supporter\/708961/i.test(location.hash) || /supporter\/708971/i.test(location.hash) || /supporter\/709201/i.test(location.hash) || /supporter\/709211/i.test(location.hash) || /supporter\/709441/i.test(location.hash) || /supporter\/709451/i.test(location.hash) || /supporter\/711191/i.test(location.hash) || /supporter\/711201/i.test(location.hash);
+		isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash) || /supporter\/500711/i.test(location.hash) ||  /supporter\/599811/i.test(location.hash) || /supporter\/708941/i.test(location.hash) || /supporter\/708951/i.test(location.hash) || /supporter\/708961/i.test(location.hash) || /supporter\/708971/i.test(location.hash) || /supporter\/709201/i.test(location.hash) || /supporter\/709211/i.test(location.hash) || /supporter\/709441/i.test(location.hash) || /supporter\/709451/i.test(location.hash) || /supporter\/711191/i.test(location.hash) || /supporter\/711201/i.test(location.hash) || /supporter\/500611/i.test(location.hash);
 		
-		isEventForLight = /supporter\/300281/i.test(location.hash) || /supporter\/710131/i.test(location.hash) || /supporter\/710741/i.test(location.hash) || /supporter\/710931/i.test(location.hash) || /supporter\/711601/i.test(location.hash) || /supporter\/711611/i.test(location.hash) || /supporter\/711401/i.test(location.hash) || /supporter\/711411/i.test(location.hash) || /supporter\/711901/i.test(location.hash) || /supporter\/711911/i.test(location.hash);
+		isEventForLight = /supporter\/300281/i.test(location.hash) || /supporter\/710131/i.test(location.hash) || /supporter\/710741/i.test(location.hash) || /supporter\/710931/i.test(location.hash) || /supporter\/711601/i.test(location.hash) || /supporter\/711611/i.test(location.hash) || /supporter\/711401/i.test(location.hash) || /supporter\/711411/i.test(location.hash) || /supporter\/711901/i.test(location.hash) || /supporter\/711911/i.test(location.hash) || /supporter\/500661/i.test(location.hash);
 		
-		isEventForDark = /supporter\/300271/i.test(location.hash) || /supporter\/709801/i.test(location.hash) || /supporter\/709811/i.test(location.hash) || /supporter\/300561/i.test(location.hash) || /supporter\/710701/i.test(location.hash) || /supporter\/710971/i.test(location.hash);
+		isEventForDark = /supporter\/300271/i.test(location.hash) || /supporter\/709801/i.test(location.hash) || /supporter\/709811/i.test(location.hash) || /supporter\/300561/i.test(location.hash) || /supporter\/710701/i.test(location.hash) || /supporter\/710971/i.test(location.hash) || /supporter\/500651/i.test(location.hash);
 	}
 	
 	if ($('.prt-deck-select').is(':visible'))
@@ -736,7 +739,7 @@ function supporter() {
 			selectTeam('2-5');
 		else
 			selectTeam('1-0');
-	}, 200);
+	}, 500);
 }
 
 function selectTeam(n) {
@@ -751,7 +754,7 @@ function selectTeam(n) {
 			$('.btn-usual-ok').trigger('tap');
 		}, 1500);
 	}
-	setTimeout(analyzingURL, 300);
+	setTimeout(analyzingURL, 500);
 }
 
 var useMystery = true;
@@ -814,7 +817,11 @@ function raidMulti() {
 			raidSmartFighting();
 			return;
 		} else if (enemyTotal >= 3000000) {
-			if (!masterYoda()) {
+			if (stage.gGameStatus.attacking == 1) {
+				console.log('Other action running ... ');
+				setTimeout(analyzingURL, 1000);
+				return;
+			} else if (!masterYoda()) {
 				setTimeout(analyzingURL, 1000);
 				return;
 			} else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
@@ -823,7 +830,11 @@ function raidMulti() {
 				return;
 			}
 		} else if (enemyTotal >= 1000000) {
-			if (!simpleMasterYoda()) {
+			if (stage.gGameStatus.attacking == 1) {
+				console.log('Other action running ... ');
+				setTimeout(analyzingURL, 1000);
+				return;
+			} else if (!simpleMasterYoda()) {
 				setTimeout(analyzingURL, 1000);
 				return;
 			}
@@ -835,12 +846,20 @@ function raidMulti() {
 			enemyHpNow += parseInt(stage.gGameStatus.boss.param[i].hp);
 		var isMVP = $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible');
 		if (enemyHpNow <= 3000000 && !isMVP) {
-			if (!simpleMasterYoda()) {
+			if (stage.gGameStatus.attacking == 1) {
+				console.log('Other action running ... ');
+				setTimeout(analyzingURL, 1000);
+				return;
+			} else if (!simpleMasterYoda()) {
 				setTimeout(analyzingURL, 1000);
 				return;
 			}
 		} else if (enemyHpNow <= 10000000 && !isMVP) {
-			if (!masterYoda()) {
+			if (stage.gGameStatus.attacking == 1) {
+				console.log('Other action running ... ');
+				setTimeout(analyzingURL, 1000);
+				return;
+			} else if (!masterYoda()) {
 				setTimeout(analyzingURL, 1000);
 				return;
 			} else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
@@ -853,8 +872,23 @@ function raidMulti() {
 			return;
 		}
 	}
-	checkMysteryThenAttack();
-	setTimeout(analyzingURL, 1000);
+	if (stage.gGameStatus.attacking == 1) {
+		console.log('Other action running ... ');
+		setTimeout(analyzingURL, 1000);
+	}
+	else {
+		checkMysteryThenAttack();
+		if (reload) {
+			setTimeout(function () {
+				if (stage.gGameStatus.attacking == 1)
+					location.reload();
+				else
+					analyzingURL();
+			}, 1000);
+		}
+		else
+			setTimeout(analyzingURL, 1000);
+	}
 }
 
 // Choose-the-best-Enemy System
@@ -894,8 +928,18 @@ function raidSmartFighting() {
 			weaknessEnemy = i;
 			bossEnemy = i;
 			break;
-		}
-	}
+        }
+        if (enemyName == 'Lv100 シュヴァリエ・マグナ' && parseInt(stage.gGameStatus.boss.param[2].hp) > 0) {
+            weaknessEnemy = 2;
+            bossEnemy = 2;
+            break;
+        }
+        else if (enemyName == 'Lv100 シュヴァリエ・マグナ' && parseInt(stage.gGameStatus.boss.param[2].hp) == 0) {
+            weaknessEnemy = 0;
+            bossEnemy = 0;
+            break;
+        }
+    }
 	if (enemyHpNow > 1200000 || (($('.txt-battle.round').length || $('.txt-battle.stage').length) && enemyHpNow > 150000)) {
 		// Send stamp to get large-solution
 		if ($('.btn-chat:not(.comment)>.ico-attention').is(':visible') && /raid_multi/i.test(location.hash)) {
@@ -911,7 +955,7 @@ function raidSmartFighting() {
 		}
 		var enemyHpPercent = $('.hp-show:eq(0)>span').html().split('<br>')[1].replace('%', '');
 		var bossName = stage.gGameStatus.boss.param[bossEnemy].name.ja;
-		var assistBlackList = bossName == 'Lv60 朱雀' || bossName == 'Lv75 ティラノス' || bossName == 'Lv75 ビザールビースト' ||enemyHpNow < 7000000;
+		var assistBlackList = bossName == 'Lv60 朱雀' || bossName == 'Lv75 ティラノス' || bossName == 'Lv75 ビザールビースト' || bossName == 'Lv75 エメラルドホーン' ||enemyHpNow < 7000000;
 		// If enemy's HP is lower than 50% and is MVP or all dead and only one player, send assist
 		if (!assistBlackList && /raid_multi/i.test(location.hash) && stage.pJsnData.assist[3].is_enable && ((enemyHpPercent <= 50 && $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible')) || ($('.lis-user').length == 1 && $('.prt-member>.btn-command-character.blank').length == 4))) {
 			$('.btn-assist').trigger('tap');
@@ -1000,7 +1044,7 @@ function raidSmartFighting() {
 		// Gran's Buff Eliminate
 		if (stage.gGameStatus.boss.param[bossEnemy].name.ja != 'Lv75 シュヴァリエ・マグナ' && $('.btn-ability-available>div[ability-name=ディスペル]').length > 1 && enemyHasBuff) {
 			if (!lockEnemy(bossEnemy)) {
-				setTimeout(analyzingURL, 500);
+				setTimeout(analyzingURL, 200);
 				return;
 			}
 			$('.btn-ability-available>div[ability-name=ディスペル]').trigger('tap');
@@ -1018,10 +1062,13 @@ function raidSmartFighting() {
 				}
 			}
 		}
+		// For refreshing recast data of game(sometimes delay)
+		if (stage.pJsnData.boss.param[bossEnemy].recast > stage.pJsnData.boss.param[bossEnemy].recastmax)
+			reload = true;
 		if (!useSkill) {
 			console.log('Not using skill this turn ...');
 			useSkill = true;
-		} else if ($('.summon-on').length) {
+		} else if ($('.summon-on').length && enemyHpNow > 2000000) {
 			summonByCode('all');
 			setTimeout(analyzingURL, 1000);
 			return;
@@ -1032,15 +1079,10 @@ function raidSmartFighting() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		// For refreshing recast data of game(sometimes delay)
-		else if (stage.pJsnData.boss.param[bossEnemy].recast > stage.pJsnData.boss.param[bossEnemy].recastmax) {
-			location.reload();
-			return;
-		}
 		// Kurarisu's Atomic Resolution
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040046000"])').length && $('.btn-ability-available>div[ability-id=2300]').length > 1) {
 			if (!lockEnemy(bossEnemy)) {
-				setTimeout(analyzingURL, 500);
+				setTimeout(analyzingURL, 200);
 				return;
 			}
 			$('.btn-ability-available>div[ability-id=2300]').trigger('tap');
@@ -1056,7 +1098,7 @@ function raidSmartFighting() {
 		/*// Magisa's Summon Devil Attack
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && $('.hp-show:eq(' + weaknessEnemy + ')>span').html().split('/')[0] <= 1200000 && $('.btn-ability-available>div[ability-id=510]').length > 1) {
 			if (!lockEnemy(weaknessEnemy)) {
-				setTimeout(analyzingURL, 500);
+				setTimeout(analyzingURL, 200);
 				return;
 			}
 			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
@@ -1104,7 +1146,7 @@ function raidSmartFighting() {
 		// Red Skills
 		else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([text-data*=スロウ]):not([ability-id=2172])').length) {
 			if (!lockEnemy(weaknessEnemy)) {
-				setTimeout(analyzingURL, 500);
+				setTimeout(analyzingURL, 200);
 				return;
 			}
 			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([text-data*=スロウ]):not([ability-id=2172])').trigger('tap');
@@ -1119,7 +1161,7 @@ function raidSmartFighting() {
 		// Rakamu's shoot (Shoot it anyway if is Dark Boss)
 		else if ($('.btn-ability-available>div[ability-id=2461]').length > 1 && (!isMaxMystery('3040059000') || stage.gGameStatus.boss.param[bossEnemy].name.ja == 'Lv75 セレスト・マグナ')) {
 			if (!lockEnemy(weaknessEnemy)) {
-				setTimeout(analyzingURL, 500);
+				setTimeout(analyzingURL, 200);
 				return;
 			}
 			$('.btn-ability-available>div[ability-id=2461]').trigger('tap');
@@ -1129,7 +1171,7 @@ function raidSmartFighting() {
 		// Magisa's Summon Devil Attack For Dying
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && parseInt($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])>.prt-gauge-hp>div').attr('style').replace('width: ', '').replace('%;', '')) <= 10 && $('.btn-ability-available>div[ability-id=510]').length > 1) {
 			if (!lockEnemy(weaknessEnemy)) {
-				setTimeout(analyzingURL, 500);
+				setTimeout(analyzingURL, 200);
 				return;
 			}
 			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
@@ -1139,7 +1181,7 @@ function raidSmartFighting() {
 		// OverDrive attack & effect
 		else if (stage.gGameStatus.bossmode.looks.mode[bossEnemy] == 2 && $('.btn-ability-available>div[text-data*=オーバードライブ]').length > 1) {
 			if (!lockEnemy(bossEnemy)) {
-				setTimeout(analyzingURL, 500);
+				setTimeout(analyzingURL, 200);
 				return;
 			}
 			$('.btn-ability-available>div[text-data*=オーバードライブ]').trigger('tap');
@@ -1153,7 +1195,7 @@ function raidSmartFighting() {
 					return $(this).attr('text-data').match(/^((?!ブレイク).)*モードゲージ.*$/);
 			}).length > 1) {
 				if (!lockEnemy(bossEnemy)) {
-					setTimeout(analyzingURL, 500);
+					setTimeout(analyzingURL, 200);
 					return;
 				}
 				$('.btn-ability-available>div').filter(function() {
@@ -1166,7 +1208,7 @@ function raidSmartFighting() {
 		// Break
 		else if (stage.gGameStatus.bossmode.looks.mode[bossEnemy] == 3 && $('.btn-ability-available>div[text-data*=ブレイク]').length > 1) {
 			if (!lockEnemy(bossEnemy)) {
-				setTimeout(analyzingURL, 500);
+				setTimeout(analyzingURL, 200);
 				return;
 			}
 			$('.btn-ability-available>div[text-data*=ブレイク]').trigger('tap');
@@ -1176,7 +1218,7 @@ function raidSmartFighting() {
 		// Rashid's V-type
 		else if (parseInt($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030126000"])>.prt-percent>span').html()) > 50 && $('.btn-ability-available>div[ability-id=2328]').length > 1) {
 			if (!lockEnemy(bossEnemy)) {
-				setTimeout(analyzingURL, 500);
+				setTimeout(analyzingURL, 200);
 				return;
 			}
 			$('.btn-ability-available>div[ability-id=2328]').trigger('tap');
@@ -1225,7 +1267,7 @@ function raidSmartFighting() {
 		// Slow Attack
 		else if ($('.btn-ability-available>div[text-data*=スロウ]').length > 1 && stage.pJsnData.boss.param[bossEnemy].recast < stage.pJsnData.boss.param[bossEnemy].recastmax) {
 			if (!lockEnemy(bossEnemy)) {
-				setTimeout(analyzingURL, 500);
+				setTimeout(analyzingURL, 200);
 				return;
 			}
 			$('.btn-ability-available>div[text-data*=スロウ]').trigger('tap');
@@ -1235,7 +1277,7 @@ function raidSmartFighting() {
 		// DarkFencer's Gravity
 		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-id=1500]').length > 1) {
 			if (!lockEnemy(bossEnemy)) {
-				setTimeout(analyzingURL, 500);
+				setTimeout(analyzingURL, 200);
 				return;
 			}
 			$('.btn-ability-available>div[ability-id=1500]').trigger('tap');
@@ -1249,7 +1291,7 @@ function raidSmartFighting() {
 					return $(this).attr('text-data').match(/オーバードライブ.*ダメージ/g);
 			}).length > 1) {
 				if (!lockEnemy(bossEnemy)) {
-					setTimeout(analyzingURL, 500);
+					setTimeout(analyzingURL, 200);
 					return;
 				}
 				$('.btn-ability-available>div').filter(function() {
@@ -1310,7 +1352,7 @@ function raidSmartFighting() {
 		// Percival's Fear (Must be the last one to use)
 		else if (stage.pJsnData.boss.param[bossEnemy].recast != 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] != 3 && $('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040050000"])').length && $('.btn-ability-available>div[ability-id=1961]').length > 1) {
 			if (!lockEnemy(bossEnemy)) {
-				setTimeout(analyzingURL, 500);
+				setTimeout(analyzingURL, 200);
 				return;
 			}
 			$('.btn-ability-available>div[ability-id=1961]').trigger('tap');
@@ -1319,24 +1361,25 @@ function raidSmartFighting() {
 		}
 		// Lock enemy as weakness
 		else if (!lockEnemy(weaknessEnemy)) {
-			setTimeout(analyzingURL, 500);
+			setTimeout(analyzingURL, 200);
 			return;
 		}
 	} else {
-		if (!simpleMasterYoda()) {
+		if (stage.gGameStatus.attacking == 1) {
+			console.log('Other action running ... ');
+			setTimeout(analyzingURL, 1000);
+			return;
+		} else if (!simpleMasterYoda()) {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		if ($('.summon-on').length) {
-			summonByCode('all');
-			setTimeout(analyzingURL, 1000);
-			return;
-		}
-		var canUseSkill = !$('.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.prt-status>.img-ico-status-s[data-status=1111]').length;
-		if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length && canUseSkill) {
-			$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
-			setTimeout(analyzingURL, 1000);
-			return;
+		if (enemyHpNow > 1000000) {
+			var canUseSkill = !$('.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.prt-status>.img-ico-status-s[data-status=1111]').length;
+			if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length && canUseSkill) {
+				$('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
+				setTimeout(analyzingURL, 1000);
+				return;
+			}
 		}
 	}
 	dropRateUpAttack();
@@ -1403,8 +1446,10 @@ function isMaxMystery(target) {
 		var someoneAlmost = (char1 >= 90 && char1 < 100) || (char2 >= 90 && char2 < 100) || (char3 >= 90 && char3 < 100) || (char4 >= 90 && char4 < 100);
 		if (someoneMax && someoneAlmost)
 			useMystery = false;
-		else if (someoneMax && !someoneAlmost)
+		else if (someoneMax && !someoneAlmost) {
 			useMystery = true;
+			reload = true;
+		}
 	}
 	else if(target == 'numbers') {
 		var numbers = 0;
@@ -1486,7 +1531,7 @@ function dropRateUpAttack() {
 					reload = true;
 					break;
 				}
-				// If Grande has phantom, waiting
+				// If enemy has phantom, waiting
 				else if (statusTemp == 1313) {
 					setTimeout(analyzingURL, 1000);
 					return;
@@ -1621,8 +1666,7 @@ function masterYoda(weaknessEnemy) {
 			var enemyHpNow = 0;
 			for (var i = 0; i < stage.gGameStatus.boss.param.length; i++)
 				enemyHpNow += parseInt(stage.gGameStatus.boss.param[i].hp);
-			if (enemyHpNow < 1200000)
-				reload = true;
+			reload = true;
 		}
 		if (threeStatus != 3 && maxMystery) {
 			useMystery = false;
@@ -1657,8 +1701,7 @@ function simpleMasterYoda() {
 			var enemyHpNow = 0;
 			for (var i = 0; i < stage.gGameStatus.boss.param.length; i++)
 				enemyHpNow += parseInt(stage.gGameStatus.boss.param[i].hp);
-			if (enemyHpNow < 1200000)
-				reload = true;
+			reload = true;
 		}
 	}
 	return true;
@@ -1878,12 +1921,13 @@ function gacha() {
 }
 
 var enableUsingAP = true;
-var autoEventUrl = 'treasureraid041';
+var autoEventUrl = 'teamraid022';
+var eventTargetCode = -1;
 
 function autoEvent() {
 	stageMsg('==Auto Event Stage==');
 	if (localStorage.autoEvent == tabId) {
-		var costAP = 20;
+		var costAP = 50;
 		var canEnter = enableUsingAP || (!enableUsingAP && parseInt($('.txt-stamina-value').attr('title').split('/')[0]) >= costAP);
 		if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
 			$('.btn-usual-ok').trigger('tap');
@@ -1891,27 +1935,27 @@ function autoEvent() {
 			$('.btn-usual-ok').trigger('tap');
 		else if ($('.prt-popup-header:contains(APが足りません)').is(':visible') && enableUsingAP)
 			$('.btn-use-full.index-1').trigger('tap');
-		/*// Ancient Battlefield - Meat
-		else if ($('.prt-popup-header:contains(古戦場の魔物に挑戦)').is(':visible'))
+		// Ancient Battlefield - Meat [0]
+		else if (eventTargetCode == 0 && $('.prt-popup-header:contains(古戦場の魔物に挑戦)').is(':visible'))
 			$('.btn-multi-battle.ico-clear:last').trigger('tap');
-		else if ($('#enemy_1').length && canEnter)
+		else if (eventTargetCode == 0 && $('#enemy_1').length && canEnter)
 			$('#enemy_1').trigger('tap');
-		// Ancient Battlefield - Boss
-		else if ($('.btn-offer:last').is(':visible'))
+		// Ancient Battlefield - Boss [1]
+		else if (eventTargetCode == 1 && $('.btn-offer:last').is(':visible'))
 			$('.btn-offer:last').trigger('tap');
-		else if ($('#enemy_0').length && canEnter)
-			$('#enemy_0').trigger('tap');*/
-		/*// Four Elements Befall
-		else if ($('.prt-popup-header:contains(四象に挑戦)').is(':visible') && $('.prt-icon-bonus').length)
+		else if (eventTargetCode == 1 && $('#enemy_0').length && canEnter)
+			$('#enemy_0').trigger('tap');
+		// Four Elements Befall [2]
+		else if (eventTargetCode == 2 && $('.prt-popup-header:contains(四象に挑戦)').is(':visible') && $('.prt-icon-bonus').length)
             $('.prt-icon-bonus').trigger('tap');
-        else if ($('.img-raid-boss').length && canEnter && parseInt($('.prt-point').html().split('/')[0]) < 30000)
+        else if (eventTargetCode == 2 && $('.img-raid-boss').length && canEnter && parseInt($('.prt-point').html().split('/')[0]) < 30000)
             $('.img-raid-boss').trigger('tap');
-        else if ($('.btn-select-multi').length && canEnter && parseInt($('.prt-point').html().split('/')[0]) < 30000)
-            $('.btn-select-multi').trigger('tap');*/
-        // Normal Event
-		else if ($('.prt-popup-header:contains(サバイバルモード)').is(':visible'))
+        else if (eventTargetCode == 2 && $('.btn-select-multi').length && canEnter && parseInt($('.prt-point').html().split('/')[0]) < 30000)
+            $('.btn-select-multi').trigger('tap');
+        // Normal Event [3]
+		else if (eventTargetCode == 3 && $('.prt-popup-header:contains(サバイバルモード)').is(':visible'))
 			$('.btn-boss-battle.clear:last').trigger('tap');
-		else if ($('.btn-event-raid.multi').length && canEnter)
+		else if (eventTargetCode == 3 && $('.btn-event-raid.multi').length && canEnter)
 			$('.btn-event-raid.multi:first').trigger('tap');
 		// Cooperation Event
 		else if ($('.btn-boss-detail').length && canEnter)
@@ -1924,7 +1968,7 @@ function autoExtraEvent() {
 	stageMsg('==Auto Extra Event Stage==');
 	if (localStorage.autoExtraEvent == tabId) {
 		var targetEvent = 1;
-		var targetLevel = 2;
+		var targetLevel = 0;
 		var costAP = 30;
 		var canEnter = enableUsingAP || (!enableUsingAP && parseInt($('.txt-stamina-value').attr('title').split('/')[0]) >= costAP);
 		if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
@@ -1945,8 +1989,8 @@ function autoExtra() {
 	stageMsg('==Auto Extra Stage==');
 	if (localStorage.autoExtra == tabId) {
 		var targetEvent = 3;
-		var targetLevel = 1;
-		var costAP = 20;
+		var targetLevel = 2;
+		var costAP = 10;
 		var canEnter = enableUsingAP || (!enableUsingAP && parseInt($('.txt-stamina-value').attr('title').split('/')[0]) >= costAP);
 		if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
 			$('.btn-usual-ok').trigger('tap');
@@ -2006,6 +2050,17 @@ function unlimitedEnhancement() {
 	else if ($('.btn-recommend').is(':visible'))
 		$('.btn-recommend').trigger('tap');
 	setTimeout(unlimitedEnhancement, 1500);
+}
+
+function unlimitedPresent() {
+	stageMsg('==Unlimited Present Stage==');
+	if ($('.prt-popup-header:contains(所持数オーバー)').is(':visible') && $('.btn-usual-ok').length)
+		$('.btn-usual-ok').trigger('tap');
+	else if ($('.prt-popup-header:contains(プレゼント受取)').is(':visible') && $('.btn-usual-ok').length)
+		$('.btn-usual-ok').trigger('tap');
+	else if ($('.btn-get-all:last').is(':visible'))
+		$('.btn-get-all:last').trigger('tap');
+	setTimeout(unlimitedPresent, 1500);
 }
 
 var decomposeFinish = false;

@@ -5,8 +5,6 @@ chrome.storage.sync.get({
 		chrome.extension.sendMessage({ type: 'getTabId' }, function(res) {
 			var tabId = res.tabId;
 			var script = document.createElement('script');
-			// https://cdn.rawgit.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js
-			// https://rawgit.com/Jasonnor/Granblue-Autotasy/master/js/coopraid.js
 			var inner = "var tabId = " + tabId + ";" + 
 				"var alertUrl = '" + chrome.extension.getURL('src/alert_minions.mp3') + "';" + 
 				"function createScript() {" +

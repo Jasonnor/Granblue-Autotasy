@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "Granblue Autotasy",
 	"description": "Granblue Fantasy Auto Toolkit",
-	"version": "1.6.3",
+	"version": "1.6.5",
 	"icons": {
 		"16": "src/icon/icon16.png",
 		"48": "src/icon/icon48.png",
@@ -12,7 +12,7 @@
 		"default_icon": "src/icon/on.png"
 	},
 	"content_scripts": [{
-		"matches": ["*://gbf.game.mbga.jp/*"],
+		"matches": ["*://gbf.game.mbga.jp/*", "*://game.granbluefantasy.jp/*"],
 		"js": ["js/jquery-2.2.0.min.js", "js/auto.js"]
 	}],
 	"web_accessible_resources": [
