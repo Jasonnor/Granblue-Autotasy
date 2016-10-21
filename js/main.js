@@ -1,4 +1,5 @@
 /*jshint scripturl:true*/
+/*jshint esnext: true */
 (function () {
     // Restore windows.console
     var iframeTemp = document.createElement('iframe');
@@ -17,7 +18,7 @@
     var assistLink = document.createElement('div');
     assistLink.className = 'btn-sub-assist';
     assistLink.onclick = function () {
-        location.hash = "#quest/assist"
+        location.hash = "#quest/assist";
     };
     assistLink.innerHTML = 'Assist';
     quickMenu.appendChild(assistLink);
@@ -32,8 +33,8 @@
 // Promise version set-timeout
 function sleep(time) {
     return new Promise(resolve => {
-        setTimeout(resolve, time)
-    })
+        setTimeout(resolve, time);
+    });
 }
 
 // Save console error message
@@ -748,7 +749,7 @@ function raidMulti() {
     if ($('.btn-result').is(':visible'))
         $('.btn-result').trigger('tap');
     // Wait for loading
-    if (!$('.btn-lock').is(':visible') || $('.prt-targeting-area').attr('type') == '') {
+    if (!$('.btn-lock').is(':visible') || $('.prt-targeting-area').attr('type') === '') {
         setTimeout(analyzingURL, 1000);
         return;
     }
@@ -1731,7 +1732,7 @@ function raid() {
     if ($('.btn-result').is(':visible'))
         $('.btn-result').trigger('tap');
     // Wait for loading
-    if (!$('.btn-lock').is(':visible') || $('.prt-targeting-area').attr('type') == '') {
+    if (!$('.btn-lock').is(':visible') || $('.prt-targeting-area').attr('type') === '') {
         setTimeout(analyzingURL, 1000);
         return;
     }
