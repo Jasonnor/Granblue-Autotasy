@@ -144,6 +144,10 @@ function toggleScript() {
     }
 }
 
+function $skillContainText(textData) {
+    return $('.btn-ability-available>div[text-data*="' + textData + '"]');
+}
+
 function analyzingURL() {
     if ($('#stopBtn').attr('value') == '1')
         return;
@@ -958,16 +962,16 @@ function raidSmartFighting() {
                 someoneDead = true;
                 break;
             }
-        if (someoneDead && $('.btn-ability-available>div[text-data*=復活]').length > 1) {
-            $('.btn-ability-available>div[text-data*=復活]').trigger('tap');
+        if (someoneDead && $skillContainText('復活').length > 1) {
+            $skillContainText('復活').trigger('tap');
             if ($('.effect:contains(復活)').is(':visible') && $('.prt-character>.btn-command-character:not(.mask-black)').length)
                 $('.prt-character>.btn-command-character:not(.mask-black)').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
         // Petra's Phantom
-        if ($('.btn-ability-available>div[text-data*=味方単体に幻影効果]').length > 1) {
-            $('.btn-ability-available>div[text-data*=味方単体に幻影効果]').trigger('tap');
+        if ($skillContainText('味方単体に幻影効果').length > 1) {
+            $skillContainText('味方単体に幻影効果').trigger('tap');
             if ($('.effect:contains(味方単体に幻影効果)').is(':visible') && $('.prt-character>.btn-command-character:not(.mask-black):has(img[src*=3040036000])').length)
                 $('.prt-character>.btn-command-character:not(.mask-black):has(img[src*=3040036000])').trigger('tap');
             else if ($('.effect:contains(味方単体に幻影効果)').is(':visible') && $('.prt-character>.lis-character0.btn-command-character:not(.mask-black)').length)
@@ -1147,12 +1151,12 @@ function raidSmartFighting() {
             return;
         }
         // OverDrive attack & effect
-        else if (stage.gGameStatus.bossmode.looks.mode[bossEnemy] == 2 && $('.btn-ability-available>div[text-data*=オーバードライブ]').length > 1) {
+        else if ($skillContainText('オーバードライブ').length > 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] == 2) {
             if (!lockEnemy(bossEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
             }
-            $('.btn-ability-available>div[text-data*=オーバードライブ]').trigger('tap');
+            $skillContainText('オーバードライブ').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
@@ -1175,12 +1179,12 @@ function raidSmartFighting() {
                 return;
             }
         // Break
-        else if (stage.gGameStatus.bossmode.looks.mode[bossEnemy] == 3 && $('.btn-ability-available>div[text-data*=ブレイク]').length > 1) {
+        else if ($skillContainText('ブレイク').length > 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] == 3) {
             if (!lockEnemy(bossEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
             }
-            $('.btn-ability-available>div[text-data*=ブレイク]').trigger('tap');
+            $skillContainText('ブレイク').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
@@ -1236,12 +1240,12 @@ function raidSmartFighting() {
                 return;
             }
         // Slow Attack
-        else if ($('.btn-ability-available>div[text-data*=スロウ]').length > 1 && stage.pJsnData.boss.param[bossEnemy].recast < stage.pJsnData.boss.param[bossEnemy].recastmax) {
+        else if ($skillContainText('スロウ').length > 1 && stage.pJsnData.boss.param[bossEnemy].recast < stage.pJsnData.boss.param[bossEnemy].recastmax) {
             if (!lockEnemy(bossEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
             }
-            $('.btn-ability-available>div[text-data*=スロウ]').trigger('tap');
+            $skillContainText('スロウ').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
@@ -1505,8 +1509,8 @@ function dropRateUpAttack() {
         summonByCode('2040025000');
         return;
     }
-    else if ($('.btn-ability-available>div[text-data*=アイテムドロップ]').length > 1 && canUseSkill && !treasureMax)
-        $('.btn-ability-available>div[text-data*=アイテムドロップ]').trigger('tap');
+    else if ($skillContainText('アイテムドロップ').length > 1 && canUseSkill && !treasureMax)
+        $skillContainText('アイテムドロップ').trigger('tap');
     else {
         checkMysteryThenAttack();
         if (enemyHasBuff) {
@@ -1746,8 +1750,8 @@ function raid() {
         } else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2040025000]').length) {
             summonByCode('2040025000');
             return;
-        } else if ($('.btn-ability-available>div[text-data*=アイテムドロップ]').length > 1) {
-            $('.btn-ability-available>div[text-data*=アイテムドロップ]').trigger('tap');
+        } else if ($skillContainText('アイテムドロップ').length > 1) {
+            $skillContainText('アイテムドロップ').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
