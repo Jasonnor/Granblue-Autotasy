@@ -138,16 +138,6 @@ function toggleScript() {
 }
 
 function analyzingURL() {
-    // Set event button as stop script button
-    if ($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
-        $('#mkt_menu_mainsection>div:eq(4)>a:first').attr('href', 'javascript:void(0)');
-        $('#mkt_menu_mainsection>div:eq(4)>a:first').attr('onclick', 'toggleScript()');
-    }
-    // Set voice button as stop script button
-    if ($('.btn-switch-sound.btn-bgm-change').length)
-        $('.btn-switch-sound.btn-bgm-change').attr('onclick', 'toggleScript()');
-    if ($('.bgm-change').length)
-        $('.bgm-change').attr('onclick', 'toggleScript()');
     if ($('#stopBtn').attr('value') == '1')
         return;
     // PIN reminder
@@ -171,7 +161,7 @@ function analyzingURL() {
         var notCoopraid = !/coopraid/i.test(hash) && !/supporter/i.test(hash) && !/raid_multi/i.test(hash) && !/quest\/assist\/unclaimed/i.test(hash);
         if (localStorage.coopraid == tabId && notCoopraid) {
             setTimeout(function () {
-                location.href = 'http://gbf.game.mbga.jp/#coopraid';
+                location.hash = '#coopraid';
                 analyzingURL();
             }, 1000);
             return;
@@ -181,7 +171,7 @@ function analyzingURL() {
         var notAssist = !/quest\/assist/i.test(hash) && !/supporter/i.test(hash) && !/raid_multi/i.test(hash) && !/quest\/assist\/unclaimed/i.test(hash);
         if (localStorage.assist == tabId && notAssist) {
             setTimeout(function () {
-                location.href = 'http://gbf.game.mbga.jp/#quest/assist';
+                location.hash = '#quest/assist';
                 analyzingURL();
             }, 1000);
             return;
@@ -190,7 +180,7 @@ function analyzingURL() {
     if (localStorage.getItem('autoExtraEvent') !== null) {
         if (localStorage.autoExtraEvent == tabId && notBattle && !/quest\/extra\/event/i.test(hash)) {
             setTimeout(function () {
-                location.href = 'http://gbf.game.mbga.jp/#quest/extra/event';
+                location.hash = '#quest/extra/event';
                 analyzingURL();
             }, 1000);
             return;
@@ -199,7 +189,7 @@ function analyzingURL() {
     if (localStorage.getItem('autoExtra') !== null) {
         if (localStorage.autoExtra == tabId && notBattle && !/quest\/extra/i.test(hash)) {
             setTimeout(function () {
-                location.href = 'http://gbf.game.mbga.jp/#quest/extra';
+                location.hash = '#quest/extra';
                 analyzingURL();
             }, 1000);
             return;
@@ -210,7 +200,7 @@ function analyzingURL() {
         var notAutoEvent = !autoEventRegex.test(hash) && notBattle;
         if (localStorage.autoEvent == tabId && notAutoEvent) {
             setTimeout(function () {
-                location.href = 'http://gbf.game.mbga.jp/#event/' + autoEventUrl;
+                location.hash = '#event/' + autoEventUrl;
                 analyzingURL();
             }, 1000);
             return;
@@ -225,42 +215,42 @@ function analyzingURL() {
             if (dailyMagna.fire > 0) {
                 saveDailyMagna(dailyMagna.fire - 1, dailyMagna.water, dailyMagna.earth, dailyMagna.wind, dailyMagna.light, dailyMagna.dark);
                 setTimeout(function () {
-                    location.href = 'http://gbf.game.mbga.jp/#quest/supporter/300091/1';
+                    location.hash = '#quest/supporter/300091/1';
                     analyzingURL();
                 }, 1000);
                 return;
             } else if (dailyMagna.water > 0) {
                 saveDailyMagna(dailyMagna.fire, dailyMagna.water - 1, dailyMagna.earth, dailyMagna.wind, dailyMagna.light, dailyMagna.dark);
                 setTimeout(function () {
-                    location.href = 'http://gbf.game.mbga.jp/#quest/supporter/300151/1';
+                    location.hash = '#quest/supporter/300151/1';
                     analyzingURL();
                 }, 1000);
                 return;
             } else if (dailyMagna.earth > 0) {
                 saveDailyMagna(dailyMagna.fire, dailyMagna.water, dailyMagna.earth - 1, dailyMagna.wind, dailyMagna.light, dailyMagna.dark);
                 setTimeout(function () {
-                    location.href = 'http://gbf.game.mbga.jp/#quest/supporter/300191/1';
+                    location.hash = '#quest/supporter/300191/1';
                     analyzingURL();
                 }, 1000);
                 return;
             } else if (dailyMagna.wind > 0) {
                 saveDailyMagna(dailyMagna.fire, dailyMagna.water, dailyMagna.earth, dailyMagna.wind - 1, dailyMagna.light, dailyMagna.dark);
                 setTimeout(function () {
-                    location.href = 'http://gbf.game.mbga.jp/#quest/supporter/300041/1';
+                    location.hash = '#quest/supporter/300041/1';
                     analyzingURL();
                 }, 1000);
                 return;
             } else if (dailyMagna.light > 0) {
                 saveDailyMagna(dailyMagna.fire, dailyMagna.water, dailyMagna.earth, dailyMagna.wind, dailyMagna.light - 1, dailyMagna.dark);
                 setTimeout(function () {
-                    location.href = 'http://gbf.game.mbga.jp/#quest/supporter/300221/1';
+                    location.hash = '#quest/supporter/300221/1';
                     analyzingURL();
                 }, 1000);
                 return;
             } else if (dailyMagna.dark > 0) {
                 saveDailyMagna(dailyMagna.fire, dailyMagna.water, dailyMagna.earth, dailyMagna.wind, dailyMagna.light, dailyMagna.dark - 1);
                 setTimeout(function () {
-                    location.href = 'http://gbf.game.mbga.jp/#quest/supporter/300251/1';
+                    location.hash = '#quest/supporter/300251/1';
                     analyzingURL();
                 }, 1000);
                 return;
