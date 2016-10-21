@@ -1,6 +1,14 @@
-/*jshint scripturl:true*/
 (function () {
-	//delete console.log;
+	// Restore windows.console
+	var iframeTemp = document.createElement('iframe');
+	iframeTemp.style.display = 'none';
+	document.body.appendChild(iframeTemp);
+	window.console = iframeTemp.contentWindow.console;
+	// Overring default alert
+	window.alert = function(msg) {
+		console.log('Alert: ' + msg);
+		location.reload();
+	};
 	// Create stop script button
 	var stopBtn = document.createElement('div');
 	stopBtn.style.cssText = 'text-align:center;margin:5px;font-size:8px';
@@ -8,12 +16,6 @@
 	$('body').append(stopBtn);
 	analyzingURL();
 })();
-
-// Overring default alert
-window.alert = function(msg) {
-	console.log('Alert: ' + msg);
-	location.reload();
-};
 
 /*
 // Save console error message
