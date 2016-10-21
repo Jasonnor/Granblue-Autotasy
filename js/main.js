@@ -11,10 +11,10 @@
         location.reload();
     };
     // Create stop script button
-    var stopBtn = document.createElement('div');
-    stopBtn.style.cssText = 'text-align:center;margin:5px;font-size:8px';
-    stopBtn.innerHTML = '<button id="stopBtn" onclick="toggleScript()" value="0" style="color:white;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(140, 220, 250, 0.8)), color-stop(0.4, rgba(75, 170, 190, 0.8)), color-stop(0.6, rgba(75, 170, 190, 0.8)), to(rgba(140, 220, 250, 0.8)));border:1px solid rgb(85, 102, 119);border-radius:5px;">Stop Script</button>';
-    $('body').append(stopBtn);
+    var stopBtn = document.createElement('li');
+    stopBtn.className = 'BH29UqMRA7nnSLfpZ1Yxk';
+    stopBtn.innerHTML = '<span id="stopBtn" onclick="toggleScript()" value="0" style="color: #7a8593;line-height: 28px;">Stop</span>';
+    $('ul[data-reactid=".0.0.0.1"]').append(stopBtn);
     analyzingURL();
 })();
 
@@ -125,31 +125,15 @@ function stageMsg(msg) {
 }
 
 function toggleScript() {
-    if ($('#stopBtn').val() == 1) {
+    if ($('#stopBtn').attr('value') == '1') {
         console.log('Starting Script ...');
-        $('#stopBtn').val(0);
-        $('#stopBtn').html('Stop Script');
-        if ($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
-            $('#mkt_menu_mainsection>div:eq(4)').css('-webkit-filter', 'grayscale(0)');
-            $('#mkt_menu_mainsection>div:eq(4)').css('filter', 'grayscale(0)');
-        }
-        if ($('.btn-switch-sound.btn-bgm-change').length) {
-            $('.btn-switch-sound.btn-bgm-change').css('-webkit-filter', 'grayscale(0)');
-            $('.btn-switch-sound.btn-bgm-change').css('filter', 'grayscale(0)');
-        }
+        $('#stopBtn').attr('value', '0');
+        $('#stopBtn').html('Stop');
         analyzingURL();
     } else {
         console.log('Stopping Script ...');
-        $('#stopBtn').val(1);
-        $('#stopBtn').html('Start Script');
-        if ($('#mkt_menu_mainsection>div:eq(4)>a:first').length) {
-            $('#mkt_menu_mainsection>div:eq(4)').css('-webkit-filter', 'grayscale(1)');
-            $('#mkt_menu_mainsection>div:eq(4)').css('filter', 'grayscale(1)');
-        }
-        if ($('.btn-switch-sound.btn-bgm-change').length) {
-            $('.btn-switch-sound.btn-bgm-change').css('-webkit-filter', 'grayscale(1)');
-            $('.btn-switch-sound.btn-bgm-change').css('filter', 'grayscale(1)');
-        }
+        $('#stopBtn').attr('value', '1');
+        $('#stopBtn').html('Start');
     }
 }
 
@@ -164,7 +148,7 @@ function analyzingURL() {
         $('.btn-switch-sound.btn-bgm-change').attr('onclick', 'toggleScript()');
     if ($('.bgm-change').length)
         $('.bgm-change').attr('onclick', 'toggleScript()');
-    if ($('#stopBtn').val() == 1)
+    if ($('#stopBtn').attr('value') == '1')
         return;
     // PIN reminder
     if ($('#pop-captcha>div>.prt-popup-header:contains(認証)').is(':visible')) {
