@@ -17,7 +17,6 @@
 	analyzingURL();
 })();
 
-/*
 // Save console error message
 (function (console) {
 	console.save = function (data, filename) {
@@ -41,7 +40,6 @@
 		a.dispatchEvent(e);
 	};
 })(console);
-*/
 
 var ignoreError = false;
 Game.reportError = function (msg, url, line, column, err, callback) {
@@ -476,7 +474,7 @@ function supporter() {
 	var isEventForLight = false;
 	var isEventForDark = false;
 	
-	if ($('.txt-raid-name').is(':visible')/* && parseInt($('.txt-raid-name').html().split(' ')[0].replace('Lv', '')) >= 50*/) {
+	if ($('.txt-raid-name').is(':visible')) {
 		switch ($('.btn-type.selected').attr('data-type')) {
 			case '1': 
 				isEventForFire = true;
@@ -695,11 +693,6 @@ function supporter() {
 		$('.prt-summon-image[data-image=2040025000]+div>.bless-rank1-style').trigger('tap');
 	else if ($('.prt-summon-image[data-image=2040025000]').length)
 		$('.prt-summon-image[data-image=2040025000]').trigger('tap');
-	/*// Grande
-	else if ($('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').length)
-		$('.prt-summon-image[data-image=2040065000]+div>.bless-rank1-style').trigger('tap');
-	else if ($('.prt-summon-image[data-image=2040065000]').length)
-		$('.prt-summon-image[data-image=2040065000]').trigger('tap');*/
 	// 風80%
 	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').length)
 		$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').trigger('tap');
@@ -1097,8 +1090,8 @@ function raidSmartFighting() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		/*// Magisa's Summon Devil Attack
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && $('.hp-show:eq(' + weaknessEnemy + ')>span').html().split('/')[0] <= 1200000 && $('.btn-ability-available>div[ability-id=510]').length > 1) {
+		// Magisa's Summon Devil Attack
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && $('.hp-show:eq(' + weaknessEnemy + ')>span').html().split('/')[0] <= 1200000 && $('.btn-ability-available>div[ability-id=510]').length > 1 && stage.gGameStatus.turn > 5) {
 			if (!lockEnemy(weaknessEnemy)) {
 				setTimeout(analyzingURL, 200);
 				return;
@@ -1106,7 +1099,7 @@ function raidSmartFighting() {
 			$('.btn-ability-available>div[ability-id=510]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
-		}*/
+		}
 		// Use all skill, order : Yellow(3) > Green(2) > Blue(4) > Red(1)
 		/* Expect list: 
 		** OverDrive(オーバードライブ, モードゲージ - 1,3,4)
@@ -1327,12 +1320,12 @@ function raidSmartFighting() {
 			setTimeout(analyzingURL, 1000);
 			return;
 		}
-		/*// Beatorikusu's Time-Jump For 4 o'clock
-		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040070000"])>.prt-status>.img-ico-status-s:last[data-status=14702]').length && $('.btn-ability-available>div[ability-id=575]').length > 1) {
+		// Beatorikusu's Time-Jump For 4 o'clock
+		else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040070000"])').length && $('.btn-ability-available>div[ability-id=575]').length > 1 && stage.gGameStatus.turn == 1) {
 			$('.btn-ability-available>div[ability-id=575]').trigger('tap');
 			setTimeout(analyzingURL, 1000);
 			return;
-		}*/
+		}
 		// Serueru's Buff
 		else if ($('.btn-ability-available>div[ability-id=137]').length > 1) {
 			$('.btn-ability-available>div[ability-id=137]').trigger('tap');
