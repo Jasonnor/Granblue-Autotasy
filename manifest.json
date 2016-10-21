@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
 	"name": "Granblue Autotasy",
-	"description": "Granblue Fantasy Auto Toolkit",
-	"version": "1.6.5",
+	"description": "Granblue Fantasy Automation Toolkit",
+	"version": "1.6.6",
 	"icons": {
 		"16": "src/icon/icon16.png",
 		"48": "src/icon/icon48.png",
@@ -16,7 +16,7 @@
 		"js": ["js/jquery-2.2.0.min.js", "js/auto.js"]
 	}],
 	"web_accessible_resources": [
-		"js/coopraid.js",
+		"js/main.js",
 		"src/alert_minions.mp3"
 	],
 	"background": {

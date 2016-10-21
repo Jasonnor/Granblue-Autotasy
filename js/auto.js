@@ -10,7 +10,7 @@ chrome.storage.sync.get({
 				"function createScript() {" +
 				"	var script = document.createElement('script');" +
 				"	script.onerror = function(){location.reload()};" +
-				"	script.src = '" + chrome.extension.getURL('js/coopraid.js') + "';" +
+				"	script.src = '" + chrome.extension.getURL('js/main.js') + "';" +
 				"	document.body.appendChild(script);" +
 				"}" +
 				"function init(){" +
