@@ -1494,9 +1494,9 @@ function dropRateUpAttack() {
     // Don't attack when other action running
     if (stage.gGameStatus.attacking == 1)
         console.log('Other action running ... ');
-    else if ($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length)
+    else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2030026000]').length)
         summonByCode('2030026000');
-    else if ($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length)
+    else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2040025000]').length)
         summonByCode('2040025000');
     else if ($('.btn-ability-available>div[text-data*=アイテムドロップ]').length > 1 && canUseSkill && !treasureMax)
         $('.btn-ability-available>div[text-data*=アイテムドロップ]').trigger('tap');
@@ -1708,34 +1708,36 @@ function raid() {
     stageMsg('==Raid Stage==');
     if ($('.btn-result').is(':visible'))
         $('.btn-result').trigger('tap');
-    if (!$('#mkt_ability_use_bar>.prt-ability-list>.lis-ability').is(':visible')) {
+    // Wait for loading
+    if (!$('.btn-lock').is(':visible')) {
         setTimeout(analyzingURL, 1000);
         return;
     }
+    /* For Street Fighter
     if ($('.prt-popup-header:contains(バトルサービス)').is(':visible') && !$('.btn-battle-service.disable').length) {
-        var score = parseInt($('.txt-point-before').html());
-        if (score < 560)
-            $('.txt-service-name:contains(サービスを受けない)').trigger('tap');
-        else
-            $('.txt-service-name:contains(スコアチャンス)').trigger('tap');
-        setTimeout(analyzingURL, 1000);
-        return;
+    var score = parseInt($('.txt-point-before').html());
+    if (score < 560)
+    $('.txt-service-name:contains(サービスを受けない)').trigger('tap');
+    else
+    $('.txt-service-name:contains(スコアチャンス)').trigger('tap');
+    setTimeout(analyzingURL, 1000);
+    return;
     } else if ($('.prt-popup-header:contains(バトルサービス)').is(':visible') && $('.btn-battle-service.disable').length) {
-        $('.btn-usual-ok').trigger('tap');
-        setTimeout(analyzingURL, 1000);
-        return;
-    }
+    $('.btn-usual-ok').trigger('tap');
+    setTimeout(analyzingURL, 1000);
+    return;
+    }*/
     var isRabbit = stage.pJsnData.boss.param.length == 3 && stage.pJsnData.boss.param[2].name.ja == 'Lv12 ホワイトラビット' && stage.pJsnData.boss.param[2].hp != '0';
     if (isRabbit) {
         if (!$('.btn-targeting.enemy-3.lock-on').is(':visible') || $('.btn-targeting.enemy-3.invisible').length) {
             $('.btn-targeting.enemy-3.invisible').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
-        } else if ($('.btn-summon-available[summon-code=2030026000]').length && $('.summon-on').length) {
+        } else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2030026000]').length) {
             summonByCode('2030026000');
             setTimeout(analyzingURL, 1000);
             return;
-        } else if ($('.btn-summon-available[summon-code=2040025000]').length && $('.summon-on').length) {
+        } else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2040025000]').length) {
             summonByCode('2040025000');
             setTimeout(analyzingURL, 1000);
             return;
@@ -1756,17 +1758,17 @@ function raid() {
         if (!masterYoda()) {
             setTimeout(analyzingURL, 1000);
             return;
-        } else if (enemyTotal >= 500000)
+        } else if (enemyTotal >= 800000)
             if (!simpleMasterYoda()) {
                 setTimeout(analyzingURL, 1000);
                 return;
             }
-    if (enemyTotal >= 200000 && $('.summon-on').length) {
+    if (enemyTotal >= 600000 && $('.summon-on').length) {
         summonByCode('all');
         setTimeout(analyzingURL, 1000);
         return;
     }
-    if (enemyTotal >= 200000 && $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
+    if (enemyTotal >= 600000 && $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
         $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
         setTimeout(analyzingURL, 1000);
         return;
@@ -1784,7 +1786,7 @@ function battleResult() {
 }
 
 var enableUsingBP = false;
-var bpMinValue = 5;
+var bpMinValue = 2;
 
 function assist() {
     stageMsg('==Assist Stage==');
