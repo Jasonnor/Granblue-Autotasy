@@ -1,3 +1,4 @@
+/*jshint scripturl:true*/
 (function () {
     // Restore windows.console
     var iframeTemp = document.createElement('iframe');
@@ -64,7 +65,8 @@ Game.reportError = function (msg, url, line, column, err, callback) {
         min = min.length > 1 ? min : '0' + min;
         sec = sec.length > 1 ? sec : '0' + sec;
         var datetime = year + '-' + month + '-' + day + ' ' + hour + '-' + min + '-' + sec;
-        //console.save(recordLog, 'errorRecord-' + datetime + '.log');
+        if (ignoreError)
+            console.save(recordLog, 'errorRecord-' + datetime + '.log');
     }
 };
 
@@ -76,7 +78,7 @@ var storage = {
         var record = {
             value: JSON.stringify(jsonData),
             timestamp: new Date().getTime() + expirationMS
-        }
+        };
         localStorage.setItem(key, JSON.stringify(record));
         return jsonData;
     },
@@ -743,9 +745,9 @@ function selectTeam(n) {
     // pos[0] = Slot 1 ~ 7, pos[1] = Team 0 ~ 5
     var pos = n.split('-');
     if (!$('.btn-select-group[data-id=' + pos[0] + '].selected').length)
-        $('.btn-select-group[data-id=' + pos[0] + ']').trigger('tap')
-        if ($('.btn-select-group[data-id=' + pos[0] + '].selected').length && !$('.flex-control-nav>li:eq(' + n + ')>a.flex-active').length)
-            $('.flex-control-nav>li:eq(' + pos[1] + ')>a').click();
+        $('.btn-select-group[data-id=' + pos[0] + ']').trigger('tap');
+    if ($('.btn-select-group[data-id=' + pos[0] + '].selected').length && !$('.flex-control-nav>li:eq(' + n + ')>a.flex-active').length)
+        $('.flex-control-nav>li:eq(' + pos[1] + ')>a').click();
     if ($('.btn-usual-ok').length && $('.btn-select-group[data-id=' + pos[0] + '].selected').length && $('.flex-control-nav>li:eq(' + pos[1] + ')>a.flex-active').length) {
         setTimeout(function () {
             $('.btn-usual-ok').trigger('tap');
@@ -839,7 +841,7 @@ function raidMulti() {
     } else {
         stageMsg('==Raid Multi Stage==');
         var enemyHpNow = 0;
-        for (var i = 0; i < stage.gGameStatus.boss.param.length; i++)
+        for (i = 0; i < stage.gGameStatus.boss.param.length; i++)
             enemyHpNow += parseInt(stage.gGameStatus.boss.param[i].hp);
         var isMVP = $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible');
         if (enemyHpNow <= 3000000 && !isMVP) {
@@ -910,7 +912,7 @@ function raidSmartFighting() {
         var hpMax = parseInt(stage.gGameStatus.boss.param[i].hpmax);
         var enemyName = stage.gGameStatus.boss.param[i].name.ja;
         enemyHpNow += hpNow;
-        if (hpNow < min && hpNow != 0) {
+        if (hpNow < min && hpNow !== 0) {
             min = hpNow;
             weaknessEnemy = i;
         }
@@ -928,7 +930,7 @@ function raidSmartFighting() {
             weaknessEnemy = 2;
             bossEnemy = 2;
             break;
-        } else if (enemyName == 'Lv100 シュヴァリエ・マグナ' && parseInt(stage.gGameStatus.boss.param[2].hp) == 0) {
+        } else if (enemyName == 'Lv100 シュヴァリエ・マグナ' && parseInt(stage.gGameStatus.boss.param[2].hp) === 0) {
             weaknessEnemy = 0;
             bossEnemy = 0;
             break;
@@ -971,15 +973,15 @@ function raidSmartFighting() {
             var target = $(this).attr('class').split(/\s+/)[1].replace('ability-character-num-', '').split('-');
             var targetChar = parseInt(target[0]) - 1;
             var targetSkill = target[1];
-            var canTargetUse = $('.prt-member>.lis-character' + targetChar + '>.prt-ability-state>.ability' + targetSkill).attr('state') == 2;
-            var isTargetExist = $('.prt-member>.lis-character' + targetChar + '>.prt-ability-state>.ability' + targetSkill).attr('state') != 0;
+            var canTargetUse = $('.prt-member>.lis-character' + targetChar + '>.prt-ability-state>.ability' + targetSkill).attr('state') == '2';
+            var isTargetExist = $('.prt-member>.lis-character' + targetChar + '>.prt-ability-state>.ability' + targetSkill).attr('state') != '0';
             var canSourceUse = $(this).parent().attr('class').split(/\s+/)[1] == 'btn-ability-available';
             if ((canTargetUse && !canSourceUse) || (!isTargetExist && canSourceUse))
                 location.reload();
         });
         var someoneDead = false;
-        for (var i = 0; i < stage.pJsnData.player.param.length; i++)
-            if (stage.pJsnData.player.param[i].hp == 0) {
+        for (i = 0; i < stage.pJsnData.player.param.length; i++)
+            if (parseInt(stage.pJsnData.player.param[i].hp) === 0) {
                 someoneDead = true;
                 break;
             }
@@ -1010,7 +1012,7 @@ function raidSmartFighting() {
         }
         var enemyHasBuff = stage.gGameStatus.boss.param[bossEnemy].condition.buff !== undefined && stage.gGameStatus.boss.param[bossEnemy].condition.buff !== null && stage.gGameStatus.boss.param[bossEnemy].condition.buff.length > 0;
         if (enemyHasBuff) {
-            for (var i = 0; i < stage.gGameStatus.boss.param[bossEnemy].condition.buff.length; i++) {
+            for (i = 0; i < stage.gGameStatus.boss.param[bossEnemy].condition.buff.length; i++) {
                 var statusTemp = parseInt(stage.gGameStatus.boss.param[bossEnemy].condition.buff[i].status);
                 // Ignore if Enemy only has Treasure Dropup buff
                 if (stage.gGameStatus.boss.param[bossEnemy].condition.buff.length == 1 && stage.gGameStatus.boss.param[bossEnemy].condition.buff[i].status.indexOf('1036') > -1) {
@@ -1048,7 +1050,7 @@ function raidSmartFighting() {
         }
         // For Light Boss, use it only if has 1003 status
         else if (stage.gGameStatus.boss.param[bossEnemy].name.ja == 'Lv75 シュヴァリエ・マグナ' && $('.btn-ability-available>div[ability-name=ディスペル]').length > 1 && enemyHasBuff) {
-            for (var i = 0; i < stage.gGameStatus.boss.param[bossEnemy].condition.buff.length; i++) {
+            for (i = 0; i < stage.gGameStatus.boss.param[bossEnemy].condition.buff.length; i++) {
                 if (stage.gGameStatus.boss.param[bossEnemy].condition.buff[i].status == '1003') {
                     $('.btn-ability-available>div[ability-name=ディスペル]').trigger('tap');
                     setTimeout(analyzingURL, 1000);
@@ -1336,7 +1338,7 @@ function raidSmartFighting() {
             return;
         }
         // Siete's MaxMystery
-        else if ($('.btn-command-character>.prt-status>.img-ico-status-s[data-status=8029]').length && $('.btn-ability-available>div[ability-id=5128]').length > 1 && isMaxMystery('numbers') == 0) {
+        else if ($('.btn-command-character>.prt-status>.img-ico-status-s[data-status=8029]').length && $('.btn-ability-available>div[ability-id=5128]').length > 1 && isMaxMystery('numbers') === 0) {
             $('.btn-ability-available>div[ability-id=5128]').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
@@ -1384,7 +1386,7 @@ function raidSmartFighting() {
 }
 
 function usingSpecialSkill(weaknessEnemy) {
-    if (weaknessEnemy != null && weaknessEnemy != undefined)
+    if (weaknessEnemy !== null && weaknessEnemy !== undefined)
         lockEnemy(weaknessEnemy);
     var done = true;
     // Double/Triple Attack For Single
@@ -1505,11 +1507,12 @@ var reload = false;
 
 // Use summon & skill rise drop rate then attack
 function dropRateUpAttack() {
+    var i = 0;
     var canUseSkill = !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character0>.prt-status>.img-ico-status-s[data-status=1111]').length;
     var enemyHasBuff = stage.gGameStatus.boss.param[0].condition.buff !== undefined && stage.gGameStatus.boss.param[0].condition.buff !== null && stage.gGameStatus.boss.param[0].condition.buff.length > 0;
     // Detect if treasureMax
     if (enemyHasBuff)
-        for (var i = 0; i < stage.gGameStatus.boss.param[0].condition.buff.length; i++)
+        for (i = 0; i < stage.gGameStatus.boss.param[0].condition.buff.length; i++)
             if (stage.gGameStatus.boss.param[0].condition.buff[i].status.indexOf('1036_9') > -1)
                 treasureMax = true;
     // Don't attack when other action running
@@ -1524,7 +1527,7 @@ function dropRateUpAttack() {
     else {
         checkMysteryThenAttack();
         if (enemyHasBuff) {
-            for (var i = 0; i < stage.gGameStatus.boss.param[0].condition.buff.length; i++) {
+            for (i = 0; i < stage.gGameStatus.boss.param[0].condition.buff.length; i++) {
                 var statusTemp = parseInt(stage.gGameStatus.boss.param[0].condition.buff[i].status);
                 // If Light Boss has deffense up, reload after attack
                 if (statusTemp >= 1013 && statusTemp <= 1019 && stage.gGameStatus.boss.param[0].name.ja == 'Lv75 シュヴァリエ・マグナ') {
@@ -1653,7 +1656,7 @@ function cureEveryone() {
 }
 
 function masterYoda(weaknessEnemy) {
-    if (weaknessEnemy != null && weaknessEnemy != undefined)
+    if (weaknessEnemy !== null && weaknessEnemy !== undefined)
         lockEnemy(weaknessEnemy);
     if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src*="3040064000"])').length) {
         var maxMystery = isMaxMystery('3040064000');
@@ -1944,9 +1947,9 @@ function autoEvent() {
         else if ($('.prt-popup-header:contains(APが足りません)').is(':visible') && enableUsingAP)
             $('.btn-use-full.index-1').trigger('tap');
         // Ancient Battlefield - Meat [0]
-        else if (eventTargetCode == 0 && $('.prt-popup-header:contains(古戦場の魔物に挑戦)').is(':visible'))
+        else if (eventTargetCode === 0 && $('.prt-popup-header:contains(古戦場の魔物に挑戦)').is(':visible'))
             $('.btn-multi-battle.ico-clear:last').trigger('tap');
-        else if (eventTargetCode == 0 && $('#enemy_1').length && canEnter)
+        else if (eventTargetCode === 0 && $('#enemy_1').length && canEnter)
             $('#enemy_1').trigger('tap');
         // Ancient Battlefield - Boss [1]
         else if (eventTargetCode == 1 && $('.btn-offer:last').is(':visible'))
