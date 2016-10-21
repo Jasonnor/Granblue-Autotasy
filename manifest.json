@@ -1,33 +1,34 @@
 {
-	"manifest_version": 2,
-	"name": "Granblue Autotasy",
-	"description": "Granblue Fantasy Automation Toolkit",
-	"version": "1.6.6",
-	"icons": {
-		"16": "src/icon/icon16.png",
-		"48": "src/icon/icon48.png",
-		"128": "src/icon/icon128.png"
-	},
-	"browser_action": {
-		"default_icon": "src/icon/on.png"
-	},
-	"content_scripts": [{
-		"matches": ["*://gbf.game.mbga.jp/*", "*://game.granbluefantasy.jp/*"],
-		"js": ["js/jquery-2.2.0.min.js", "js/auto.js"]
-	}],
-	"web_accessible_resources": [
-		"js/main.js",
-		"src/alert_minions.mp3"
-	],
-	"background": {
-		"scripts": ["js/background.js"],
-		"persistent": false
-	},
-	"options_page": "options.html",
-	"permissions": [
-		"tabs",
-		"activeTab",
-		"storage",
-		"contextMenus"
-	]
+    "manifest_version": 2,
+    "name": "Granblue Autotasy",
+    "description": "Granblue Fantasy Automation Toolkit",
+    "version": "1.6.7",
+    "icons": {
+        "16": "src/icon/icon16.png",
+        "48": "src/icon/icon48.png",
+        "128": "src/icon/icon128.png"
+    },
+    "browser_action": {
+        "default_icon": "src/icon/on.png"
+    },
+    "content_scripts": [{
+            "matches": ["*://gbf.game.mbga.jp/*", "*://game.granbluefantasy.jp/*"],
+            "js": ["js/jquery-2.2.0.min.js", "js/auto.js"]
+        }
+    ],
+    "web_accessible_resources": [
+        "js/main.js",
+        "src/alert_minions.mp3"
+    ],
+    "background": {
+        "scripts": ["js/background.js"],
+        "persistent": false
+    },
+    "options_page": "options.html",
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "storage",
+        "contextMenus"
+    ]
 }
