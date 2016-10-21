@@ -18,6 +18,13 @@
     analyzingURL();
 })();
 
+// Promise version set-timeout
+function sleep(time) {
+    return new Promise(resolve => {
+        setTimeout(resolve, time)
+    })
+}
+
 // Save console error message
 (function (console) {
     console.save = function (data, filename) {
@@ -316,45 +323,35 @@ function coopraid() {
 function offer() {
     stageMsg('==Offer Stage==');
     if ($('.prt-wanted-list>div').length) {
-        setTimeout(offerFind, 800);
+        sleep(800).then(() => {
+            // Avoid entering bad room
+            var $room = $('.txt-room-comment:not(:contains(募)):not(:contains(BOT)):not(:contains(ＢＯＴ)):not(:contains(禁)):not(:contains(初心)):not(:contains(順)):not(:contains(貼)):not(:contains(相互)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-1)');
+            var $room2 = $('.txt-room-comment:not(:contains(募)):not(:contains(BOT)):not(:contains(ＢＯＴ)):not(:contains(禁)):not(:contains(初心)):not(:contains(順)):not(:contains(貼)):not(:contains(相互)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-6)');
+            if ($room.length)
+                $room.trigger('tap');
+            else if ($room2.length)
+                $room2.trigger('tap');
+            return sleep(500);
+        }).then(() => {
+            if ($('.btn-usual-join').length)
+                $('.btn-usual-join').trigger('tap');
+            return sleep(500);
+        }).then(() => {
+            if ($('.btn-usual-ok').length)
+                $('.btn-usual-ok').trigger('tap');
+            return sleep(500);
+        }).then(() => {
+            if ($('.btn-refresh-list').length)
+                $('.btn-refresh-list').trigger('tap');
+            return sleep(500);
+        }).then(() => {
+            if ($('.btn-usual-cancel').length)
+                $('.btn-usual-cancel').trigger('tap');
+            setTimeout(analyzingURL, 500);
+        });
         return;
     }
     setTimeout(analyzingURL, 1000);
-}
-
-function offerFind() {
-    // Avoid entering bad room
-    var $room = $('.txt-room-comment:not(:contains(募)):not(:contains(BOT)):not(:contains(ＢＯＴ)):not(:contains(禁)):not(:contains(初心)):not(:contains(順)):not(:contains(貼)):not(:contains(相互)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-1)');
-    var $room2 = $('.txt-room-comment:not(:contains(募)):not(:contains(BOT)):not(:contains(ＢＯＴ)):not(:contains(禁)):not(:contains(初心)):not(:contains(順)):not(:contains(貼)):not(:contains(相互)):not(:contains(待機)):not(:contains(放置)):not(:contains(隔離)):not(:contains(ツーラー)):not(:contains(ツ-ラ-)):not(:contains(監禁)):not(:contains(スライム)):not(:contains(爆))+.prt-room-info>.prt-room-detail>.prt-base-data:has(.prt-invite-type-6)');
-    if ($room.length)
-        $room.trigger('tap');
-    else if ($room2.length)
-        $room2.trigger('tap');
-    setTimeout(offerJoin, 500);
-}
-
-function offerJoin() {
-    if ($('.btn-usual-join').length)
-        $('.btn-usual-join').trigger('tap');
-    setTimeout(offerOK, 500);
-}
-
-function offerOK() {
-    if ($('.btn-usual-ok').length)
-        $('.btn-usual-ok').trigger('tap');
-    setTimeout(offerRefresh, 500);
-}
-
-function offerRefresh() {
-    if ($('.btn-refresh-list').length)
-        $('.btn-refresh-list').trigger('tap');
-    setTimeout(offerCancel, 500);
-}
-
-function offerCancel() {
-    if ($('.btn-usual-cancel').length)
-        $('.btn-usual-cancel').trigger('tap');
-    setTimeout(analyzingURL, 500);
 }
 
 function room() {
@@ -396,16 +393,16 @@ function leaveRoom() {
         $('.btn-close-room').trigger('tap');
     else if ($('.btn-leave-room').length)
         $('.btn-leave-room').trigger('tap');
-    setTimeout(function () {
+    sleep(500).then(() => {
         if ($('.btn-close').length)
             $('.btn-close').trigger('tap');
         else if ($('.btn-leave').length)
             $('.btn-leave').trigger('tap');
-        setTimeout(function () {
-            if ($('.btn-usual-close').length)
-                $('.btn-usual-close').trigger('tap');
-        }, 500);
-    }, 500);
+        return sleep(500);
+    }).then(() => {
+        if ($('.btn-usual-close').length)
+            $('.btn-usual-close').trigger('tap');
+    });
 }
 
 function sendRoomStamp(state) {
@@ -1042,7 +1039,6 @@ function raidSmartFighting() {
             useSkill = true;
         } else if ($('.summon-on').length && enemyHpNow > 2000000) {
             summonByCode('all');
-            setTimeout(analyzingURL, 1000);
             return;
         } else if (!cureEveryone()) {
             setTimeout(analyzingURL, 1000);
@@ -1458,16 +1454,23 @@ function summonByCode(code) {
     var parameter = (code == 'all') ? '' : '[summon-code=' + code + ']';
     if (!$('.prt-command-summon.summon-show').length)
         $('.summon-on').trigger('tap');
-    setTimeout(function () {
+    sleep(500).then(() => {
         if (!$('.prt-popup-header:contains(星晶獣情報)').is(':visible'))
             $('.btn-summon-available' + parameter).trigger('tap');
-        setTimeout(function () {
-            if ($('.btn-usual-ok.btn-summon-use').length)
-                $('.btn-usual-ok.btn-summon-use').trigger('tap');
-            if ($('.btn-usual-cancel').length)
-                $('.btn-usual-cancel').trigger('tap');
-        }, 500);
-    }, 500);
+        return sleep(500);
+    }).then(() => {
+        if ($('.btn-usual-ok.btn-summon-use').length)
+            $('.btn-usual-ok.btn-summon-use').trigger('tap');
+        return sleep(500);
+    }).then(() => {
+        if ($('.btn-usual-cancel').length)
+            $('.btn-usual-cancel').trigger('tap');
+        return sleep(500);
+    }).then(() => {
+        if ($('.btn-command-back.display-on').length)
+            $('.btn-command-back.display-on').trigger('tap');
+        setTimeout(analyzingURL, 500);
+    });
 }
 
 function checkMysteryThenAttack() {
@@ -1494,10 +1497,14 @@ function dropRateUpAttack() {
     // Don't attack when other action running
     if (stage.gGameStatus.attacking == 1)
         console.log('Other action running ... ');
-    else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2030026000]').length)
+    else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2030026000]').length) {
         summonByCode('2030026000');
-    else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2040025000]').length)
+        return;
+    }
+    else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2040025000]').length) {
         summonByCode('2040025000');
+        return;
+    }
     else if ($('.btn-ability-available>div[text-data*=アイテムドロップ]').length > 1 && canUseSkill && !treasureMax)
         $('.btn-ability-available>div[text-data*=アイテムドロップ]').trigger('tap');
     else {
@@ -1735,11 +1742,9 @@ function raid() {
             return;
         } else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2030026000]').length) {
             summonByCode('2030026000');
-            setTimeout(analyzingURL, 1000);
             return;
         } else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2040025000]').length) {
             summonByCode('2040025000');
-            setTimeout(analyzingURL, 1000);
             return;
         } else if ($('.btn-ability-available>div[text-data*=アイテムドロップ]').length > 1) {
             $('.btn-ability-available>div[text-data*=アイテムドロップ]').trigger('tap');
@@ -1765,7 +1770,6 @@ function raid() {
             }
     if (enemyTotal >= 600000 && $('.summon-on').length) {
         summonByCode('all');
-        setTimeout(analyzingURL, 1000);
         return;
     }
     if (enemyTotal >= 600000 && $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
@@ -1843,17 +1847,17 @@ function exchange() {
     }
     if ($('.btn-exchange').length)
         $('.btn-exchange').trigger('tap');
-    setTimeout(function () {
+    sleep(500).then(() => {
         if ($('.num-set').length) {
             $('.num-set').val($('.num-set>option:last-child').val());
             $('.num-set').trigger('change');
         }
-        setTimeout(function () {
-            if ($('.btn-usual-text.exchange').length)
-                $('.btn-usual-text.exchange').trigger('tap');
-            setTimeout(analyzingURL, 100);
-        }, 300);
-    }, 500);
+        return sleep(300);
+    }).then(() => {
+        if ($('.btn-usual-text.exchange').length)
+            $('.btn-usual-text.exchange').trigger('tap');
+        setTimeout(analyzingURL, 100);
+    });
 }
 
 function unclaimed() {
