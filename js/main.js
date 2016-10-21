@@ -22,6 +22,13 @@
     };
     assistLink.innerHTML = 'Assist';
     quickMenu.appendChild(assistLink);
+    var casinoLink = document.createElement('div');
+    casinoLink.className = 'btn-sub-casino';
+    casinoLink.onclick = function () {
+        location.hash = "#casino/exchange";
+    };
+    casinoLink.innerHTML = 'Casino';
+    quickMenu.appendChild(casinoLink);
     // Create stop script button
     var stopBtn = document.createElement('li');
     stopBtn.className = 'BH29UqMRA7nnSLfpZ1Yxk';
@@ -1865,8 +1872,8 @@ function exchange() {
         $('.frm-list-select').val(1);
         $('.frm-list-select').trigger('change');
     }
-    if ($('.btn-exchange').length)
-        $('.btn-exchange').trigger('tap');
+    if ($('.lis-item:has(.prt-item-name>div:not(:contains(鋼)):not(:contains(晶)):not(:contains(デビルエレメント)))>div>.btn-exchange').length)
+        $('.lis-item:has(.prt-item-name>div:not(:contains(鋼)):not(:contains(晶)):not(:contains(デビルエレメント)))>div>.btn-exchange').trigger('tap');
     sleep(500).then(() => {
         if ($('.num-set').length) {
             $('.num-set').val($('.num-set>option:last-child').val());
