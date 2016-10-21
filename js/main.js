@@ -800,8 +800,8 @@ function raidMulti() {
             } else if (!masterYoda()) {
                 setTimeout(analyzingURL, 1000);
                 return;
-            } else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
-                $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
+            } else if ($('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
+                $('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
                 setTimeout(analyzingURL, 1000);
                 return;
             }
@@ -838,8 +838,8 @@ function raidMulti() {
             } else if (!masterYoda()) {
                 setTimeout(analyzingURL, 1000);
                 return;
-            } else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
-                $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
+            } else if ($('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
+                $('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
                 setTimeout(analyzingURL, 1000);
                 return;
             }
@@ -945,17 +945,6 @@ function raidSmartFighting() {
             setTimeout(analyzingURL, 1000);
             return;
         }
-        // Check if skill is not ready and reload
-        $('#mkt_ability_use_bar>.prt-ability-list>.lis-ability>div:first-child').each(function () {
-            var target = $(this).attr('class').split(/\s+/)[1].replace('ability-character-num-', '').split('-');
-            var targetChar = parseInt(target[0]) - 1;
-            var targetSkill = target[1];
-            var canTargetUse = $('.prt-member>.lis-character' + targetChar + '>.prt-ability-state>.ability' + targetSkill).attr('state') == '2';
-            var isTargetExist = $('.prt-member>.lis-character' + targetChar + '>.prt-ability-state>.ability' + targetSkill).attr('state') != '0';
-            var canSourceUse = $(this).parent().attr('class').split(/\s+/)[1] == 'btn-ability-available';
-            if ((canTargetUse && !canSourceUse) || (!isTargetExist && canSourceUse))
-                location.reload();
-        });
         var someoneDead = false;
         for (i = 0; i < stage.pJsnData.player.param.length; i++)
             if (parseInt(stage.pJsnData.player.param[i].hp) === 0) {
@@ -1098,30 +1087,30 @@ function raidSmartFighting() {
          ** Gran(ディスペル-4, アイテムドロップ-4)
          ** Darkfencer(1201-1, 1500-4) */
         // Yellow Skills
-        else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030]):not([ability-id=5128]):not([ability-id=164])').length) {
-            $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030]):not([ability-id=5128]):not([ability-id=164])').trigger('tap');
+        else if ($('.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030]):not([ability-id=5128]):not([ability-id=164])').length) {
+            $('.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030]):not([ability-id=5128]):not([ability-id=164])').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
         // Green Skills
-        else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([text-data*=全体のHP]):not([text-data*=参戦者のHP]):not([text-data*=復活]):not([text-data*=弱体効果を1つ回復]):not([ability-id=555])').length) {
-            $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2]:not([text-data*=全体のHP]):not([text-data*=参戦者のHP]):not([text-data*=復活]):not([text-data*=弱体効果を1つ回復]):not([ability-id=555])').trigger('tap');
+        else if ($('.btn-ability-available>div:nth-child(1)[icon-type=2]:not([text-data*=全体のHP]):not([text-data*=参戦者のHP]):not([text-data*=復活]):not([text-data*=弱体効果を1つ回復]):not([ability-id=555])').length) {
+            $('.btn-ability-available>div:nth-child(1)[icon-type=2]:not([text-data*=全体のHP]):not([text-data*=参戦者のHP]):not([text-data*=復活]):not([text-data*=弱体効果を1つ回復]):not([ability-id=555])').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
         // Blue Skills
-        else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([ability-name=ディスペル]):not([text-data*=アイテムドロップ]):not([ability-id=1961]):not([ability-id=1500]):not([ability-id=2328])').length) {
-            $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=4]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([ability-name=ディスペル]):not([text-data*=アイテムドロップ]):not([ability-id=1961]):not([ability-id=1500]):not([ability-id=2328])').trigger('tap');
+        else if ($('.btn-ability-available>div:nth-child(1)[icon-type=4]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([ability-name=ディスペル]):not([text-data*=アイテムドロップ]):not([ability-id=1961]):not([ability-id=1500]):not([ability-id=2328])').length) {
+            $('.btn-ability-available>div:nth-child(1)[icon-type=4]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([ability-name=ディスペル]):not([text-data*=アイテムドロップ]):not([ability-id=1961]):not([ability-id=1500]):not([ability-id=2328])').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
         // Red Skills
-        else if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([text-data*=スロウ]):not([ability-id=2172])').length) {
+        else if ($('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([text-data*=スロウ]):not([ability-id=2172])').length) {
             if (!lockEnemy(weaknessEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
             }
-            $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([text-data*=スロウ]):not([ability-id=2172])').trigger('tap');
+            $('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([text-data*=スロウ]):not([ability-id=2172])').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
@@ -1351,8 +1340,8 @@ function raidSmartFighting() {
         }
         if (enemyHpNow > 1000000) {
             var canUseSkill = !$('.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.prt-status>.img-ico-status-s[data-status=1111]').length;
-            if ($('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length && canUseSkill) {
-                $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
+            if ($('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length && canUseSkill) {
+                $('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
                 setTimeout(analyzingURL, 1000);
                 return;
             }
@@ -1366,7 +1355,7 @@ function usingSpecialSkill(weaknessEnemy) {
         lockEnemy(weaknessEnemy);
     var done = true;
     // Double/Triple Attack For Single
-    $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div').filter(function () {
+    $('.btn-ability-available>div').filter(function () {
         if ($(this).attr('text-data'))
             return $(this).attr('text-data').match(/^(自分|効果中|次の攻撃)*((?!全体).)*(アタック|連続攻撃)+/g);
     }).each(function () {
@@ -1380,7 +1369,7 @@ function usingSpecialSkill(weaknessEnemy) {
     });
     // Mystery Rise For Single
     if (done) {
-        $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div').filter(function () {
+        $('.btn-ability-available>div').filter(function () {
             if ($(this).attr('text-data'))
                 return $(this).attr('text-data').match(/^((?!味方全体).)*(奥義ゲージ)+((?!消費|変換).)*$/);
         }).each(function () {
@@ -1504,12 +1493,10 @@ function dropRateUpAttack() {
     else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2030026000]').length) {
         summonByCode('2030026000');
         return;
-    }
-    else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2040025000]').length) {
+    } else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2040025000]').length) {
         summonByCode('2040025000');
         return;
-    }
-    else if ($skillContainText('アイテムドロップ').length > 1 && canUseSkill && !treasureMax)
+    } else if ($skillContainText('アイテムドロップ').length > 1 && canUseSkill && !treasureMax)
         $skillContainText('アイテムドロップ').trigger('tap');
     else {
         checkMysteryThenAttack();
@@ -1567,8 +1554,8 @@ function cureEveryone() {
     if (hp4 <= 40 && hp4 !== 0)
         cureIndex++;
 
-    var $undebuffSkill = $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2][text-data*=弱体効果を1つ回復]');
-    var $healingSkill = $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2][text-data*=全体のHP], #mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=2][text-data*=参戦者のHP]');
+    var $undebuffSkill = $('.btn-ability-available>div:nth-child(1)[icon-type=2][text-data*=弱体効果を1つ回復]');
+    var $healingSkill = $('.btn-ability-available>div:nth-child(1)[icon-type=2][text-data*=全体のHP], .btn-ability-available>div:nth-child(1)[icon-type=2][text-data*=参戦者のHP]');
     // undebuffSkill
     if (cureIndex > 3 && $undebuffSkill.length && $('.prt-status>.img-ico-status-s[data-status=1033],.prt-status>.img-ico-status-s[data-status=1012]').length > 2 && ($healingSkill.length || largeSolution > 0)) {
         $undebuffSkill.trigger('tap');
@@ -1724,20 +1711,22 @@ function raid() {
         setTimeout(analyzingURL, 1000);
         return;
     }
-    /* For Street Fighter
-    if ($('.prt-popup-header:contains(バトルサービス)').is(':visible') && !$('.btn-battle-service.disable').length) {
-    var score = parseInt($('.txt-point-before').html());
-    if (score < 560)
-    $('.txt-service-name:contains(サービスを受けない)').trigger('tap');
-    else
-    $('.txt-service-name:contains(スコアチャンス)').trigger('tap');
-    setTimeout(analyzingURL, 1000);
-    return;
-    } else if ($('.prt-popup-header:contains(バトルサービス)').is(':visible') && $('.btn-battle-service.disable').length) {
-    $('.btn-usual-ok').trigger('tap');
-    setTimeout(analyzingURL, 1000);
-    return;
-    }*/
+    var isStreetFighter = $('.txt-battle.round').length || $('.txt-battle.stage').length;
+    if (isStreetFighter) {
+        if ($('.prt-popup-header:contains(バトルサービス)').is(':visible') && !$('.btn-battle-service.disable').length) {
+            var score = parseInt($('.txt-point-before').html());
+            if (score < 560)
+                $('.txt-service-name:contains(サービスを受けない)').trigger('tap');
+            else
+                $('.txt-service-name:contains(スコアチャンス)').trigger('tap');
+            setTimeout(analyzingURL, 1000);
+            return;
+        } else if ($('.prt-popup-header:contains(バトルサービス)').is(':visible') && $('.btn-battle-service.disable').length) {
+            $('.btn-usual-ok').trigger('tap');
+            setTimeout(analyzingURL, 1000);
+            return;
+        }
+    }
     var isRabbit = stage.pJsnData.boss.param.length == 3 && stage.pJsnData.boss.param[2].name.ja == 'Lv12 ホワイトラビット' && stage.pJsnData.boss.param[2].hp != '0';
     if (isRabbit) {
         if (!$('.btn-targeting.enemy-3.lock-on').is(':visible') || $('.btn-targeting.enemy-3.invisible').length) {
@@ -1760,24 +1749,26 @@ function raid() {
     var enemyTotal = 0;
     for (i = 0; i < stage.gGameStatus.boss.param.length; i++)
         enemyTotal += parseInt(stage.gGameStatus.boss.param[i].hpmax);
-    if (enemyTotal >= 1500000 || $('.txt-battle.round').length || $('.txt-battle.stage').length) {
+    if (enemyTotal >= 1500000 || isStreetFighter) {
         raidSmartFighting();
         return;
-    } else if (enemyTotal >= 1000000)
+    } else if (enemyTotal >= 1000000) {
         if (!masterYoda()) {
             setTimeout(analyzingURL, 1000);
             return;
-        } else if (enemyTotal >= 800000)
-            if (!simpleMasterYoda()) {
-                setTimeout(analyzingURL, 1000);
-                return;
-            }
+        }
+    } else if (enemyTotal >= 800000) {
+        if (!simpleMasterYoda()) {
+            setTimeout(analyzingURL, 1000);
+            return;
+        }
+    }
     if (enemyTotal >= 600000 && $('.summon-on').length) {
         summonByCode('all');
         return;
     }
-    if (enemyTotal >= 600000 && $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
-        $('#mkt_ability_use_bar>.prt-ability-list>.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
+    if (enemyTotal >= 600000 && $('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
+        $('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
         setTimeout(analyzingURL, 1000);
         return;
     }
