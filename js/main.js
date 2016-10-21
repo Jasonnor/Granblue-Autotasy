@@ -10,6 +10,15 @@
         console.log('Alert: ' + msg);
         location.reload();
     };
+    // Create quick-action menu
+    var quickMenu = document.createElement('div');
+    quickMenu.id = 'cnt-submenu-navi';
+    $('#cnt-submenu-navi').after(quickMenu);
+    var assistLink = document.createElement('div');
+    assistLink.className = 'btn-sub-assist';
+    assistLink.onclick = function(){location.hash="#quest/assist"};
+    assistLink.innerHTML = 'Assist';
+    quickMenu.appendChild(assistLink);
     // Create stop script button
     var stopBtn = document.createElement('li');
     stopBtn.className = 'BH29UqMRA7nnSLfpZ1Yxk';
@@ -476,7 +485,7 @@ function supporter() {
             break;
         }
     } else {
-        isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/500171/i.test(location.hash) || /supporter\/500731/i.test(location.hash) || /supporter\/500741/i.test(location.hash) || /supporter\/710351/i.test(location.hash) || /supporter\/710361/i.test(location.hash) || /supporter\/710501/i.test(location.hash) || /supporter\/710511/i.test(location.hash) || /supporter\/711041/i.test(location.hash) || /supporter\/711051/i.test(location.hash) || /supporter\/712101/i.test(location.hash) || /supporter\/712111/i.test(location.hash) || /supporter\/500621/i.test(location.hash);
+        isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/500171/i.test(location.hash) || /supporter\/500731/i.test(location.hash) || /supporter\/500741/i.test(location.hash) || /supporter\/710351/i.test(location.hash) || /supporter\/710361/i.test(location.hash) || /supporter\/710501/i.test(location.hash) || /supporter\/710511/i.test(location.hash) || /supporter\/711041/i.test(location.hash) || /supporter\/711051/i.test(location.hash) || /supporter\/712101/i.test(location.hash) || /supporter\/712111/i.test(location.hash) || /supporter\/500621/i.test(location.hash) || /supporter\/714641/i.test(location.hash);
 
         isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || /supporter\/708651/i.test(location.hash) || /supporter\/709951/i.test(location.hash) || /supporter\/709971/i.test(location.hash) || /supporter\/709571/i.test(location.hash) || /supporter\/709591/i.test(location.hash) || /supporter\/709361/i.test(location.hash) || /supporter\/710091/i.test(location.hash) || /supporter\/711141/i.test(location.hash) || /supporter\/711151/i.test(location.hash) || /supporter\/500631/i.test(location.hash) || /supporter\/712301/i.test(location.hash) || /supporter\/712311/i.test(location.hash);
 
@@ -913,7 +922,8 @@ function raidSmartFighting() {
             break;
         }
     }
-    if (enemyHpNow > 1200000 || (($('.txt-battle.round').length || $('.txt-battle.stage').length) && enemyHpNow > 150000)) {
+    var isStreetFighter = $('.txt-battle.round').length || $('.txt-battle.stage').length;
+    if (enemyHpNow > 1200000 || (isStreetFighter && enemyHpNow > 150000)) {
         // Send stamp to get large-solution
         if ($('.btn-chat:not(.comment)>.ico-attention').is(':visible') && /raid_multi/i.test(location.hash)) {
             $('.btn-chat:not(.comment)>.ico-attention').trigger('tap');
@@ -926,7 +936,7 @@ function raidSmartFighting() {
             }, 1000);
             return;
         }
-        var enemyHpPercent = parseInt(stage.gGameStatus.boss.param[0].hp) / parseInt(stage.gGameStatus.boss.param[0].hpmax);
+        var enemyHpPercent = parseInt(stage.gGameStatus.boss.param[bossEnemy].hp) / parseInt(stage.gGameStatus.boss.param[bossEnemy].hpmax);
         var bossName = stage.gGameStatus.boss.param[bossEnemy].name.ja;
         var assistBlackList = bossName == 'Lv60 朱雀' || bossName == 'Lv75 ティラノス' || bossName == 'Lv75 ビザールビースト' || bossName == 'Lv75 エメラルドホーン' || enemyHpNow < 7000000;
         // If enemy's HP is lower than 50% and is MVP or all dead and only one player, send assist
@@ -951,7 +961,7 @@ function raidSmartFighting() {
                 someoneDead = true;
                 break;
             }
-        if (someoneDead && $skillContainText('復活').length > 1) {
+        if (someoneDead && $skillContainText('復活').length) {
             $skillContainText('復活').trigger('tap');
             if ($('.effect:contains(復活)').is(':visible') && $('.prt-character>.btn-command-character:not(.mask-black)').length)
                 $('.prt-character>.btn-command-character:not(.mask-black)').trigger('tap');
@@ -959,7 +969,7 @@ function raidSmartFighting() {
             return;
         }
         // Petra's Phantom
-        if ($skillContainText('味方単体に幻影効果').length > 1) {
+        if ($skillContainText('味方単体に幻影効果').length) {
             $skillContainText('味方単体に幻影効果').trigger('tap');
             if ($('.effect:contains(味方単体に幻影効果)').is(':visible') && $('.prt-character>.btn-command-character:not(.mask-black):has(img[src*=3040036000])').length)
                 $('.prt-character>.btn-command-character:not(.mask-black):has(img[src*=3040036000])').trigger('tap');
@@ -1004,7 +1014,7 @@ function raidSmartFighting() {
             setTimeout(dropRateUpAttack, 1000);
         }
         // Gran's Buff Eliminate
-        if (stage.gGameStatus.boss.param[bossEnemy].name.ja != 'Lv75 シュヴァリエ・マグナ' && $('.btn-ability-available>div[ability-name=ディスペル]').length > 1 && enemyHasBuff) {
+        if (stage.gGameStatus.boss.param[bossEnemy].name.ja != 'Lv75 シュヴァリエ・マグナ' && $('.btn-ability-available>div[ability-name=ディスペル]').length && enemyHasBuff) {
             if (!lockEnemy(bossEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
@@ -1015,7 +1025,7 @@ function raidSmartFighting() {
             return;
         }
         // For Light Boss, use it only if has 1003 status
-        else if (stage.gGameStatus.boss.param[bossEnemy].name.ja == 'Lv75 シュヴァリエ・マグナ' && $('.btn-ability-available>div[ability-name=ディスペル]').length > 1 && enemyHasBuff) {
+        else if (stage.gGameStatus.boss.param[bossEnemy].name.ja == 'Lv75 シュヴァリエ・マグナ' && $('.btn-ability-available>div[ability-name=ディスペル]').length && enemyHasBuff) {
             for (i = 0; i < stage.gGameStatus.boss.param[bossEnemy].condition.buff.length; i++) {
                 if (stage.gGameStatus.boss.param[bossEnemy].condition.buff[i].status == '1003') {
                     $('.btn-ability-available>div[ability-name=ディスペル]').trigger('tap');
@@ -1041,7 +1051,7 @@ function raidSmartFighting() {
             return;
         }
         // Kurarisu's Atomic Resolution
-        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040046000"])').length && $('.btn-ability-available>div[ability-id=2300]').length > 1) {
+        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040046000"])').length && $('.btn-ability-available>div[ability-id=2300]').length) {
             if (!lockEnemy(bossEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
@@ -1051,13 +1061,13 @@ function raidSmartFighting() {
             return;
         }
         // Magisa's Summon Devil Buff
-        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length && $('.btn-ability-available>div[ability-id=510]').length > 1) {
+        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && !$('.btn-command-character>.prt-status>.img-ico-status-s[data-status=1370]').length && $('.btn-ability-available>div[ability-id=510]').length) {
             $('.btn-ability-available>div[ability-id=510]').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
         // Magisa's Summon Devil Attack
-        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && $('.btn-ability-available>div[ability-id=510]').length > 1 && stage.gGameStatus.boss.param[bossEnemy].hp < 1200000 && stage.gGameStatus.turn > 5) {
+        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && $('.btn-ability-available>div[ability-id=510]').length && stage.gGameStatus.boss.param[bossEnemy].hp < 1200000 && stage.gGameStatus.turn > 5) {
             if (!lockEnemy(weaknessEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
@@ -1084,11 +1094,12 @@ function raidSmartFighting() {
          ** Ninja(7030-3)
          ** Siete(5128-3)
          ** Aruberu(164-3)
+         ** Sawsis(3149-3)
          ** Gran(ディスペル-4, アイテムドロップ-4)
          ** Darkfencer(1201-1, 1500-4) */
         // Yellow Skills
-        else if ($('.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030]):not([ability-id=5128]):not([ability-id=164])').length) {
-            $('.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030]):not([ability-id=5128]):not([ability-id=164])').trigger('tap');
+        else if ($('.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030]):not([ability-id=5128]):not([ability-id=164]):not([ability-id=3149])').length) {
+            $('.btn-ability-available>div:nth-child(1)[icon-type=3]:not([text-data*=ブレイク]):not([text-data*=オーバードライブ]):not([text-data*=モードゲージ]):not([text-data*=連続攻撃]):not([text-data*=アタック]):not([text-data*=奥義ゲージ]):not([ability-id=3173]):not([ability-id=510]):not([ability-id=352]):not([ability-id=294]):not([ability-id=579]):not([ability-id=580]):not([ability-id=575]):not([ability-id=7030]):not([ability-id=5128]):not([ability-id=164]):not([ability-id=3149])').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
@@ -1119,8 +1130,14 @@ function raidSmartFighting() {
             setTimeout(analyzingURL, 1000);
             return;
         }
+        // Sawsis's dodge
+        else if ($('.btn-ability-available>div[ability-id=3149]').length && parseInt($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040079000"])>.prt-percent>span').html()) > 25) {
+            $('.btn-ability-available>div[ability-id=3149]').trigger('tap');
+            setTimeout(analyzingURL, 1000);
+            return;
+        }
         // Rakamu's shoot (Shoot it anyway if is Dark Boss)
-        else if ($('.btn-ability-available>div[ability-id=2461]').length > 1 && (!isMaxMystery('3040059000') || stage.gGameStatus.boss.param[bossEnemy].name.ja == 'Lv75 セレスト・マグナ')) {
+        else if ($('.btn-ability-available>div[ability-id=2461]').length && (!isMaxMystery('3040059000') || stage.gGameStatus.boss.param[bossEnemy].name.ja == 'Lv75 セレスト・マグナ')) {
             if (!lockEnemy(weaknessEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
@@ -1130,7 +1147,7 @@ function raidSmartFighting() {
             return;
         }
         // Magisa's Summon Devil Attack For Dying
-        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && parseInt($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])>.prt-gauge-hp>div').attr('style').replace('width: ', '').replace('%;', '')) <= 10 && $('.btn-ability-available>div[ability-id=510]').length > 1) {
+        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && parseInt($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])>.prt-gauge-hp>div').attr('style').replace('width: ', '').replace('%;', '')) <= 10 && $('.btn-ability-available>div[ability-id=510]').length) {
             if (!lockEnemy(weaknessEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
@@ -1140,7 +1157,7 @@ function raidSmartFighting() {
             return;
         }
         // OverDrive attack & effect
-        else if ($skillContainText('オーバードライブ').length > 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] == 2) {
+        else if ($skillContainText('オーバードライブ').length && stage.gGameStatus.bossmode.looks.mode[bossEnemy] == 2) {
             if (!lockEnemy(bossEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
@@ -1155,7 +1172,7 @@ function raidSmartFighting() {
                 if ($(this).attr('text-data'))
                     return $(this)
                         .attr('text-data').match(/^((?!ブレイク).)*モードゲージ.*$/);
-                }).length > 1) {
+                }).length) {
                 if (!lockEnemy(bossEnemy)) {
                     setTimeout(analyzingURL, 200);
                     return;
@@ -1168,7 +1185,7 @@ function raidSmartFighting() {
                 return;
             }
         // Break
-        else if ($skillContainText('ブレイク').length > 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] == 3) {
+        else if ($skillContainText('ブレイク').length && stage.gGameStatus.bossmode.looks.mode[bossEnemy] == 3) {
             if (!lockEnemy(bossEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
@@ -1178,7 +1195,7 @@ function raidSmartFighting() {
             return;
         }
         // Rashid's V-type
-        else if (parseInt($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030126000"])>.prt-percent>span').html()) > 50 && $('.btn-ability-available>div[ability-id=2328]').length > 1) {
+        else if (parseInt($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3030126000"])>.prt-percent>span').html()) > 50 && $('.btn-ability-available>div[ability-id=2328]').length) {
             if (!lockEnemy(bossEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
@@ -1188,7 +1205,7 @@ function raidSmartFighting() {
             return;
         }
         // Ninja's Ninjutsu
-        else if (!isMaxMystery('210201_') && $('.btn-ability-available>div[ability-id=7030]').length > 1) {
+        else if (!isMaxMystery('210201_') && $('.btn-ability-available>div[ability-id=7030]').length) {
             if (!$('.name:contains(忍術)').is(':visible'))
                 $('.btn-ability-available>div[ability-id=7030]').trigger('tap');
             else if (!$('.ico-ninja-mark1.active').length)
@@ -1206,7 +1223,7 @@ function raidSmartFighting() {
                 if ($(this).attr('text-data'))
                     return $(this)
                         .attr('text-data').match(/(全体の|全員)+((?!自分).)*(アタック|連続攻撃)+/g);
-                }).length > 1) {
+                }).length) {
                 $('.btn-ability-available>div').filter(function () {
                     if ($(this).attr('text-data'))
                         return $(this).attr('text-data').match(/(全体の|全員)+((?!自分).)*(アタック|連続攻撃)+/g);
@@ -1220,7 +1237,7 @@ function raidSmartFighting() {
                 if ($(this).attr('text-data'))
                     return $(this)
                         .attr('text-data').match(/味方全体((?!HP|自分).)*(奥義ゲージ)+/g);
-                }).length > 1) {
+                }).length) {
                 $('.btn-ability-available>div').filter(function () {
                     if ($(this).attr('text-data'))
                         return $(this).attr('text-data').match(/味方全体((?!HP|自分).)*(奥義ゲージ)+/g);
@@ -1229,7 +1246,7 @@ function raidSmartFighting() {
                 return;
             }
         // Slow Attack
-        else if ($skillContainText('スロウ').length > 1 && stage.pJsnData.boss.param[bossEnemy].recast < stage.pJsnData.boss.param[bossEnemy].recastmax) {
+        else if ($skillContainText('スロウ').length && stage.pJsnData.boss.param[bossEnemy].recast < stage.pJsnData.boss.param[bossEnemy].recastmax) {
             if (!lockEnemy(bossEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
@@ -1239,7 +1256,7 @@ function raidSmartFighting() {
             return;
         }
         // DarkFencer's Gravity
-        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-id=1500]').length > 1) {
+        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="150101_sw_"])').length && $('.btn-ability-available>div[ability-id=1500]').length) {
             if (!lockEnemy(bossEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
@@ -1254,7 +1271,7 @@ function raidSmartFighting() {
                 if ($(this).attr('text-data'))
                     return $(this)
                         .attr('text-data').match(/オーバードライブ.*ダメージ/g);
-                }).length > 1) {
+                }).length) {
                 if (!lockEnemy(bossEnemy)) {
                     setTimeout(analyzingURL, 200);
                     return;
@@ -1267,55 +1284,55 @@ function raidSmartFighting() {
                 return;
             }
         // Sara's Protect
-        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000"])').length && $('.btn-ability-available>div[ability-id=352]').length > 1 && stage.pJsnData.boss.param[bossEnemy].recast == 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] != 3) {
+        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000"])').length && $('.btn-ability-available>div[ability-id=352]').length && stage.pJsnData.boss.param[bossEnemy].recast == 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] != 3) {
             $('.btn-ability-available>div[ability-id=352]').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
         // Sara's Defense
-        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000"])').length && $('.btn-ability-available>div[ability-id=294]').length > 1 && stage.pJsnData.boss.param[bossEnemy].recast == 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] != 3) {
+        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040041000"])').length && $('.btn-ability-available>div[ability-id=294]').length && stage.pJsnData.boss.param[bossEnemy].recast == 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] != 3) {
             $('.btn-ability-available>div[ability-id=294]').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
         // Beatorikusu's Time-Increase For 8 o'clock
-        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040070000"])>.prt-status>.img-ico-status-s[data-status=14703]').length && $('.btn-ability-available>div[ability-id=579]').length > 1) {
+        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040070000"])>.prt-status>.img-ico-status-s[data-status=14703]').length && $('.btn-ability-available>div[ability-id=579]').length) {
             $('.btn-ability-available>div[ability-id=579]').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
         // Beatorikusu's Time-Stop For 12 o'clock & Has 8 o'clock status
-        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040070000"])>.prt-status>.img-ico-status-s[data-status=14701]').length && $('.btn-command-character:not(.blank)>.prt-status>.img-ico-status-s[data-status=14703]').length && $('.btn-ability-available>div[ability-id=580]').length > 1) {
+        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040070000"])>.prt-status>.img-ico-status-s[data-status=14701]').length && $('.btn-command-character:not(.blank)>.prt-status>.img-ico-status-s[data-status=14703]').length && $('.btn-ability-available>div[ability-id=580]').length) {
             $('.btn-ability-available>div[ability-id=580]').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
         // Beatorikusu's Time-Jump For 4 o'clock
-        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040070000"])').length && $('.btn-ability-available>div[ability-id=575]').length > 1 && stage.gGameStatus.turn == 1) {
+        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040070000"])').length && $('.btn-ability-available>div[ability-id=575]').length && stage.gGameStatus.turn == 1) {
             $('.btn-ability-available>div[ability-id=575]').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
         // Serueru's Buff
-        else if ($('.btn-ability-available>div[ability-id=137]').length > 1) {
+        else if ($('.btn-ability-available>div[ability-id=137]').length) {
             $('.btn-ability-available>div[ability-id=137]').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
         // Siete's MaxMystery
-        else if ($('.btn-command-character>.prt-status>.img-ico-status-s[data-status=8029]').length && $('.btn-ability-available>div[ability-id=5128]').length > 1 && isMaxMystery('numbers') === 0) {
+        else if ($('.btn-command-character>.prt-status>.img-ico-status-s[data-status=8029]').length && $('.btn-ability-available>div[ability-id=5128]').length && isMaxMystery('numbers') === 0) {
             $('.btn-ability-available>div[ability-id=5128]').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
         // Aruberu's Thunder
-        else if ($('.btn-ability-available>div[ability-id=164]').length > 1 && !isMaxMystery(3040045000)) {
+        else if ($('.btn-ability-available>div[ability-id=164]').length && !isMaxMystery(3040045000)) {
             $('.btn-ability-available>div[ability-id=164]').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
         }
         // Percival's Fear (Must be the last one to use)
-        else if (stage.pJsnData.boss.param[bossEnemy].recast != 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] != 3 && $('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040050000"])').length && $('.btn-ability-available>div[ability-id=1961]').length > 1) {
+        else if (stage.pJsnData.boss.param[bossEnemy].recast != 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] != 3 && $('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040050000"])').length && $('.btn-ability-available>div[ability-id=1961]').length) {
             if (!lockEnemy(bossEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
@@ -1445,20 +1462,25 @@ function isMaxMystery(target) {
 
 function summonByCode(code) {
     var parameter = (code == 'all') ? '' : '[summon-code=' + code + ']';
+    if (stage.gGameStatus.attacking == 1) {
+        console.log('Other action running ... ');
+        setTimeout(analyzingURL, 1000);
+        return;
+    }
     if (!$('.prt-command-summon.summon-show').length)
         $('.summon-on').trigger('tap');
-    sleep(500).then(() => {
+    sleep(200).then(() => {
         if (!$('.prt-popup-header:contains(星晶獣情報)').is(':visible'))
             $('.btn-summon-available' + parameter).trigger('tap');
-        return sleep(500);
+        return sleep(200);
     }).then(() => {
         if ($('.btn-usual-ok.btn-summon-use').length)
             $('.btn-usual-ok.btn-summon-use').trigger('tap');
-        return sleep(500);
+        return sleep(200);
     }).then(() => {
         if ($('.btn-usual-cancel').length)
             $('.btn-usual-cancel').trigger('tap');
-        return sleep(500);
+        return sleep(200);
     }).then(() => {
         if ($('.btn-command-back.display-on').length)
             $('.btn-command-back.display-on').trigger('tap');
@@ -1496,7 +1518,7 @@ function dropRateUpAttack() {
     } else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2040025000]').length) {
         summonByCode('2040025000');
         return;
-    } else if ($skillContainText('アイテムドロップ').length > 1 && canUseSkill && !treasureMax)
+    } else if ($skillContainText('アイテムドロップ').length && canUseSkill && !treasureMax)
         $skillContainText('アイテムドロップ').trigger('tap');
     else {
         checkMysteryThenAttack();
@@ -1635,17 +1657,17 @@ function masterYoda(weaknessEnemy) {
     if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src*="3040064000"])').length) {
         var maxMystery = isMaxMystery('3040064000');
         var threeStatus = getThreeStatus();
-        var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
+        var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length;
         var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1111]').length;
         if (threeStatus === 0 && canUseStatus && canUseSkill) {
             $('.btn-ability-available>div[ability-id=555]').trigger('tap');
             return false;
         }
-        if (threeStatus === 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length > 1 && canUseSkill) {
+        if (threeStatus === 0 && !canUseStatus && $('.btn-ability-available>div[ability-id=3173]').length && canUseSkill) {
             $('.btn-ability-available>div[ability-id=3173]').trigger('tap');
             return false;
         }
-        if (threeStatus === 0 && $('.btn-ability-available>div[ability-id=2172]').length > 1 && canUseSkill) {
+        if (threeStatus === 0 && $('.btn-ability-available>div[ability-id=2172]').length && canUseSkill) {
             $('.btn-ability-available>div[ability-id=2172]').trigger('tap');
             return false;
         }
@@ -1678,7 +1700,7 @@ function simpleMasterYoda() {
     if ($('.prt-member>.lis-character3:not(.blank):has(.img-chara-command[src*="3040064000"])').length) {
         var maxMystery = isMaxMystery('3040064000');
         var threeStatus = getThreeStatus();
-        var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length > 1;
+        var canUseStatus = $('.btn-ability-available>div[ability-id=555]').length;
         var canUseSkill = !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.lis-character3>.prt-status>.img-ico-status-s[data-status=1111]').length;
         useMystery = true;
         if (threeStatus != 3 && canUseStatus && canUseSkill && maxMystery) {
@@ -1739,7 +1761,7 @@ function raid() {
         } else if ($('.summon-on').length && $('.btn-summon-available[summon-code=2040025000]').length) {
             summonByCode('2040025000');
             return;
-        } else if ($skillContainText('アイテムドロップ').length > 1) {
+        } else if ($skillContainText('アイテムドロップ').length) {
             $skillContainText('アイテムドロップ').trigger('tap');
             setTimeout(analyzingURL, 1000);
             return;
