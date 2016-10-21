@@ -736,7 +736,7 @@ function raidMulti() {
     if ($('.btn-result').is(':visible'))
         $('.btn-result').trigger('tap');
     // Wait for loading
-    if (!$('.value.num-info-slash').is(':visible') || !$('#mkt_ability_use_bar>.prt-ability-list>.lis-ability').is(':visible')) {
+    if (!$('.btn-lock').is(':visible')) {
         setTimeout(analyzingURL, 1000);
         return;
     }
@@ -785,7 +785,9 @@ function raidMulti() {
                 return;
             }
         }
-        var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
+        var enemyTotal = 0;
+        for (i = 0; i < stage.gGameStatus.boss.param.length; i++)
+            enemyTotal += parseInt(stage.gGameStatus.boss.param[i].hpmax);
         if (enemyTotal >= 7000000) {
             raidSmartFighting();
             return;
@@ -923,7 +925,7 @@ function raidSmartFighting() {
             }, 1000);
             return;
         }
-        var enemyHpPercent = $('.hp-show:eq(0)>span').html().split('<br>')[1].replace('%', '');
+        var enemyHpPercent = parseInt(stage.gGameStatus.boss.param[0].hp) / parseInt(stage.gGameStatus.boss.param[0].hpmax);
         var bossName = stage.gGameStatus.boss.param[bossEnemy].name.ja;
         var assistBlackList = bossName == 'Lv60 朱雀' || bossName == 'Lv75 ティラノス' || bossName == 'Lv75 ビザールビースト' || bossName == 'Lv75 エメラルドホーン' || enemyHpNow < 7000000;
         // If enemy's HP is lower than 50% and is MVP or all dead and only one player, send assist
@@ -1066,7 +1068,7 @@ function raidSmartFighting() {
             return;
         }
         // Magisa's Summon Devil Attack
-        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && $('.hp-show:eq(' + weaknessEnemy + ')>span').html().split('/')[0] <= 1200000 && $('.btn-ability-available>div[ability-id=510]').length > 1 && stage.gGameStatus.turn > 5) {
+        else if ($('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040011000"])').length && $('.btn-ability-available>div[ability-id=510]').length > 1 && stage.gGameStatus.boss.param[bossEnemy].hp < 1200000 && stage.gGameStatus.turn > 5) {
             if (!lockEnemy(weaknessEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
@@ -1744,7 +1746,9 @@ function raid() {
         }
     }
     useMystery = true;
-    var enemyTotal = $('.hp-show:first>span').html().split('/')[1].split('<br>')[0];
+    var enemyTotal = 0;
+    for (i = 0; i < stage.gGameStatus.boss.param.length; i++)
+        enemyTotal += parseInt(stage.gGameStatus.boss.param[i].hpmax);
     if (enemyTotal >= 1500000 || $('.txt-battle.round').length || $('.txt-battle.stage').length) {
         raidSmartFighting();
         return;
