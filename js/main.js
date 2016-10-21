@@ -16,7 +16,9 @@
     $('#cnt-submenu-navi').after(quickMenu);
     var assistLink = document.createElement('div');
     assistLink.className = 'btn-sub-assist';
-    assistLink.onclick = function(){location.hash="#quest/assist"};
+    assistLink.onclick = function () {
+        location.hash = "#quest/assist"
+    };
     assistLink.innerHTML = 'Assist';
     quickMenu.appendChild(assistLink);
     // Create stop script button
@@ -489,9 +491,9 @@ function supporter() {
 
         isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || /supporter\/708651/i.test(location.hash) || /supporter\/709951/i.test(location.hash) || /supporter\/709971/i.test(location.hash) || /supporter\/709571/i.test(location.hash) || /supporter\/709591/i.test(location.hash) || /supporter\/709361/i.test(location.hash) || /supporter\/710091/i.test(location.hash) || /supporter\/711141/i.test(location.hash) || /supporter\/711151/i.test(location.hash) || /supporter\/500631/i.test(location.hash) || /supporter\/712301/i.test(location.hash) || /supporter\/712311/i.test(location.hash);
 
-        isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || /supporter\/500211/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101223]').length /*Grandin*/ || /supporter\/711091/i.test(location.hash) || /supporter\/711101/i.test(location.hash) || /supporter\/500641/i.test(location.hash);
+        isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || /supporter\/500211/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101223]').length /*Grandin*/ || /supporter\/711091/i.test(location.hash) || /supporter\/711101/i.test(location.hash) || /supporter\/500641/i.test(location.hash) || /supporter\/713811/i.test(location.hash) || /supporter\/713801/i.test(location.hash) || /supporter\/713791/i.test(location.hash);
 
-        isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash) || /supporter\/500711/i.test(location.hash) || /supporter\/599811/i.test(location.hash) || /supporter\/708941/i.test(location.hash) || /supporter\/708951/i.test(location.hash) || /supporter\/708961/i.test(location.hash) || /supporter\/708971/i.test(location.hash) || /supporter\/709201/i.test(location.hash) || /supporter\/709211/i.test(location.hash) || /supporter\/709441/i.test(location.hash) || /supporter\/709451/i.test(location.hash) || /supporter\/711191/i.test(location.hash) || /supporter\/711201/i.test(location.hash) || /supporter\/500611/i.test(location.hash);
+        isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash) || /supporter\/500711/i.test(location.hash) || /supporter\/599811/i.test(location.hash) || /supporter\/708941/i.test(location.hash) || /supporter\/708951/i.test(location.hash) || /supporter\/708961/i.test(location.hash) || /supporter\/708971/i.test(location.hash) || /supporter\/709201/i.test(location.hash) || /supporter\/709211/i.test(location.hash) || /supporter\/709441/i.test(location.hash) || /supporter\/709451/i.test(location.hash) || /supporter\/711191/i.test(location.hash) || /supporter\/711201/i.test(location.hash) || /supporter\/500611/i.test(location.hash) || /supporter\/714581/i.test(location.hash);
 
         isEventForLight = /supporter\/300281/i.test(location.hash) || /supporter\/710131/i.test(location.hash) || /supporter\/710741/i.test(location.hash) || /supporter\/710931/i.test(location.hash) || /supporter\/711601/i.test(location.hash) || /supporter\/711611/i.test(location.hash) || /supporter\/711401/i.test(location.hash) || /supporter\/711411/i.test(location.hash) || /supporter\/711901/i.test(location.hash) || /supporter\/711911/i.test(location.hash) || /supporter\/500661/i.test(location.hash);
 
@@ -746,7 +748,7 @@ function raidMulti() {
     if ($('.btn-result').is(':visible'))
         $('.btn-result').trigger('tap');
     // Wait for loading
-    if (!$('.btn-lock').is(':visible')) {
+    if (!$('.btn-lock').is(':visible') || $('.prt-targeting-area').attr('type') == '') {
         setTimeout(analyzingURL, 1000);
         return;
     }
@@ -1332,7 +1334,7 @@ function raidSmartFighting() {
             return;
         }
         // Percival's Fear (Must be the last one to use)
-        else if (stage.pJsnData.boss.param[bossEnemy].recast != 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] != 3 && $('.prt-member>.btn-command-character:not(.blank):has(.img-chara-command[src*="3040050000"])').length && $('.btn-ability-available>div[ability-id=1961]').length) {
+        else if (stage.pJsnData.boss.param[bossEnemy].recast != 1 && stage.gGameStatus.bossmode.looks.mode[bossEnemy] != 3 && $('.btn-ability-available>div[ability-id=1961]').length) {
             if (!lockEnemy(bossEnemy)) {
                 setTimeout(analyzingURL, 200);
                 return;
@@ -1388,7 +1390,7 @@ function usingSpecialSkill(weaknessEnemy) {
     if (done) {
         $('.btn-ability-available>div').filter(function () {
             if ($(this).attr('text-data'))
-                return $(this).attr('text-data').match(/^((?!味方全体).)*(奥義ゲージ)+((?!消費|変換).)*$/);
+                return $(this).attr('text-data').match(/^((?!味方全体).)*(奥義ゲージ)+((?!消費|変換|減少).)*$/);
         }).each(function () {
             var targetCharPos = parseInt($(this).attr('class').split('num-')[1].split('-')[0]) - 1;
             var targetChar = $('.prt-member>.btn-command-character:not(.blank)[pos=' + targetCharPos + ']>img').attr('src').split('/').pop().split('_')[0];
@@ -1538,7 +1540,7 @@ function dropRateUpAttack() {
             }
         }
         // For refresh Water boss's buff, and Light Boss if trun < 2
-        if (reload || (stage.pJsnData.boss.param[0].recast == 1 && (stage.pJsnData.boss.param[0].name.ja == 'Lv60 リヴァイアサン・マグナ' || stage.pJsnData.boss.param[0].name.ja == 'Lv75 シュヴァリエ・マグナ')) || (stage.pJsnData.boss.param[0].name.ja == 'Lv75 シュヴァリエ・マグナ' && stage.gGameStatus.turn < 2)) {
+        if ((reload && !/raid/i.test(location.hash)) || (stage.pJsnData.boss.param[0].recast == 1 && (stage.pJsnData.boss.param[0].name.ja == 'Lv60 リヴァイアサン・マグナ' || stage.pJsnData.boss.param[0].name.ja == 'Lv75 シュヴァリエ・マグナ')) || (stage.pJsnData.boss.param[0].name.ja == 'Lv75 シュヴァリエ・マグナ' && stage.gGameStatus.turn < 2)) {
             setTimeout(function () {
                 if (stage.gGameStatus.attacking == 1)
                     location.reload();
@@ -1729,7 +1731,7 @@ function raid() {
     if ($('.btn-result').is(':visible'))
         $('.btn-result').trigger('tap');
     // Wait for loading
-    if (!$('.btn-lock').is(':visible')) {
+    if (!$('.btn-lock').is(':visible') || $('.prt-targeting-area').attr('type') == '') {
         setTimeout(analyzingURL, 1000);
         return;
     }
@@ -1785,11 +1787,11 @@ function raid() {
             return;
         }
     }
-    if (enemyTotal >= 600000 && $('.summon-on').length) {
+    if (enemyTotal >= 500000 && $('.summon-on').length) {
         summonByCode('all');
         return;
     }
-    if (enemyTotal >= 600000 && $('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
+    if (enemyTotal >= 300000 && $('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
         $('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
         setTimeout(analyzingURL, 1000);
         return;
@@ -1979,8 +1981,8 @@ function autoEvent() {
 function autoExtraEvent() {
     stageMsg('==Auto Extra Event Stage==');
     if (localStorage.autoExtraEvent == tabId) {
-        var targetEvent = 1;
-        var targetLevel = 0;
+        var targetEvent = 0;
+        var targetLevel = 1;
         var costAP = 30;
         var canEnter = enableUsingAP || (!enableUsingAP && parseInt($('.txt-stamina-value').attr('title').split('/')[0]) >= costAP);
         if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
