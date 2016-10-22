@@ -495,13 +495,13 @@ function supporter() {
             break;
         }
     } else {
-        isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/500171/i.test(location.hash) || /supporter\/500731/i.test(location.hash) || /supporter\/500741/i.test(location.hash) || /supporter\/710351/i.test(location.hash) || /supporter\/710361/i.test(location.hash) || /supporter\/710501/i.test(location.hash) || /supporter\/710511/i.test(location.hash) || /supporter\/711041/i.test(location.hash) || /supporter\/711051/i.test(location.hash) || /supporter\/712101/i.test(location.hash) || /supporter\/712111/i.test(location.hash) || /supporter\/500621/i.test(location.hash) || /supporter\/714641/i.test(location.hash);
+        isEventForEarth = /supporter\/300161/i.test(location.hash) || /supporter\/708491/i.test(location.hash) || /supporter\/708501/i.test(location.hash) || /supporter\/500171/i.test(location.hash) || /supporter\/500731/i.test(location.hash) || /supporter\/500741/i.test(location.hash) || /supporter\/710351/i.test(location.hash) || /supporter\/710361/i.test(location.hash) || /supporter\/710501/i.test(location.hash) || /supporter\/710511/i.test(location.hash) || /supporter\/711041/i.test(location.hash) || /supporter\/711051/i.test(location.hash) || /supporter\/712101/i.test(location.hash) || /supporter\/712111/i.test(location.hash) || /supporter\/500621/i.test(location.hash) || /supporter\/714641/i.test(location.hash) || /supporter\/714631/i.test(location.hash) || /supporter\/714621/i.test(location.hash);
 
         isEventForWind = /supporter\/300261/i.test(location.hash) || /supporter\/708641/i.test(location.hash) || /supporter\/708651/i.test(location.hash) || /supporter\/709951/i.test(location.hash) || /supporter\/709971/i.test(location.hash) || /supporter\/709571/i.test(location.hash) || /supporter\/709591/i.test(location.hash) || /supporter\/709361/i.test(location.hash) || /supporter\/710091/i.test(location.hash) || /supporter\/711141/i.test(location.hash) || /supporter\/711151/i.test(location.hash) || /supporter\/500631/i.test(location.hash) || /supporter\/712301/i.test(location.hash) || /supporter\/712311/i.test(location.hash);
 
         isEventForFire = /supporter\/300051/i.test(location.hash) || /supporter\/708791/i.test(location.hash) || /supporter\/708801/i.test(location.hash) || /supporter\/500211/i.test(location.hash) || $('.prt-raid-thumbnail>img[alt=8101223]').length /*Grandin*/ || /supporter\/711091/i.test(location.hash) || /supporter\/711101/i.test(location.hash) || /supporter\/500641/i.test(location.hash) || /supporter\/713811/i.test(location.hash) || /supporter\/713801/i.test(location.hash) || /supporter\/713791/i.test(location.hash);
 
-        isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash) || /supporter\/500711/i.test(location.hash) || /supporter\/599811/i.test(location.hash) || /supporter\/708941/i.test(location.hash) || /supporter\/708951/i.test(location.hash) || /supporter\/708961/i.test(location.hash) || /supporter\/708971/i.test(location.hash) || /supporter\/709201/i.test(location.hash) || /supporter\/709211/i.test(location.hash) || /supporter\/709441/i.test(location.hash) || /supporter\/709451/i.test(location.hash) || /supporter\/711191/i.test(location.hash) || /supporter\/711201/i.test(location.hash) || /supporter\/500611/i.test(location.hash) || /supporter\/714581/i.test(location.hash);
+        isEventForWater = /supporter\/300101/i.test(location.hash) || /supporter\/500701/i.test(location.hash) || /supporter\/500711/i.test(location.hash) || /supporter\/599811/i.test(location.hash) || /supporter\/708941/i.test(location.hash) || /supporter\/708951/i.test(location.hash) || /supporter\/708961/i.test(location.hash) || /supporter\/708971/i.test(location.hash) || /supporter\/709201/i.test(location.hash) || /supporter\/709211/i.test(location.hash) || /supporter\/709441/i.test(location.hash) || /supporter\/709451/i.test(location.hash) || /supporter\/711191/i.test(location.hash) || /supporter\/711201/i.test(location.hash) || /supporter\/500611/i.test(location.hash) || /supporter\/714581/i.test(location.hash) || /supporter\/714571/i.test(location.hash) || /supporter\/714561/i.test(location.hash);
 
         isEventForLight = /supporter\/300281/i.test(location.hash) || /supporter\/710131/i.test(location.hash) || /supporter\/710741/i.test(location.hash) || /supporter\/710931/i.test(location.hash) || /supporter\/711601/i.test(location.hash) || /supporter\/711611/i.test(location.hash) || /supporter\/711401/i.test(location.hash) || /supporter\/711411/i.test(location.hash) || /supporter\/711901/i.test(location.hash) || /supporter\/711911/i.test(location.hash) || /supporter\/500661/i.test(location.hash);
 
@@ -1990,7 +1990,7 @@ function autoExtraEvent() {
     stageMsg('==Auto Extra Event Stage==');
     if (localStorage.autoExtraEvent == tabId) {
         var targetEvent = 0;
-        var targetLevel = 1;
+        var targetLevel = -1;
         var costAP = 30;
         var canEnter = enableUsingAP || (!enableUsingAP && parseInt($('.txt-stamina-value').attr('title').split('/')[0]) >= costAP);
         if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
@@ -1999,8 +1999,18 @@ function autoExtraEvent() {
             $('.btn-usual-ok').trigger('tap');
         else if ($('.prt-popup-header:contains(APが足りません)').is(':visible') && enableUsingAP)
             $('.btn-use-full.index-1').trigger('tap');
-        else if ($('.btn-set-quest:eq(' + targetLevel + ')').length)
+        // Priority 0 AP & Hardest
+        else if ($('.btn-set-quest[data-ap=0]:last').length)
+            $('.btn-set-quest[data-ap=0]:last').trigger('tap');
+        // Default target level
+        else if (targetLevel >= 0 && $('.btn-set-quest:eq(' + targetLevel + ')').length)
             $('.btn-set-quest:eq(' + targetLevel + ')').trigger('tap');
+        // Priority No limited & Hardert
+        else if ($('.btn-set-quest[data-limited_count=""]:last').length)
+            $('.btn-set-quest[data-limited_count=""]:last').trigger('tap');
+        // Priority Hell difficulty
+        else if ($('.btn-stage-detail.ex-hell').length)
+            $('.btn-stage-detail.ex-hell').trigger('tap');
         else if ($('.btn-stage-detail:eq(' + targetEvent + ')').length && canEnter)
             $('.btn-stage-detail:eq(' + targetEvent + ')').trigger('tap');
     }
