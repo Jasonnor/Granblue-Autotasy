@@ -691,21 +691,24 @@ function supporter() {
         $('.prt-summon-image[data-image=2040025000]+div>.bless-rank1-style').trigger('tap');
     else if ($('.prt-summon-image[data-image=2040025000]').length)
         $('.prt-summon-image[data-image=2040025000]').trigger('tap');
-    // 風80%
-    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').length)
-        $('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').trigger('tap');
-    // 風70%
-    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(風):not(:contains(「竜巻」))').length)
-        $('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(風):not(:contains(「竜巻」))').trigger('tap');
-    // 風100% Anima
-    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').length)
-        $('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').trigger('tap');
-    // 風60%
-    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(風):not(:contains(「竜巻」))').length)
-        $('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(風):not(:contains(「竜巻」))').trigger('tap');
-    // 風50%
-    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」)):not(:contains(チェインバースト))').length)
-        $('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」)):not(:contains(チェインバースト))').trigger('tap');
+    // 火100% Anima
+    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').length)
+        $('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(機炎方陣):not(:contains(「業火」))').trigger('tap');
+    // 火80%
+    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').length)
+        $('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(火):not(:contains(「業火」))').trigger('tap');
+    // 火70%
+    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(火):not(:contains(「業火」))').length)
+        $('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(火):not(:contains(「業火」))').trigger('tap');
+    // 火60%
+    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(火):not(:contains(「業火」))').length)
+        $('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(火):not(:contains(「業火」))').trigger('tap');
+    // 火50%
+    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」)):not(:contains(チェインバースト))').length)
+        $('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(火):not(:contains(「業火」)):not(:contains(チェインバースト))').trigger('tap');
+    // 火
+    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(火)').length)
+        $('.prt-supporter-detail>.prt-summon-skill:contains(火)').trigger('tap');
     // Others
     else if ($('.prt-supporter-detail').length)
         $('.prt-supporter-detail').trigger('tap');
@@ -946,7 +949,7 @@ function raidSmartFighting() {
             }, 1000);
             return;
         }
-        var enemyHpPercent = parseInt(stage.gGameStatus.boss.param[bossEnemy].hp) / parseInt(stage.gGameStatus.boss.param[bossEnemy].hpmax);
+        var enemyHpPercent = parseInt(stage.gGameStatus.boss.param[bossEnemy].hp) / parseInt(stage.gGameStatus.boss.param[bossEnemy].hpmax) * 100;
         var bossName = stage.gGameStatus.boss.param[bossEnemy].name.ja;
         var assistBlackList = bossName == 'Lv60 朱雀' || bossName == 'Lv75 ティラノス' || bossName == 'Lv75 ビザールビースト' || bossName == 'Lv75 エメラルドホーン' || enemyHpNow < 7000000;
         // If enemy's HP is lower than 50% and is MVP or all dead and only one player, send assist
@@ -1548,7 +1551,7 @@ function dropRateUpAttack() {
             }
         }
         // For refresh Water boss's buff, and Light Boss if trun < 2
-        if ((reload && !/raid/i.test(location.hash)) || (stage.pJsnData.boss.param[0].recast == 1 && (stage.pJsnData.boss.param[0].name.ja == 'Lv60 リヴァイアサン・マグナ' || stage.pJsnData.boss.param[0].name.ja == 'Lv75 シュヴァリエ・マグナ')) || (stage.pJsnData.boss.param[0].name.ja == 'Lv75 シュヴァリエ・マグナ' && stage.gGameStatus.turn < 2)) {
+        if (reload || (stage.pJsnData.boss.param[0].recast == 1 && (stage.pJsnData.boss.param[0].name.ja == 'Lv60 リヴァイアサン・マグナ' || stage.pJsnData.boss.param[0].name.ja == 'Lv75 シュヴァリエ・マグナ')) || (stage.pJsnData.boss.param[0].name.ja == 'Lv75 シュヴァリエ・マグナ' && stage.gGameStatus.turn < 2)) {
             setTimeout(function () {
                 if (stage.gGameStatus.attacking == 1)
                     location.reload();
@@ -1872,7 +1875,9 @@ function exchange() {
         $('.frm-list-select').val(1);
         $('.frm-list-select').trigger('change');
     }
-    if ($('.lis-item:has(.prt-item-name>div:not(:contains(鋼)):not(:contains(晶)):not(:contains(デビルエレメント)))>div>.btn-exchange').length)
+    if (/coopraid\/lineup/i.test(location.hash) && $('.btn-exchange').length)
+        $('.btn-exchange').trigger('tap');
+    else if ($('.lis-item:has(.prt-item-name>div:not(:contains(鋼)):not(:contains(晶)):not(:contains(デビルエレメント)))>div>.btn-exchange').length)
         $('.lis-item:has(.prt-item-name>div:not(:contains(鋼)):not(:contains(晶)):not(:contains(デビルエレメント)))>div>.btn-exchange').trigger('tap');
     sleep(500).then(() => {
         if ($('.num-set').length) {
@@ -2021,8 +2026,8 @@ function autoExtra() {
     stageMsg('==Auto Extra Stage==');
     if (localStorage.autoExtra == tabId) {
         var targetEvent = 3;
-        var targetLevel = 2;
-        var costAP = 10;
+        var targetLevel = 1;
+        var costAP = 20;
         var canEnter = enableUsingAP || (!enableUsingAP && parseInt($('.txt-stamina-value').attr('title').split('/')[0]) >= costAP);
         if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
             $('.btn-usual-ok').trigger('tap');
