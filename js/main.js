@@ -938,7 +938,7 @@ function raidSmartFighting() {
     var isStreetFighter = $('.txt-battle.round').length || $('.txt-battle.stage').length;
     if (enemyHpNow > 1200000 || (isStreetFighter && enemyHpNow > 150000)) {
         // Send stamp to get large-solution
-        if ($('.btn-chat:not(.comment)>.ico-attention').is(':visible') && /raid_multi/i.test(location.hash)) {
+        if (enemyHpNow > 2500000 && $('.btn-chat:not(.comment)>.ico-attention').is(':visible') && /raid_multi/i.test(location.hash)) {
             $('.btn-chat:not(.comment)>.ico-attention').trigger('tap');
             setTimeout(function () {
                 if ($('.lis-stamp[chatid=19]').length)
