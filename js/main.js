@@ -691,27 +691,24 @@ function supporter() {
         $('.prt-summon-image[data-image=2040025000]+div>.bless-rank1-style').trigger('tap');
     else if ($('.prt-summon-image[data-image=2040025000]').length)
         $('.prt-summon-image[data-image=2040025000]').trigger('tap');
-	// 水80% + 20%hp
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').trigger('tap');
-	// 水80%
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').trigger('tap');
-	// 水60% + 20%hp
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(HP):contains(水):not(:contains(「渦潮」))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(HP):contains(水):not(:contains(「渦潮」))').trigger('tap');
-	// 水60%
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').trigger('tap');
-	// 水50%
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」)):not(:contains(チェインバースト))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」)):not(:contains(チェインバースト))').trigger('tap');
-	// 水100% Anima
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').trigger('tap');
-	// 水
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(水)').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(水)').trigger('tap');
+	// 風80%
+	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(風):not(:contains(「竜巻」))').trigger('tap');
+	// 風70%
+	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(風):not(:contains(「竜巻」))').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(70):contains(風):not(:contains(「竜巻」))').trigger('tap');
+	// 風60%
+	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(風):not(:contains(「竜巻」))').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(風):not(:contains(「竜巻」))').trigger('tap');
+	// 風100% Anima
+	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(嵐竜方陣):not(:contains(「竜巻」))').trigger('tap');
+	// 風50%
+	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」)):not(:contains(チェインバースト))').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(風):not(:contains(「竜巻」)):not(:contains(チェインバースト))').trigger('tap');
+	// 風
+	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(風)').length)
+		$('.prt-supporter-detail>.prt-summon-skill:contains(風)').trigger('tap');
 	// Others
 	else if ($('.prt-supporter-detail').length)
 		$('.prt-supporter-detail').trigger('tap');
@@ -762,7 +759,7 @@ function raidMulti() {
     if ($('.btn-result').is(':visible'))
         $('.btn-result').trigger('tap');
     // Wait for loading
-    if (!$('.btn-lock').is(':visible') || $('.prt-targeting-area').attr('type') === '') {
+    if ($('.prt-ready').is(':visible') || $('.prt-black-bg').is(':visible')) {
         setTimeout(analyzingURL, 1000);
         return;
     }
@@ -1745,7 +1742,7 @@ function raid() {
     if ($('.btn-result').is(':visible'))
         $('.btn-result').trigger('tap');
     // Wait for loading
-    if (!$('.btn-lock').is(':visible') || $('.prt-targeting-area').attr('type') === '') {
+    if ($('.prt-ready').is(':visible') || $('.prt-black-bg').is(':visible')) {
         setTimeout(analyzingURL, 1000);
         return;
     }
