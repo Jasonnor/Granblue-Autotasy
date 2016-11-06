@@ -37,6 +37,8 @@
     analyzingURL();
 })();
 
+var userName = 'Jasonnor';
+
 // Promise version set-timeout
 function sleep(time) {
     return new Promise(resolve => {
@@ -403,7 +405,7 @@ function room() {
     else if (($('.prt-member-balloon.btn-member-balloon:has(div>img[src*="stamp9"]:visible) + .prt-char-status>.ico-owner').length || $('.prt-member-balloon.btn-member-balloon:has(div>img[src*="stamp10"]:visible) + .prt-char-status>.ico-owner').length) && $('.txt-count-down').length && parseInt($('.txt-count-down').html().replace('残り ', '').replace('分', '')) < 58)
         sendRoomStamp('leave');
     // If others(more than two) send stamp, to do so for polite
-    else if (!$('.prt-member-balloon.btn-member-balloon:visible + div + .prt-member-name:contains(Jasonnor)').length && $('.prt-member-name:contains(Jasonnor)').is(':visible') && $('.txt-room-comment:not(:contains(挨拶)):not(:contains(無言))').length && $('.prt-member-balloon.btn-member-balloon:visible:not(:has(div>img[src*="stamp9"])):not(:has(div>img[src*="stamp10"]))').length > 1)
+    else if (!$('.prt-member-balloon.btn-member-balloon:visible + div + .prt-member-name:contains(' + userName + ')').length && $('.prt-member-name:contains(' + userName + ')').is(':visible') && $('.txt-room-comment:not(:contains(挨拶)):not(:contains(無言))').length && $('.prt-member-balloon.btn-member-balloon:visible:not(:has(div>img[src*="stamp9"])):not(:has(div>img[src*="stamp10"]))').length > 1)
         sendRoomStamp();
     // If this room freeze, leave room
     else if (runTimes > 240 && $('.txt-count-down').length && parseInt($('.txt-count-down').html().replace('残り ', '').replace('分', '')) < 55)
@@ -430,7 +432,7 @@ function leaveRoom() {
 
 function sendRoomStamp(state) {
     if (state == 'leave') {
-        if (!$('.prt-member-balloon.btn-member-balloon:has(div>img[src*="stamp9"]:visible) + div + .prt-member-name:contains(Jasonnor)').length) {
+        if (!$('.prt-member-balloon.btn-member-balloon:has(div>img[src*="stamp9"]:visible) + div + .prt-member-name:contains(' + userName + ')').length) {
             if ($('.btn-members-stamp').length)
                 $('.btn-members-stamp').trigger('tap');
             setTimeout(function () {
@@ -691,30 +693,30 @@ function supporter() {
         $('.prt-summon-image[data-image=2040025000]+div>.bless-rank1-style').trigger('tap');
     else if ($('.prt-summon-image[data-image=2040025000]').length)
         $('.prt-summon-image[data-image=2040025000]').trigger('tap');
-	// 水80% + 20%hp
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').trigger('tap');
-	// 水80%
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').trigger('tap');
-	// 水60% + 20%hp
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(HP):contains(水):not(:contains(「渦潮」))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(HP):contains(水):not(:contains(「渦潮」))').trigger('tap');
-	// 水60%
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').trigger('tap');
-	// 水50%
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」)):not(:contains(チェインバースト))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」)):not(:contains(チェインバースト))').trigger('tap');
-	// 水100% Anima
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').trigger('tap');
-	// 水
-	else if ($('.prt-supporter-detail>.prt-summon-skill:contains(水)').length)
-		$('.prt-supporter-detail>.prt-summon-skill:contains(水)').trigger('tap');
-	// Others
-	else if ($('.prt-supporter-detail').length)
-		$('.prt-supporter-detail').trigger('tap');
+    // 水80% + 20%hp
+    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').length)
+        $('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(HP):contains(水):not(:contains(「渦潮」))').trigger('tap');
+    // 水80%
+    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').length)
+        $('.prt-supporter-detail>.prt-summon-skill:contains(80):contains(水):not(:contains(「渦潮」))').trigger('tap');
+    // 水60% + 20%hp
+    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(HP):contains(水):not(:contains(「渦潮」))').length)
+        $('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(HP):contains(水):not(:contains(「渦潮」))').trigger('tap');
+    // 水60%
+    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').length)
+        $('.prt-supporter-detail>.prt-summon-skill:contains(60):contains(水):not(:contains(「渦潮」))').trigger('tap');
+    // 水50%
+    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」)):not(:contains(チェインバースト))').length)
+        $('.prt-supporter-detail>.prt-summon-skill:contains(50):contains(水):not(:contains(「渦潮」)):not(:contains(チェインバースト))').trigger('tap');
+    // 水100% Anima
+    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').length)
+        $('.prt-supporter-detail>.prt-summon-skill:contains(100):contains(海神方陣):not(:contains(「渦潮」))').trigger('tap');
+    // 水
+    else if ($('.prt-supporter-detail>.prt-summon-skill:contains(水)').length)
+        $('.prt-supporter-detail>.prt-summon-skill:contains(水)').trigger('tap');
+    // Others
+    else if ($('.prt-supporter-detail').length)
+        $('.prt-supporter-detail').trigger('tap');
     setTimeout(function () {
         if (isEventForEarth)
             selectTeam('1-2');
@@ -757,6 +759,10 @@ function selectTeam(n) {
 }
 
 var useMystery = true;
+var enemyHpThresholdLevel0 = 500000;
+var enemyHpThresholdLevel1 = 1000000;
+var enemyHpThresholdLevel2 = 3000000;
+var enemyHpThresholdLevel3 = 7000000;
 
 function raidMulti() {
     if ($('.btn-result').is(':visible'))
@@ -814,10 +820,10 @@ function raidMulti() {
         var enemyTotal = 0;
         for (i = 0; i < stage.gGameStatus.boss.param.length; i++)
             enemyTotal += parseInt(stage.gGameStatus.boss.param[i].hpmax);
-        if (enemyTotal >= 7000000) {
+        if (enemyTotal >= enemyHpThresholdLevel3) {
             raidSmartFighting();
             return;
-        } else if (enemyTotal >= 3000000) {
+        } else if (enemyTotal >= enemyHpThresholdLevel2) {
             if (stage.gGameStatus.attacking == 1) {
                 console.log('Other action running ... ');
                 setTimeout(analyzingURL, 1000);
@@ -830,7 +836,7 @@ function raidMulti() {
                 setTimeout(analyzingURL, 1000);
                 return;
             }
-        } else if (enemyTotal >= 1000000) {
+        } else if (enemyTotal >= enemyHpThresholdLevel1) {
             if (stage.gGameStatus.attacking == 1) {
                 console.log('Other action running ... ');
                 setTimeout(analyzingURL, 1000);
@@ -846,7 +852,7 @@ function raidMulti() {
         for (i = 0; i < stage.gGameStatus.boss.param.length; i++)
             enemyHpNow += parseInt(stage.gGameStatus.boss.param[i].hp);
         var isMVP = $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible');
-        if (enemyHpNow <= 3000000 && !isMVP) {
+        if (enemyHpNow <= enemyHpThresholdLevel2 && !isMVP) {
             if (stage.gGameStatus.attacking == 1) {
                 console.log('Other action running ... ');
                 setTimeout(analyzingURL, 1000);
@@ -855,7 +861,7 @@ function raidMulti() {
                 setTimeout(analyzingURL, 1000);
                 return;
             }
-        } else if (enemyHpNow <= 10000000 && !isMVP) {
+        } else if (enemyHpNow <= enemyHpThresholdLevel3 && !isMVP) {
             if (stage.gGameStatus.attacking == 1) {
                 console.log('Other action running ... ');
                 setTimeout(analyzingURL, 1000);
@@ -939,9 +945,9 @@ function raidSmartFighting() {
         }
     }
     var isStreetFighter = $('.txt-battle.round').length || $('.txt-battle.stage').length;
-    if (enemyHpNow > 1200000 || (isStreetFighter && enemyHpNow > 150000)) {
+    if (enemyHpNow > enemyHpThresholdLevel1 || isStreetFighter) {
         // Send stamp to get large-solution
-        if (enemyHpNow > 2500000 && $('.btn-chat:not(.comment)>.ico-attention').is(':visible') && /raid_multi/i.test(location.hash)) {
+        if (enemyHpNow > enemyHpThresholdLevel2 && $('.btn-chat:not(.comment)>.ico-attention').is(':visible') && /raid_multi/i.test(location.hash)) {
             $('.btn-chat:not(.comment)>.ico-attention').trigger('tap');
             setTimeout(function () {
                 if ($('.lis-stamp[chatid=19]').length)
@@ -954,7 +960,7 @@ function raidSmartFighting() {
         }
         var enemyHpPercent = parseInt(stage.gGameStatus.boss.param[bossEnemy].hp) / parseInt(stage.gGameStatus.boss.param[bossEnemy].hpmax) * 100;
         var bossName = stage.gGameStatus.boss.param[bossEnemy].name.ja;
-        var assistBlackList = bossName == 'Lv60 朱雀' || bossName == 'Lv75 ティラノス' || bossName == 'Lv75 ビザールビースト' || bossName == 'Lv75 エメラルドホーン' || enemyHpNow < 7000000;
+        var assistBlackList = bossName == 'Lv60 朱雀' || bossName == 'Lv75 ティラノス' || bossName == 'Lv75 ビザールビースト' || bossName == 'Lv75 エメラルドホーン' || enemyHpNow < enemyHpThresholdLevel2;
         // If enemy's HP is lower than 50% and is MVP or all dead and only one player, send assist
         if (!assistBlackList && /raid_multi/i.test(location.hash) && stage.pJsnData.assist[3].is_enable && ((enemyHpPercent <= 50 && $('.lis-user.rank1.player>.prt-rank:contains(1位)').is(':visible')) || ($('.lis-user').length == 1 && $('.prt-member>.btn-command-character.blank').length == 4))) {
             $('.btn-assist').trigger('tap');
@@ -1056,7 +1062,7 @@ function raidSmartFighting() {
         if (!useSkill) {
             console.log('Not using skill this turn ...');
             useSkill = true;
-        } else if ($('.summon-on').length && enemyHpNow > 2000000) {
+        } else if ($('.summon-on').length && enemyHpNow > enemyHpThresholdLevel2) {
             summonByCode('all');
             return;
         } else if (!cureEveryone()) {
@@ -1371,7 +1377,7 @@ function raidSmartFighting() {
             setTimeout(analyzingURL, 1000);
             return;
         }
-        if (enemyHpNow > 1000000) {
+        if (enemyHpNow > enemyHpThresholdLevel1) {
             var canUseSkill = !$('.prt-status>.img-ico-status-s[data-status=1241]').length && !$('.prt-status>.img-ico-status-s[data-status=1111]').length;
             if ($('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length && canUseSkill) {
                 $('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
@@ -1787,28 +1793,26 @@ function raid() {
     var enemyTotal = 0;
     for (i = 0; i < stage.gGameStatus.boss.param.length; i++)
         enemyTotal += parseInt(stage.gGameStatus.boss.param[i].hpmax);
-    if (enemyTotal >= 1500000 || isStreetFighter) {
+    if (enemyTotal >= enemyHpThresholdLevel2 || isStreetFighter) {
         raidSmartFighting();
         return;
-    } else if (enemyTotal >= 1000000) {
+    } else if (enemyTotal >= enemyHpThresholdLevel1) {
         if (!masterYoda()) {
             setTimeout(analyzingURL, 1000);
             return;
         }
-    } else if (enemyTotal >= 800000) {
+    } else if (enemyTotal >= enemyHpThresholdLevel0) {
         if (!simpleMasterYoda()) {
             setTimeout(analyzingURL, 1000);
             return;
+        } else if ($('.summon-on').length) {
+            summonByCode('all');
+            return;
+        } else if ($('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
+            $('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
+            setTimeout(analyzingURL, 1000);
+            return;
         }
-    }
-    if (enemyTotal >= 500000 && $('.summon-on').length) {
-        summonByCode('all');
-        return;
-    }
-    if (enemyTotal >= 300000 && $('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').length) {
-        $('.btn-ability-available>div:nth-child(1)[icon-type=1]:not([ability-id=2172])').trigger('tap');
-        setTimeout(analyzingURL, 1000);
-        return;
     }
     dropRateUpAttack();
 }
