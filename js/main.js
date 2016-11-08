@@ -11,6 +11,14 @@
         console.log('Alert: ' + msg);
         location.reload();
     };
+    // Create script switcher button
+    var stopBtn = document.createElement('li');
+    stopBtn.className = 'BH29UqMRA7nnSLfpZ1Yxk';
+    stopBtn.onclick = function () {
+        toggleScript();
+    };
+    stopBtn.innerHTML = '<span id="stopBtn" value="0" style="color: #7a8593;line-height: 28px;">Stop</span>';
+    $('ul[data-reactid=".0.0.0.1"]').append(stopBtn);
     // Create quick-action menu
     var quickMenu = document.createElement('div');
     quickMenu.id = 'cnt-submenu-navi';
@@ -29,14 +37,6 @@
     };
     casinoLink.innerHTML = 'Casino';
     quickMenu.appendChild(casinoLink);
-    // Create stop script button
-    var stopBtn = document.createElement('li');
-    stopBtn.className = 'BH29UqMRA7nnSLfpZ1Yxk';
-    stopBtn.onclick = function () {
-        toggleScript();
-    };
-    stopBtn.innerHTML = '<span id="stopBtn" value="0" style="color: #7a8593;line-height: 28px;">Stop</span>';
-    $('ul[data-reactid=".0.0.0.1"]').append(stopBtn);
     // Start analyzing
     analyzingURL();
 })();
@@ -46,7 +46,7 @@ var userName = 'Jasonnor';
 // Promise version set-timeout
 function sleep(time) {
     time = parseFloat(time) * (Math.random() + 0.8);
-    console.log('%c' + 'sleep ' + new Number(time).toFixed(2) + 'ms', 'color: #808080');
+    console.log('%c' + 'sleep ' + Number(time).toFixed(2) + 'ms', 'color: #808080');
     return new Promise(resolve => setTimeout(resolve, time));
 }
 
