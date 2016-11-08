@@ -950,14 +950,15 @@ function raidSmartFighting() {
         // Send stamp to get large-solution
         if (enemyHpNow > enemyHpThresholdLevel2 && $('.btn-chat:not(.comment)>.ico-attention').is(':visible') && /raid_multi/i.test(location.hash)) {
             $('.btn-chat:not(.comment)>.ico-attention').trigger('tap');
-            // FIX HERE
-            sleep(1000).then(() => {
+            sleep(500).then(() => {
                 if ($('.lis-stamp[chatid=19]').length)
                     $('.lis-stamp[chatid=19]').trigger('tap');
+                return sleep(500);
+            }).then(() => {
                 if ($('.btn-usual-close').length)
                     $('.btn-usual-close').trigger('tap');
-                analyzingURL();
-            });
+                return sleep(500);
+            }).then(() => analyzingURL);
             return;
         }
         var enemyHpPercent = parseInt(stage.gGameStatus.boss.param[bossEnemy].hp) / parseInt(stage.gGameStatus.boss.param[bossEnemy].hpmax) * 100;
@@ -1623,9 +1624,10 @@ function cureEveryone() {
             if ($('.lis-item.item-large.btn-temporary-large:not(.disable)>img').length) {
                 $('.lis-item.item-large.btn-temporary-large>img').trigger('tap');
                 sleep(500).then(() => {
-                    // FIX HERE
                     if ($('.btn-usual-use').length)
                         $('.btn-usual-use').trigger('tap');
+                    return sleep(300);
+                }).then(() => {
                     if ($('.btn-usual-cancel').length)
                         $('.btn-usual-cancel').trigger('tap');
                 });
