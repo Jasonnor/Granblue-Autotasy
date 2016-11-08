@@ -32,8 +32,12 @@
     // Create stop script button
     var stopBtn = document.createElement('li');
     stopBtn.className = 'BH29UqMRA7nnSLfpZ1Yxk';
-    stopBtn.innerHTML = '<span id="stopBtn" onclick="toggleScript()" value="0" style="color: #7a8593;line-height: 28px;">Stop</span>';
+    stopBtn.onclick = function () {
+        toggleScript();
+    };
+    stopBtn.innerHTML = '<span id="stopBtn" value="0" style="color: #7a8593;line-height: 28px;">Stop</span>';
     $('ul[data-reactid=".0.0.0.1"]').append(stopBtn);
+    // Start analyzing
     analyzingURL();
 })();
 
