@@ -41,10 +41,9 @@ var userName = 'Jasonnor';
 
 // Promise version set-timeout
 function sleep(time) {
-    return new Promise(resolve => {
-        console.log(time);
-        setTimeout(resolve, time);
-    });
+    time = parseFloat(time) * (Math.random() + 0.8);
+    console.log('%c' + 'sleep ' + new Number(time).toFixed(2) + 'ms', 'color: #808080');
+    return new Promise(resolve => setTimeout(resolve, time));
 }
 
 // Save console error message
@@ -139,11 +138,6 @@ function saveDailyMagna(fire, water, earth, wind, light, dark) {
 }
 
 var runTimes = 0;
-
-// TODO: replace all time to randomTime(time)
-function randomTime(time) {
-    return time * (Math.ramdom() + 0.8);
-}
 
 function errorMsg(msg) {
     console.log('%c' + msg, 'background-color: #ffd0da; color: #c10000');
