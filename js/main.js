@@ -743,16 +743,19 @@ function supporter() {
 function selectTeam(n) {
     // pos[0] = Slot 1 ~ 7, pos[1] = Team 0 ~ 5
     var pos = n.split('-');
-    if (!$('.btn-select-group[data-id=' + pos[0] + '].selected').length)
-        $('.btn-select-group[data-id=' + pos[0] + ']').trigger('tap');
-    if ($('.btn-select-group[data-id=' + pos[0] + '].selected').length && !$('.flex-control-nav>li:eq(' + n + ')>a.flex-active').length)
-        $('.flex-control-nav>li:eq(' + pos[1] + ')>a').click();
-    if ($('.btn-usual-ok').length && $('.btn-select-group[data-id=' + pos[0] + '].selected').length && $('.flex-control-nav>li:eq(' + pos[1] + ')>a.flex-active').length) {
-        setTimeout(function () {
+    sleep(100).then(() => {
+        if (!$('.btn-select-group[data-id=' + pos[0] + '].selected').length)
+            $('.btn-select-group[data-id=' + pos[0] + ']').trigger('tap');
+        return sleep(500);
+    }).then(() => {
+        if ($('.btn-select-group[data-id=' + pos[0] + '].selected').length && !$('.flex-control-nav>li:eq(' + n + ')>a.flex-active').length)
+            $('.flex-control-nav>li:eq(' + pos[1] + ')>a').click();
+        return sleep(500);
+    }).then(() => {
+        if ($('.btn-usual-ok').length && $('.btn-select-group[data-id=' + pos[0] + '].selected').length && $('.flex-control-nav>li:eq(' + pos[1] + ')>a.flex-active').length)
             $('.btn-usual-ok').trigger('tap');
-        }, 1500);
-    }
-    setTimeout(analyzingURL, 500);
+        return sleep(500);
+    }).then(() => analyzingURL);
 }
 
 var useMystery = true;
