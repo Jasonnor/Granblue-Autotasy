@@ -769,7 +769,7 @@ function raidMulti() {
     if ($('.btn-result').is(':visible'))
         $('.btn-result').trigger('tap');
     // Wait for loading
-    if ($('.prt-ready').is(':visible') || $('.prt-black-bg').is(':visible')) {
+    if (typeof stage.gGameStatus === 'undefined' || $('.prt-ready').is(':visible') || $('.prt-black-bg').is(':visible')) {
         sleep(1000).then(() => analyzingURL());
         return;
     }
@@ -1756,7 +1756,7 @@ function raid() {
     if ($('.btn-result').is(':visible'))
         $('.btn-result').trigger('tap');
     // Wait for loading
-    if ($('.prt-ready').is(':visible') || $('.prt-black-bg').is(':visible')) {
+    if (typeof stage.gGameStatus === 'undefined' || $('.prt-ready').is(':visible') || $('.prt-black-bg').is(':visible')) {
         sleep(1000).then(() => analyzingURL());
         return;
     }
@@ -1776,7 +1776,7 @@ function raid() {
             return;
         }
     }
-    var isRabbit = stage.pJsnData.boss.param.length == 3 && stage.pJsnData.boss.param[2].name.ja == 'Lv12 ホワイトラビット' && stage.pJsnData.boss.param[2].hp != '0';
+    var isRabbit = stage.gGameStatus.boss.param.length == 3 && stage.gGameStatus.boss.param[2].name.ja == 'Lv12 ホワイトラビット' && stage.gGameStatus.boss.param[2].hp != '0';
     if (isRabbit) {
         if (!$('.btn-targeting.enemy-3.lock-on').is(':visible') || $('.btn-targeting.enemy-3.invisible').length) {
             $('.btn-targeting.enemy-3.invisible').trigger('tap');
