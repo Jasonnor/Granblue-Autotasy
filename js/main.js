@@ -329,6 +329,8 @@ function analyzingURL() {
         sellNormalWeapon();
     else if (/list\/detail_weapon/i.test(hash))
         detailWeapon();
+    else if (/quest\/scene/i.test(hash))
+        skipScene();
     else {
         runTimes--;
         sleep(5000).then(() => analyzingURL());
@@ -1958,7 +1960,7 @@ function gacha() {
 }
 
 var enableUsingAP = true;
-var autoEventUrl = 'teamraid022';
+var autoEventUrl = 'treasureraid049';
 var eventTargetCode = -1;
 
 function autoEvent() {
@@ -1966,7 +1968,9 @@ function autoEvent() {
     if (localStorage.autoEvent == tabId) {
         var costAP = 50;
         var canEnter = enableUsingAP || (!enableUsingAP && parseInt($('.txt-stamina-value').attr('title').split('/')[0]) >= costAP);
-        if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
+        if ($('.txt-next-quest').length)
+            $('.btn-usual-ok').trigger('tap');
+        else if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
             $('.btn-usual-ok').trigger('tap');
         else if ($('.prt-popup-header:contains(アイテム使用完了)').is(':visible') && enableUsingAP)
             $('.btn-usual-ok').trigger('tap');
@@ -2141,4 +2145,19 @@ function decompose() {
         $('.btn-decompose').trigger('tap');
     else if ($('.btn-decompose-confirm').is(':visible'))
         $('.btn-decompose-confirm').trigger('tap');
+}
+
+var enableSkipScene = false;
+function skipScene() {
+    stageMsg('==Skip Scene Stage==');
+    if (enableSkipScene) {
+        if ($('.btn-skip').is(':visible')) {
+            $('.btn-skip').trigger('tap');
+            sleep(500).then(() => {
+                if ($('.btn-usual-ok').is(':visible'))
+                    $('.btn-usual-ok').trigger('tap');
+            });
+        }
+    }
+    sleep(1000).then(() => analyzingURL());
 }
