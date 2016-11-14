@@ -2149,7 +2149,7 @@ function decompose() {
         $('.btn-decompose-confirm').trigger('tap');
 }
 
-var enableSkipScene = false;
+var enableSkipScene = false || localStorage.autoEvent == tabId;
 var wrapperCounter = 0;
 function skipScene() {
     stageMsg('==Skip Scene Stage==');
