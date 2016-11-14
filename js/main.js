@@ -41,7 +41,6 @@
     analyzingURL();
 })();
 
-var userName = 'Jasonnor';
 var timeMagnification = 1.2;
 
 // Promise version set-timeout

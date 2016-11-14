@@ -9,6 +9,9 @@ h1 {
   width: 350px;
   font-size: 18px;
 }
+.input-field {
+  margin: 3rem 0 0 2rem;
+}
 .options-text {
   float: left;
   width: 145px;

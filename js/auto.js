@@ -1,5 +1,6 @@
 chrome.storage.sync.get({
-    toggle: true
+    toggle: true,
+    userName: 'Jason'
 }, function (item) {
     if (item.toggle) {
         chrome.extension.sendMessage({
@@ -8,6 +9,7 @@ chrome.storage.sync.get({
             var tabId = res.tabId;
             var script = document.createElement('script');
             var inner = "var tabId = " + tabId + ";" +
+                "var userName = '" + item.userName + "';" +
                 "var alertUrl = '" + chrome.extension.getURL('src/alert_minions.mp3') + "';" +
                 "function createScript() {" +
                 "	var script = document.createElement('script');" +
