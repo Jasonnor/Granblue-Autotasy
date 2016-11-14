@@ -33,7 +33,7 @@ chrome.extension.onMessage.addListener(function (message, sender, sendResponse) 
 function onClickHandler(info, tab) {
     var code;
     if (info.menuItemId == 'toggle')
-        code = 'toggleScript()';
+        code = '$("#stopBtn").click();';
     else if (info.menuItemId == 'clear') {
         code = 'if(localStorage.coopraid == ' + tab.id + ') localStorage.removeItem("coopraid");';
         code += 'if(localStorage.assist == ' + tab.id + ') localStorage.removeItem("assist");';
