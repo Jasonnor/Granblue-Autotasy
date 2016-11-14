@@ -80,7 +80,7 @@ Game.reportError = function (msg, url, line, column, err, callback) {
     var recordLog = 'Message: ' + msg + '\r\nUrl: ' + url + '\r\nLine: ' + line + '\r\nColumn: ' + column + '\r\nError: ' + err + '\r\nCallback: ' + callback;
     errorMsg(recordLog);
     // msg.indexOf("Script error") > -1
-    var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'3' of undefined") > -1 || msg.indexOf("'4' of undefined") > -1 || msg.indexOf("'5' of undefined") > -1 || msg.indexOf("'6' of undefined") > -1 || msg.indexOf("'7' of undefined") > -1 || msg.indexOf("'8' of undefined") > -1 || msg.indexOf("'9' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1 || msg.indexOf("'level' of undefined") > -1 || msg.indexOf("'item' of undefined") > -1 || msg.indexOf("indexOf") > -1;
+    var needReload = msg.indexOf("'0' of undefined") > -1 || msg.indexOf("'1' of undefined") > -1 || msg.indexOf("'2' of undefined") > -1 || msg.indexOf("'3' of undefined") > -1 || msg.indexOf("'4' of undefined") > -1 || msg.indexOf("'5' of undefined") > -1 || msg.indexOf("'6' of undefined") > -1 || msg.indexOf("'7' of undefined") > -1 || msg.indexOf("'8' of undefined") > -1 || msg.indexOf("'9' of undefined") > -1 || msg.indexOf("'attributes' of undefined") > -1 || msg.indexOf("'indexOf' of undefined") > -1 || msg.indexOf("'children' of null") > -1 || msg.indexOf("Unexpected token") > -1 || msg.indexOf("POPUP") > -1 || msg.indexOf("'level' of undefined") > -1 || msg.indexOf("'item' of undefined") > -1 || msg.indexOf("indexOf") > -1 || msg.indexOf("'boss' of undefined") > -1;
     if (needReload && !ignoreError) {
         location.reload();
     } else {
@@ -228,7 +228,7 @@ function analyzingURL() {
     }
     var autoEventRegex = new RegExp('event\/' + autoEventUrl, 'i');
     if (localStorage.getItem('autoEvent') !== null) {
-        var notAutoEvent = !autoEventRegex.test(hash) && notBattle;
+        var notAutoEvent = !autoEventRegex.test(hash) && notBattle && !/quest\/scene/i.test(hash) && !/quest\/stage/i.test(hash);
         if (localStorage.autoEvent == tabId && notAutoEvent) {
             sleep(1000).then(() => {
                 location.hash = '#event/' + autoEventUrl;
@@ -1976,6 +1976,8 @@ function autoEvent() {
             $('.btn-usual-ok').trigger('tap');
         else if ($('.prt-popup-header:contains(APが足りません)').is(':visible') && enableUsingAP)
             $('.btn-use-full.index-1').trigger('tap');
+        else if ($('.prt-quest-info.free-quest').is(':visible'))
+            $('.prt-quest-info.free-quest').trigger('tap');
         // Ancient Battlefield - Meat [0]
         else if (eventTargetCode === 0 && $('.prt-popup-header:contains(古戦場の魔物に挑戦)').is(':visible'))
             $('.btn-multi-battle.ico-clear:last').trigger('tap');
@@ -2148,6 +2150,7 @@ function decompose() {
 }
 
 var enableSkipScene = false;
+var wrapperCounter = 0;
 function skipScene() {
     stageMsg('==Skip Scene Stage==');
     if (enableSkipScene) {
@@ -2157,7 +2160,15 @@ function skipScene() {
                 if ($('.btn-usual-ok').is(':visible'))
                     $('.btn-usual-ok').trigger('tap');
             });
+            wrapperCounter = 0;
         }
+    }
+    if ($('#wrapper').is(':visible')) {
+        if (wrapperCounter > 5) {
+            wrapperCounter = 0;
+            history.go(-1);
+        }
+        ++wrapperCounter;
     }
     sleep(1000).then(() => analyzingURL());
 }
