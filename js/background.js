@@ -68,46 +68,55 @@ chrome.runtime.onInstalled.addListener(function () {
     chrome.contextMenus.create({
         'title': 'Set as Coopraid Workflow',
         'id': 'coopraid',
+        'documentUrlPatterns': ['*://gbf.game.mbga.jp/*', '*://game.granbluefantasy.jp/*'],
         'contexts': ['all']
     });
     chrome.contextMenus.create({
         'title': 'Set as Assist Workflow',
         'id': 'assist',
+        'documentUrlPatterns': ['*://gbf.game.mbga.jp/*', '*://game.granbluefantasy.jp/*'],
         'contexts': ['all']
     });
     chrome.contextMenus.create({
         'title': 'Set as Auto Event Workflow',
         'id': 'autoEvent',
+        'documentUrlPatterns': ['*://gbf.game.mbga.jp/*', '*://game.granbluefantasy.jp/*'],
         'contexts': ['all']
     });
     chrome.contextMenus.create({
         'title': 'Set as Auto Extra Event Workflow',
         'id': 'autoExtraEvent',
+        'documentUrlPatterns': ['*://gbf.game.mbga.jp/*', '*://game.granbluefantasy.jp/*'],
         'contexts': ['all']
     });
     chrome.contextMenus.create({
         'title': 'Set as Auto Extra Workflow',
         'id': 'autoExtra',
+        'documentUrlPatterns': ['*://gbf.game.mbga.jp/*', '*://game.granbluefantasy.jp/*'],
         'contexts': ['all']
     });
     chrome.contextMenus.create({
         'title': 'Set as Magna Workflow',
         'id': 'magna',
+        'documentUrlPatterns': ['*://gbf.game.mbga.jp/*', '*://game.granbluefantasy.jp/*'],
         'contexts': ['all']
     });
     chrome.contextMenus.create({
         'title': 'Toggle Script On/Off in this tab',
         'id': 'toggle',
+        'documentUrlPatterns': ['*://gbf.game.mbga.jp/*', '*://game.granbluefantasy.jp/*'],
         'contexts': ['all']
     });
     chrome.contextMenus.create({
         'title': 'Clear Workflow of ALL tab',
         'id': 'clearAll',
+        'documentUrlPatterns': ['*://gbf.game.mbga.jp/*', '*://game.granbluefantasy.jp/*'],
         'contexts': ['all']
     });
     chrome.contextMenus.create({
         'title': 'Clear Workflow of THIS tab',
         'id': 'clear',
+        'documentUrlPatterns': ['*://gbf.game.mbga.jp/*', '*://game.granbluefantasy.jp/*'],
         'contexts': ['all']
     });
 });
