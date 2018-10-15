@@ -211,7 +211,9 @@ function analyzingURL() {
     if (localStorage.getItem('autoExtraEvent') !== null) {
         if (localStorage.autoExtraEvent == tabId && notBattle && !/quest\/extra\/event/i.test(hash)) {
             sleep(1000).then(() => {
-                location.hash = '#quest/extra/event';
+                //location.hash = '#quest/extra/event';
+                //羽毛
+                location.hash = '#quest/supporter/101121/3'
                 analyzingURL();
             });
             return;
@@ -297,8 +299,10 @@ function analyzingURL() {
         exchange();
     else if (/coopraid/i.test(hash))
         coopraid();
+    //quest/supporter?
     else if (/supporter/i.test(hash))
-        supporter();
+        //supporter();
+        mySupporter();
     else if (/gacha/i.test(hash))
         gacha();
     else if (autoEventRegex.test(hash))
@@ -306,7 +310,8 @@ function analyzingURL() {
     else if (/raid_multi/i.test(hash))
         raidMulti();
     else if (/raid/i.test(hash))
-        raid();
+        //raid();
+        autoAttack();
     else if (/result_multi/i.test(hash) || /result/i.test(hash))
         battleResult();
     else if (/quest\/assist\/unclaimed/i.test(hash))
@@ -680,10 +685,17 @@ function supporter() {
             $('.prt-supporter-detail').trigger('tap');
     }
     // Rabbit Exp & Treasure
-    else if ($('.prt-summon-image[data-image=2030026000]+div>.bless-rank1-style').length)
-        $('.prt-summon-image[data-image=2030026000]+div>.bless-rank1-style').trigger('tap');
-    else if ($('.prt-summon-image[data-image=2030026000]').length)
-        $('.prt-summon-image[data-image=2030026000]').trigger('tap');
+    //choose kaguya
+    else if ($('.prt-summon-image[data-image=2040114000]+div>.bless-rank1-style').length)
+        $('.prt-summon-image[data-image=2040114000]+div>.bless-rank1-style').trigger('tap');
+    else if ($('.prt-summon-image[data-image=2040114000]').length)
+        $('.prt-summon-image[data-image=2040114000]').trigger('tap');
+    
+    //choose baha
+    else if ($('.prt-summon-image[data-image=2040003000]+div>.bless-rank1-style').length)
+     $('.prt-summon-image[data-image=2040003000]+div>.bless-rank1-style').trigger('tap');
+    else if ($('.prt-summon-image[data-image=2040003000]').length)
+     $('.prt-summon-image[data-image=2040003000]').trigger('tap');
     // Mushroom RM
     else if ((isMainStoryline || isBranchLine) && !isRabbit && $('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').length)
         $('.prt-summon-image[data-image=2030051000]+div>.bless-rank1-style').trigger('tap');
@@ -739,6 +751,30 @@ function supporter() {
         else
             selectTeam('1-0');
     });
+}
+
+function mySupporter() {
+    if ($('.prt-supporter-detail').length){
+        if ($('.prt-summon-image[data-image=2040114000]+div>.bless-rank1-style').length)
+            $('.prt-summon-image[data-image=2040114000]+div>.bless-rank1-style').trigger('tap');
+        else if($('.prt-summon-image[data-image=2040114000]').length)
+            $('.prt-summon-image[data-image=2040114000]').trigger('tap');
+        else
+            $('.btn-supporter').trigger('tap');
+    }
+
+    //choose team manually
+    sleep(500).then(() => {
+        if (!$('.btn-select-group[data-id='+ 2 +'].selected').length)
+            $('.btn-select-group[data-id=' + 2 + ']').trigger('tap');
+        return sleep(500);
+    }).then(() => {
+        if ($('.btn-select-group[data-id=' + 5 + '].selected').length)
+            $('.flex-control-nav>li:eq(' + 5 + ')>a').click();
+        return sleep(500);
+    }).then(() => {
+    if ($('.btn-usual-ok').length)
+        $('.btn-usual-ok').trigger('tap');}).then(() => analyzingURL());
 }
 
 function selectTeam(n) {
@@ -1576,6 +1612,38 @@ function dropRateUpAttack() {
     sleep(1500).then(() => analyzingURL());
 }
 
+function autoAttack(){
+    stageMsg('==Raid Stage==');
+    // sleep(500).then(() => analyzingURL());
+    //sleep(500);
+    // if (typeof stage.gGameStatus === 'undefined' || $('.prt-ready').is(':visible') || $('.prt-black-bg').is(':visible')) {
+    //     stageMsg('==Raid Stage Start==');
+    //     sleep(1000).then(() => analyzingURL());
+    //     return;
+    // }
+    sleep(500);
+    //--------------------------------------------------------------------------------
+    //have diffcult to judge the state of game
+    //meet 規約違反 here for the frequent send message
+    //the next target is try to find a way to cut the number of access to the server
+    //--------------------------------------------------------------------------------
+    if (stage.gGameStatus.attacking == 1){
+        console.log('Other action running ... ');
+        sleep(500).then(() => analyzingURL());
+    }
+    else {
+            if ($('.btn-attack-start').length){
+                console.log('start');
+                $('.btn-attack-start').trigger('tap');
+                //auto
+                //$('.btn-auto').trigger('tap');
+            }
+            sleep(500).then(() => analyzingURL());
+    }
+    
+    
+}
+
 function cureEveryone() {
     var smallSolution = parseInt(stage.gGameStatus.temporary.small);
     var largeSolution = parseInt(stage.gGameStatus.temporary.large);
@@ -1753,13 +1821,16 @@ function stageRolling() {
 
 function raid() {
     stageMsg('==Raid Stage==');
-    if ($('.btn-result').is(':visible'))
-        $('.btn-result').trigger('tap');
+    //Viramate 冲突
+    // if ($('.btn-result').is(':visible'))
+    //     $('.btn-result').trigger('tap');
+
     // Wait for loading
     if (typeof stage.gGameStatus === 'undefined' || $('.prt-ready').is(':visible') || $('.prt-black-bg').is(':visible')) {
         sleep(1000).then(() => analyzingURL());
         return;
     }
+    autoAttack();
     var isStreetFighter = $('.txt-battle.round').length || $('.txt-battle.stage').length;
     if (isStreetFighter) {
         if ($('.prt-popup-header:contains(バトルサービス)').is(':visible') && !$('.btn-battle-service.disable').length) {
@@ -1776,6 +1847,7 @@ function raid() {
             return;
         }
     }
+    
     var isRabbit = stage.gGameStatus.boss.param.length == 3 && stage.gGameStatus.boss.param[2].name.ja == 'Lv12 ホワイトラビット' && stage.gGameStatus.boss.param[2].hp != '0';
     if (isRabbit) {
         if (!$('.btn-targeting.enemy-3.lock-on').is(':visible') || $('.btn-targeting.enemy-3.invisible').length) {
@@ -1794,6 +1866,7 @@ function raid() {
             return;
         }
     }
+
     useMystery = true;
     var enemyTotal = 0;
     for (i = 0; i < stage.gGameStatus.boss.param.length; i++)
@@ -1819,12 +1892,15 @@ function raid() {
             return;
         }
     }
-    dropRateUpAttack();
+    //dropRateUpAttack();
+    autoAttack();
 }
 
 function battleResult() {
     stageMsg('==Result Stage==');
-    if ($('.btn-usual-ok').length)
+    if ($('.btn-retry').length)
+        $('.btn-retry').trigger('tap');
+    else if ($('.btn-usual-ok').length)
         $('.btn-usual-ok').trigger('tap');
     else if ($('.btn-control').length)
         $('.btn-control').trigger('tap');
@@ -2041,9 +2117,9 @@ function autoExtraEvent() {
 function autoExtra() {
     stageMsg('==Auto Extra Stage==');
     if (localStorage.autoExtra == tabId) {
-        var targetEvent = 3;
+        var targetEvent = 0;
         var targetLevel = 1;
-        var costAP = 20;
+        var costAP = 15;
         var canEnter = enableUsingAP || (!enableUsingAP && parseInt($('.txt-stamina-value').attr('title').split('/')[0]) >= costAP);
         if ($('.prt-popup-header:contains(クエスト再開)').is(':visible'))
             $('.btn-usual-ok').trigger('tap');
